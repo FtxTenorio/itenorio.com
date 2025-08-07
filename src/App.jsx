@@ -1,99 +1,54 @@
-import { useEffect, useState } from "react";
 import "./App.css";
-import Search from "./components/Search";
-import Spinner from "./components/Spinner";
-import MovieCard from "./components/MovieCard";
-import { useDebounce } from "react-use";
-
-const API_BASE_URL = "https://api.themoviedb.org/3";
-
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-
-const API_OPTIONS = {
-  method: "GET",
-  headers: {
-    accept: "application/json",
-    Authorization: `Bearer ${API_KEY}`,
-  },
-};
 
 const App = () => {
-  const [searchTerm, setSearchTerm] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [movieList, setMovieList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [debouncedSearchTerm, setDebouncedSearchTerm] = useState("");
-
-  useDebounce(() => setDebouncedSearchTerm(searchTerm), 500, [searchTerm]);
-
-  const fetchMovies = async (query) => {
-    setIsLoading(true);
-    setErrorMessage("");
-
-    try {
-      const endpoint = query
-        ? `${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`
-        : `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
-
-      const response = await fetch(endpoint, API_OPTIONS);
-
-      if (!response.ok) {
-        throw new Error("Failed to fetch movies");
-      }
-
-      const data = await response.json();
-
-      if (data.Response === "False") {
-        setErrorMessage(data.Error || "Failed to fetch movies");
-        setMovieList([]);
-        return;
-      }
-
-      setMovieList(data.results || []);
-
-      console.log(data);
-    } catch (error) {
-      console.error(`Error fetching movies: ${error}`);
-      setErrorMessage(`Error fetching movies. Please try again later.`);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
-  useEffect(() => {
-    fetchMovies(debouncedSearchTerm);
-  }, [debouncedSearchTerm]);
-
   return (
-    <main>
-      <div className="pattern" />
-      <div className="wrapper">
-        <header>
-          <img src="./hero.png" alt="Hero Banner" />
-          <h1>
-            Encontre <span className="text-gradient">Filmes </span>
-            que você vai gostar sem complicações
-          </h1>
-          <Search searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
-        </header>
-
-        <section className="all-movies">
-          <h2 className="mt-[40px]">Todos os Filmes</h2>
-
-          {isLoading ? (
-            <Spinner />
-          ) : errorMessage ? (
-            <p className="text-red-500">{errorMessage}</p>
-          ) : (
-            <ul>
-              {movieList.map((movie) => (
-                <MovieCard key={movie.id} movie={movie} />
-              ))}
-            </ul>
-          )}
-        </section>
-      </div>
-    </main>
+    <div className="bg-gray-950 text-gray-200 flex items-center justify-center min-h-screen p-4">
+      <main className="text-center space-y-8 max-w-2xl w-full">
+        <h1 className="text-6xl md:text-8xl font-extrabold text-white tracking-tight animate-pulse">
+          Coming Soon
+        </h1>
+        <p className="text-lg md:text-xl text-gray-400 font-light max-w-lg mx-auto leading-relaxed">
+          I'm preparing something incredible for you. Follow the progress and stay connected through my social networks.
+        </p>
+        <div className="flex flex-wrap justify-center gap-6 mt-8">
+          <a 
+            href="https://github.com/FtxTenorio" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300 transform hover:scale-110 shadow-lg"
+          >
+            <i className="fab fa-github text-2xl text-gray-300 hover:text-white"></i>
+          </a>
+          <a 
+            href="https://www.linkedin.com/in/ftxtenorio/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300 transform hover:scale-110 shadow-lg"
+          >
+            <i className="fab fa-linkedin text-2xl text-gray-300 hover:text-white"></i>
+          </a>
+          <a 
+            href="https://www.instagram.com/ftxtenorio/" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300 transform hover:scale-110 shadow-lg"
+          >
+            <i className="fab fa-instagram text-2xl text-gray-300 hover:text-white"></i>
+          </a>
+          <a 
+            href="https://www.twitch.tv/ftxtenorio" 
+            target="_blank" 
+            rel="noopener noreferrer"
+            className="w-12 h-12 flex items-center justify-center rounded-full bg-gray-800 hover:bg-gray-700 transition-colors duration-300 transform hover:scale-110 shadow-lg"
+          >
+            <i className="fab fa-twitch text-2xl text-gray-300 hover:text-white"></i>
+          </a>
+        </div>
+      </main>
+      <footer className="absolute bottom-4 left-0 right-0 text-center text-gray-500 text-sm">
+        <p>&copy; 2024 Paulo Tenório. All rights reserved.</p>
+      </footer>
+    </div>
   );
 };
 
