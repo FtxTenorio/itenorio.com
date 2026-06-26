@@ -115,13 +115,6 @@ const StacksPage = () => {
             </div>
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="absolute bottom-6 w-full text-center">
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Paulo Sérgio Rodrigues de Faria Tenório. All rights reserved.
-          </p>
-        </div>
       </main>
 
       <style jsx>{`

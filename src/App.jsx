@@ -5,13 +5,14 @@ import Stacks from './pages/Stacks';
 import LandingPage from './pages/LandingPage';
 import { Navbar } from './components/NavBar';
 import { TheOneRing } from './components/TheOneRing';
+import { Footer } from './components/Footer';
 
 function App() {
   // Estado para controlar a página atual
   const [currentPage, setCurrentPage] = useState('home');
 
   // Função para renderizar o componente correto
-  const renderPage = () => {
+  const renderPage = ({setCurrentPage}) => {
     switch (currentPage) {
       case 'games':
         return <Games />;
@@ -21,7 +22,7 @@ function App() {
         return <Stacks />;
       case 'home':
       default:
-        return <LandingPage />;
+        return <LandingPage setCurrentPage={setCurrentPage} />;
     }
   };
 
@@ -32,7 +33,8 @@ function App() {
       <TheOneRing/>
 
       {/* Renderiza o conteúdo dinâmico baseado no estado */}
-      {renderPage()}
+      {renderPage({setCurrentPage})}
+      <Footer setCurrentPage={setCurrentPage}/>
     </div>
   );
 }

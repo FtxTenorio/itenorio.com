@@ -220,13 +220,6 @@ const GamesPage = () => {
             {games.map((game, index) => renderGameCard(game, index))}
           </div>
         </div>
-
-        {/* Footer */}
-        <div className="w-full text-center mt-10">
-          <p className="text-sm text-gray-500">
-            © {new Date().getFullYear()} Paulo Tenório. All rights reserved.
-          </p>
-        </div>
       </main>
 
       {/* Layout Base Styles */}
