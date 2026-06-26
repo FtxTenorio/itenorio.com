@@ -189,12 +189,6 @@ const GamesPage = () => {
 
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
-      {/* Chamada do componente de navegação compartilhado */}
-      <Navbar />
-
-      {/* Chamada da Tardis com animação CSS original */}
-      <Tardis />
-
       {/* Main Content */}
       <main className="content-wrapper px-4 text-center pt-32 pb-24 relative z-20">
         <h1 className="text-4xl md:text-6xl font-extrabold mb-4 glowing-text tracking-tight">

@@ -20,9 +20,6 @@ const MusicPage = () => {
 
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
-      {/* Shared Components */}
-      <Navbar />
-      <Tardis />
 
       {/* Main Content */}
       <main className="content-wrapper px-4 pt-32 pb-24 relative z-20">

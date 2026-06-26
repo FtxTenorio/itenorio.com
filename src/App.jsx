@@ -1,22 +1,40 @@
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useState } from 'react';
 import Games from './pages/Games';
 import Musics from './pages/Musics';
 import Stacks from './pages/Stacks';
 import LandingPage from './pages/LandingPage';
+import { Navbar } from './components/NavBar';
+import { Tardis } from './components/Tardis';
 
 function App() {
+  // Estado para controlar a página atual
+  const [currentPage, setCurrentPage] = useState('home');
+
+  // Função para renderizar o componente correto
+  const renderPage = () => {
+    switch (currentPage) {
+      case 'games':
+        return <Games />;
+      case 'music':
+        return <Musics />;
+      case 'stacks':
+        return <Stacks />;
+      case 'home':
+      default:
+        return <LandingPage />;
+    }
+  };
+
   return (
-    <Router>
-      <Routes>
-        {/* Defina aqui suas rotas */}
-        <Route path="/games" element={<Games />} />
-        <Route path="/music" element={<Musics />} />
-        <Route path="/stacks" element={<Stacks />} />
-        
-        {/* Rota padrão (home) */}
-        <Route path="/" element={<LandingPage/>} />
-      </Routes>
-    </Router>
+    <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
+      {/* Passamos o setCurrentPage para o Navbar poder trocar as páginas */}
+      <Navbar setCurrentPage={setCurrentPage} />
+      
+      <Tardis />
+
+      {/* Renderiza o conteúdo dinâmico baseado no estado */}
+      {renderPage()}
+    </div>
   );
 }
 
