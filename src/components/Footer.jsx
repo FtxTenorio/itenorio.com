@@ -20,7 +20,7 @@ export const Footer = ({ setCurrentPage }) => {
               <span className="text-[#0078d7]">I</span>Tenorio
             </button>
             <p className="text-gray-400 text-sm leading-relaxed">
-              Software Engineer & Backend Developer. Construindo arquiteturas escaláveis e explorando o mundo digital.
+              Software Engineer & Backend Developer. Building scalable architectures and exploring the digital world.
             </p>
           </div>
 
@@ -63,7 +63,7 @@ export const Footer = ({ setCurrentPage }) => {
               </li>
               <li className="flex items-start gap-3">
                 <i className="fas fa-map-marker-alt text-[#0078d7] mt-1 px-[2px]"></i>
-                <span>Blackpool, UK <br/><span className="text-xs text-gray-500">(Open to Remote / Europe / UK)</span></span>
+                <span>Granada, Spain <br/><span className="text-xs text-gray-500">(Open to Remote / Europe / UK)</span></span>
               </li>
             </ul>
           </div>
