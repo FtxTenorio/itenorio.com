@@ -33,15 +33,7 @@ const MusicPage = () => {
               The tracks that inspire me and soundtrack my coding sessions.
             </p>
           </div>
-
-          {/* Section Header */}
-          <div className="flex items-center justify-between mb-8 border-b border-white/10 pb-4 max-w-5xl mx-auto">
-            <h2 className="text-2xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-              <span className="w-2 h-6 bg-[#1DB954] rounded-sm"></span>
-              Heavy Rotation
-            </h2>
-          </div>
-
+          
           {/* Spotify-style Music Grid */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6 max-w-5xl mx-auto mb-20">
             {tracks.map((track, index) => (
