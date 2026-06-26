@@ -6,6 +6,7 @@ import LandingPage from './pages/LandingPage';
 import { Navbar } from './components/NavBar';
 import { TheOneRing } from './components/TheOneRing';
 import { Footer } from './components/Footer';
+import { Tardis } from './components/Tardis';
 
 function App() {
   // Estado para controlar a página atual
@@ -30,6 +31,7 @@ function App() {
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
       {/* Passamos o setCurrentPage para o Navbar poder trocar as páginas */}
       <Navbar setCurrentPage={setCurrentPage} />
+      <Tardis/>
       <TheOneRing/>
 
       {/* Renderiza o conteúdo dinâmico baseado no estado */}

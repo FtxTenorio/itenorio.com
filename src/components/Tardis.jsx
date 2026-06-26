@@ -102,7 +102,7 @@ export const Tardis = () => {
         .tardis-drifter {
           position: fixed; 
           top: 25%;
-          z-index: -1; /* <-- Alterado de 25 para -1 */
+          z-index: 2; /* <-- Alterado de 25 para -1 */
           animation: drift 45s linear infinite;
           pointer-events: auto; 
         }

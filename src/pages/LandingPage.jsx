@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { Tardis } from '../components/Tardis';
 
 // Lista de tecnologias
 const techStack = [
@@ -52,8 +51,6 @@ const LandingPage = ({ setCurrentPage }) => {
 
   return (
     <main className="content-wrapper px-4 text-center pt-32 pb-24 relative z-20">
-      <Tardis />
-      
       {/* Container da Foto com o Open To Work (Estilo LinkedIn) */}
       <div className="relative w-40 h-40 mx-auto mb-6 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-transform duration-300 hover:scale-105 z-20 bg-white/5">
         <img src="https://source-of-data.s3.sa-east-1.amazonaws.com/public/tenorio-logo.png" alt="Paulo Tenório" className="w-full h-full object-cover"/>
