@@ -36,9 +36,9 @@ export const Tardis = () => {
     <>
       {/* O container principal controla a viagem normal de um lado para o outro */}
       <div className="tardis-drifter">
-        
+
         {/* O wrapper interno reage ao clique e sofre o efeito do "Vortex" */}
-        <div 
+        <div
           className={`tardis-wrapper ${isZapped ? 'vortex-zap' : 'normal-spin'}`}
           onClick={handleTardisClick}
         >
@@ -50,44 +50,44 @@ export const Tardis = () => {
           )}
 
           <svg width="120" height="160" viewBox="0 0 120 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <rect x="15" y="150" width="90" height="10" fill="#001d40"/>
-            <rect x="20" y="20" width="80" height="130" fill="#003b6f"/>
-            <rect x="25" y="15" width="70" height="5" fill="#002b5e"/>
-            <rect x="30" y="10" width="60" height="5" fill="#002b5e"/>
-            <rect x="40" y="5" width="40" height="5" fill="#002b5e"/>
-            <rect x="56" y="0" width="8" height="6" fill="#cccccc"/>
-            <rect x="54" y="6" width="12" height="2" fill="#001d40"/>
-            <circle cx="60" cy="3" r="4" fill="#ffffff" className="tardis-light"/>
-            <rect x="20" y="20" width="6" height="130" fill="#002b5e"/>
-            <rect x="94" y="20" width="6" height="130" fill="#002b5e"/>
-            <rect x="58" y="30" width="4" height="120" fill="#001d40"/>
-            <rect x="22" y="18" width="76" height="10" fill="#000000"/>
+            <rect x="15" y="150" width="90" height="10" fill="#001d40" />
+            <rect x="20" y="20" width="80" height="130" fill="#003b6f" />
+            <rect x="25" y="15" width="70" height="5" fill="#002b5e" />
+            <rect x="30" y="10" width="60" height="5" fill="#002b5e" />
+            <rect x="40" y="5" width="40" height="5" fill="#002b5e" />
+            <rect x="56" y="0" width="8" height="6" fill="#cccccc" />
+            <rect x="54" y="6" width="12" height="2" fill="#001d40" />
+            <circle cx="60" cy="3" r="4" fill="#ffffff" className="tardis-light" />
+            <rect x="20" y="20" width="6" height="130" fill="#002b5e" />
+            <rect x="94" y="20" width="6" height="130" fill="#002b5e" />
+            <rect x="58" y="30" width="4" height="120" fill="#001d40" />
+            <rect x="22" y="18" width="76" height="10" fill="#000000" />
             <text x="60" y="26" fontSize="6" fill="white" textAnchor="middle" fontFamily="sans-serif" fontWeight="bold">POLICE BOX</text>
-            <rect x="32" y="32" width="22" height="24" fill="#ffffff" opacity="0.9"/>
-            <line x1="32" y1="40" x2="54" y2="40" stroke="#002b5e" strokeWidth="1.5"/>
-            <line x1="32" y1="48" x2="54" y2="48" stroke="#002b5e" strokeWidth="1.5"/>
-            <line x1="43" y1="32" x2="43" y2="56" stroke="#002b5e" strokeWidth="1.5"/>
-            <rect x="66" y="32" width="22" height="24" fill="#e6f2ff" opacity="0.9"/>
-            <line x1="66" y1="40" x2="88" y2="40" stroke="#002b5e" strokeWidth="1.5"/>
-            <line x1="66" y1="48" x2="88" y2="48" stroke="#002b5e" strokeWidth="1.5"/>
-            <line x1="77" y1="32" x2="77" y2="56" stroke="#002b5e" strokeWidth="1.5"/>
-            <rect x="32" y="62" width="22" height="26" fill="#ffffff" opacity="0.9"/>
-            <line x1="34" y1="66" x2="52" y2="66" stroke="#000000" strokeWidth="1" opacity="0.5"/>
-            <line x1="34" y1="70" x2="52" y2="70" stroke="#000000" strokeWidth="1" opacity="0.5"/>
-            <line x1="34" y1="74" x2="52" y2="74" stroke="#000000" strokeWidth="1" opacity="0.5"/>
-            <line x1="34" y1="78" x2="52" y2="78" stroke="#000000" strokeWidth="1" opacity="0.5"/>
-            <rect x="66" y="62" width="22" height="26" fill="#002b5e"/>
-            <rect x="68" y="64" width="18" height="22" fill="#004680"/>
-            <rect x="32" y="92" width="22" height="26" fill="#002b5e"/>
-            <rect x="34" y="94" width="18" height="22" fill="#004680"/>
-            <rect x="66" y="92" width="22" height="26" fill="#002b5e"/>
-            <rect x="68" y="94" width="18" height="22" fill="#004680"/>
-            <rect x="32" y="122" width="22" height="26" fill="#002b5e"/>
-            <rect x="34" y="124" width="18" height="22" fill="#004680"/>
-            <rect x="66" y="122" width="22" height="26" fill="#002b5e"/>
-            <rect x="68" y="124" width="18" height="22" fill="#004680"/>
-            <circle cx="64" cy="75" r="1.5" fill="#cccccc"/>
-            <circle cx="56" cy="75" r="1" fill="#cccccc"/>
+            <rect x="32" y="32" width="22" height="24" fill="#ffffff" opacity="0.9" />
+            <line x1="32" y1="40" x2="54" y2="40" stroke="#002b5e" strokeWidth="1.5" />
+            <line x1="32" y1="48" x2="54" y2="48" stroke="#002b5e" strokeWidth="1.5" />
+            <line x1="43" y1="32" x2="43" y2="56" stroke="#002b5e" strokeWidth="1.5" />
+            <rect x="66" y="32" width="22" height="24" fill="#e6f2ff" opacity="0.9" />
+            <line x1="66" y1="40" x2="88" y2="40" stroke="#002b5e" strokeWidth="1.5" />
+            <line x1="66" y1="48" x2="88" y2="48" stroke="#002b5e" strokeWidth="1.5" />
+            <line x1="77" y1="32" x2="77" y2="56" stroke="#002b5e" strokeWidth="1.5" />
+            <rect x="32" y="62" width="22" height="26" fill="#ffffff" opacity="0.9" />
+            <line x1="34" y1="66" x2="52" y2="66" stroke="#000000" strokeWidth="1" opacity="0.5" />
+            <line x1="34" y1="70" x2="52" y2="70" stroke="#000000" strokeWidth="1" opacity="0.5" />
+            <line x1="34" y1="74" x2="52" y2="74" stroke="#000000" strokeWidth="1" opacity="0.5" />
+            <line x1="34" y1="78" x2="52" y2="78" stroke="#000000" strokeWidth="1" opacity="0.5" />
+            <rect x="66" y="62" width="22" height="26" fill="#002b5e" />
+            <rect x="68" y="64" width="18" height="22" fill="#004680" />
+            <rect x="32" y="92" width="22" height="26" fill="#002b5e" />
+            <rect x="34" y="94" width="18" height="22" fill="#004680" />
+            <rect x="66" y="92" width="22" height="26" fill="#002b5e" />
+            <rect x="68" y="94" width="18" height="22" fill="#004680" />
+            <rect x="32" y="122" width="22" height="26" fill="#002b5e" />
+            <rect x="34" y="124" width="18" height="22" fill="#004680" />
+            <rect x="66" y="122" width="22" height="26" fill="#002b5e" />
+            <rect x="68" y="124" width="18" height="22" fill="#004680" />
+            <circle cx="64" cy="75" r="1.5" fill="#cccccc" />
+            <circle cx="56" cy="75" r="1" fill="#cccccc" />
           </svg>
         </div>
       </div>
@@ -100,11 +100,11 @@ export const Tardis = () => {
         }
 
         .tardis-drifter {
-          position: fixed; /* Mudei para fixed para evitar criar scroll horizontal sem querer */
+          position: fixed; 
           top: 25%;
-          z-index: 25;
+          z-index: -1; /* <-- Alterado de 25 para -1 */
           animation: drift 45s linear infinite;
-          pointer-events: auto; /* Permite clicar nela */
+          pointer-events: auto; 
         }
 
         /* 2. O WRAPPER DA TARDIS (Para gerenciar a rotação normal vs o choque) */
@@ -184,6 +184,22 @@ export const Tardis = () => {
           border-left: 10px solid transparent;
           border-right: 10px solid transparent;
           border-top: 10px solid #ffffff;
+        }
+
+        /* ========================================== */
+        /* COMPORTAMENTO MOBILE (Telas até 768px)     */
+        /* ========================================== */
+        @media (max-width: 768px) {
+          /* 1. Deixa a TARDIS menorzinha (ajuste o 0.5 para o tamanho que preferir) */
+          .tardis-drifter {
+            transform: scale(0.5);
+            transform-origin: center left;
+          }
+
+          /* 2. Desativa o clique no celular, impedindo a animação do vortex */
+          .tardis-wrapper {
+            pointer-events: none;
+          }
         }
       `}</style>
     </>
