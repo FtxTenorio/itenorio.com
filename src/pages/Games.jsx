@@ -191,28 +191,28 @@ const GamesPage = () => {
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
       {/* Main Content */}
       <main className="content-wrapper px-4 text-center pt-32 pb-24 relative z-20">
-        <h1 className="text-4xl md:text-6xl font-extrabold mb-4 glowing-text tracking-tight">
-          My Favorite Games
-        </h1>
+        
+        {/* Title and Steam Button Wrapper */}
+        <div className="relative flex flex-col md:flex-row items-center justify-center w-full max-w-6xl mx-auto mb-4">
+          <h1 className="text-4xl md:text-6xl font-extrabold glowing-text tracking-tight text-center">
+            My Favorite Games
+          </h1>
+          
+          <div className="mt-6 md:mt-0 md:absolute md:right-0">
+            <a 
+              href="https://steamcommunity.com/id/ftxdante" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="flex items-center gap-2 bg-gradient-to-r from-[#171a21] to-[#1b2838] hover:from-[#1b2838] hover:to-[#2a475e] text-white text-sm font-semibold py-2.5 px-6 rounded-full shadow-[0_0_15px_rgba(26,159,255,0.4)] hover:shadow-[0_0_25px_rgba(26,159,255,0.6)] transition-all duration-300 border border-[#2a475e]"
+            >
+              My Steam
+            </a>
+          </div>
+        </div>
 
-        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-10 leading-relaxed">
+        <p className="text-gray-400 text-lg md:text-xl max-w-2xl mx-auto mb-16 leading-relaxed">
           Stats and achievements of the games that are part of my journey.
         </p>
-
-        {/* Steam Profile Button */}
-        <div className="flex justify-center mb-16">
-          <a 
-            href="https://steamcommunity.com/id/ftxdante" 
-            target="_blank" 
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 bg-gradient-to-r from-[#171a21] to-[#1b2838] hover:from-[#1b2838] hover:to-[#2a475e] text-white font-semibold py-3 px-8 rounded-full shadow-[0_0_15px_rgba(26,159,255,0.4)] hover:shadow-[0_0_25px_rgba(26,159,255,0.6)] transition-all duration-300 border border-[#2a475e]"
-          >
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 fill-current text-[#66c0f4]" viewBox="0 0 496 512">
-              <path d="M496 256c0 137-111 248-248 248-25.6 0-50.2-3.9-73.4-11.1 10.1-16.5 25.2-43.5 30.8-65 3-11.6 1.5-25.8-1-39.6-1.5-8.2-3.7-16-6.1-23.3-2.1-6.1-4.4-11.9-6.9-17.5-6.1-13.7-13.6-26.3-22.1-37.5-8.6-11.3-18.4-21.3-29.2-29.9-10.8-8.6-22.6-15.8-35.1-21.2-12.7-5.5-26-9.4-39.7-11.6-13.8-2.2-27.9-2.7-42-.1-14.1 2.5-27.9 6.8-40.8 12.8-13 6-25.3 13.6-36.4 22.5-11 8.9-21 19.3-29.7 30.8-8.6 11.5-15.9 24.1-21.6 37.6-5.7 13.5-9.7 27.8-11.7 42.4-2 14.6-2 29.5 0 44.2 2 14.6 6 28.8 11.7 42.3 5.7 13.4 13 25.9 21.6 37.4 8.6 11.4 18.6 21.8 29.7 30.7 11.1 8.8 23.3 16.3 36.4 22.3 13 6 26.8 10.3 40.8 12.7 14.1 2.5 28.2 2 42-.2 13.7-2.2 27-6.1 39.7-11.6 12.5-5.4 24.3-12.6 35.1-21.2 10.8-8.6 20.6-18.6 29.2-29.8 8.6-11.2 16.1-23.8 22.1-37.5 2.5-5.6 4.8-11.4 6.9-17.5 2.4-7.3 4.6-15 6.1-23.3 2.5-13.7 4-27.9 1-39.6-5.6-21.4-20.7-48.4-30.8-65 23.2-7.2 47.8-11.1 73.4-11.1 137 0 248 111 248 248zm-192-36c-17.7 0-32-14.3-32-32s14.3-32 32-32 32 14.3 32 32-14.3 32-32 32zm-73.4 86.8c-1.6 5.5-3.8 10.8-6.6 15.8-2.8 5-6 9.8-9.7 14.1-3.6 4.3-7.7 8.3-12.1 11.9-4.5 3.6-9.3 6.8-14.5 9.5-5.1 2.6-10.6 4.8-16.3 6.4-5.7 1.6-11.6 2.5-17.6 2.8-6 .2-12.1-.2-18-1.2-5.9-.9-11.7-2.6-17.2-4.9-5.5-2.2-10.7-5-15.6-8.3-4.9-3.3-9.4-7.2-13.4-11.5-4.1-4.3-7.7-9.1-10.7-14.3-3-5.2-5.5-10.7-7.4-16.4-1.9-5.7-3.1-11.6-3.8-17.7-.6-6-.6-12.1-.1-18.1.5-6 1.7-11.8 3.5-17.5 1.8-5.6 4.3-11 7.4-16 3-5 6.6-9.7 10.7-14 4-4.2 8.5-8.1 13.4-11.4 4.9-3.3 10.2-6.1 15.6-8.3 5.5-2.3 11.3-3.9 17.2-4.9 5.9-1 12-.1 18 1.1 6 1.3 11.8 3.2 17.4 5.8 5.6 2.6 10.9 5.8 15.7 9.6 4.8 3.8 9.2 8.1 13 12.9 3.8 4.8 7 10 9.7 15.6 2.6 5.6 4.6 11.5 5.8 17.6 1.3 6 1.8 12.3 1.5 18.6z" />
-            </svg>
-            Connect on Steam
-          </a>
-        </div>
 
         {/* All Games Grid */}
         <div className="max-w-6xl mx-auto text-left mb-16">
