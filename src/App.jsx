@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import Games from './pages/Games';
 import Musics from './pages/Musics';
 import Stacks from './pages/Stacks';
@@ -9,11 +9,20 @@ import { Footer } from './components/Footer';
 import { Tardis } from './components/Tardis';
 
 function App() {
-  // Estado para controlar a página atual
-  const [currentPage, setCurrentPage] = useState('home');
+  // Inicializa lendo do cache ou definindo 'home' como padrão
+  const [currentPage, setCurrentPage] = useState(() => {
+    const savedPage = localStorage.getItem('currentPage');
+    return savedPage || 'home';
+  });
+
+  // Salva no cache e rola para o topo sempre que currentPage mudar
+  useEffect(() => {
+    localStorage.setItem('currentPage', currentPage);
+    window.scrollTo(0, 0); 
+  }, [currentPage]);
 
   // Função para renderizar o componente correto
-  const renderPage = ({setCurrentPage}) => {
+  const renderPage = () => {
     switch (currentPage) {
       case 'games':
         return <Games />;
@@ -29,14 +38,15 @@ function App() {
 
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
-      {/* Passamos o setCurrentPage para o Navbar poder trocar as páginas */}
-      <Navbar setCurrentPage={setCurrentPage} />
-      <Tardis/>
-      <TheOneRing/>
+      {/* Passamos o currentPage e setCurrentPage para a Navbar */}
+      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Tardis />
+      <TheOneRing />
 
-      {/* Renderiza o conteúdo dinâmico baseado no estado */}
-      {renderPage({setCurrentPage})}
-      <Footer setCurrentPage={setCurrentPage}/>
+      {/* Renderiza o conteúdo dinâmico */}
+      {renderPage()}
+      
+      <Footer setCurrentPage={setCurrentPage} />
     </div>
   );
 }
