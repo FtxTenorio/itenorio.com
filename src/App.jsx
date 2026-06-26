@@ -4,7 +4,6 @@ import Musics from './pages/Musics';
 import Stacks from './pages/Stacks';
 import LandingPage from './pages/LandingPage';
 import { Navbar } from './components/NavBar';
-import { Tardis } from './components/Tardis';
 import { TheOneRing } from './components/TheOneRing';
 
 function App() {
@@ -31,7 +30,6 @@ function App() {
       {/* Passamos o setCurrentPage para o Navbar poder trocar as páginas */}
       <Navbar setCurrentPage={setCurrentPage} />
       <TheOneRing/>
-      <Tardis />
 
       {/* Renderiza o conteúdo dinâmico baseado no estado */}
       {renderPage()}

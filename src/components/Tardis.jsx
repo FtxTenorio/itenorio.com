@@ -95,7 +95,7 @@ export const Tardis = () => {
       <style jsx>{`
         /* 1. O DRFIT GERAL (A Tardis cruzando a tela) */
         @keyframes drift {
-          from { left: -15vw; }
+          from { left: -5vw; }
           to { left: 110vw; }
         }
 
