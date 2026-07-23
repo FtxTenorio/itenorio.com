@@ -3,6 +3,7 @@ import Games from './pages/Games';
 import Musics from './pages/Musics';
 import Stacks from './pages/Stacks';
 import LandingPage from './pages/LandingPage';
+import Minecraft from './pages/Minecraft'; // <-- Importe a nova página
 import { Navbar } from './components/NavBar';
 import { TheOneRing } from './components/TheOneRing';
 import { Footer } from './components/Footer';
@@ -30,18 +31,35 @@ function App() {
         return <Musics />;
       case 'stacks':
         return <Stacks />;
+      case 'minecraft':
+        return <Minecraft />;
       case 'home':
       default:
         return <LandingPage setCurrentPage={setCurrentPage} />;
     }
   };
 
+  // Verifica se estamos em uma página onde os itens "fan" devem ser escondidos
+  const hideFanItems = ['minecraft', 'stacks'].includes(currentPage);
+
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
       {/* Passamos o currentPage e setCurrentPage para a Navbar */}
       <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-      <Tardis />
-      <TheOneRing />
+      
+      {/* 
+        Mantém a Tardis e o Anel sempre renderizados para as imagens não recarregarem.
+        Usamos opacidade e pointer-events para escondê-los visualmente e impedir cliques,
+        além de adicionar uma transição suave.
+      */}
+      <div 
+        className={`transition-opacity duration-100 ${
+          hideFanItems ? 'opacity-0 pointer-events-none' : 'opacity-100'
+        }`}
+      >
+        <Tardis />
+        <TheOneRing />
+      </div>
 
       {/* Renderiza o conteúdo dinâmico */}
       {renderPage()}
