@@ -1,4 +1,9 @@
-import { useState, useEffect, useRef } from 'react';
+// Minecraft.jsx
+import { useState, useEffect } from 'react';
+import { 
+  CopyIcon, CheckIcon, CreeperIcon, PickaxeIcon, CubeIcon, 
+  GlobeIcon, PortIcon, HintIcon, GamepadIcon, JavaIcon, BedrockIcon, RefreshIcon 
+} from '../components/MinecraftIcons'; // Certifique-se de que o caminho do import está correto
 
 // Fun loading messages in English
 const loadingMessages = [
@@ -9,19 +14,6 @@ const loadingMessages = [
   "Cooking porkchops...",
   "Taming wolves..."
 ];
-
-// Modern icons for copy buttons
-const CopyIcon = () => (
-  <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z" />
-  </svg>
-);
-
-const CheckIcon = () => (
-  <svg className="w-5 h-5 text-[#3C8527]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
-  </svg>
-);
 
 // Ping signal bars
 const SignalBars = ({ online }) => {
@@ -38,8 +30,8 @@ const SignalBars = ({ online }) => {
   );
 };
 
-// Copy button with fun icons
-const ModernCopyButton = ({ label, copyText, emoji }) => {
+// Copy button with SVGs instead of Emojis
+const ModernCopyButton = ({ label, copyText, IconElement }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = () => {
@@ -51,7 +43,7 @@ const ModernCopyButton = ({ label, copyText, emoji }) => {
   return (
     <div className="flex flex-col gap-1 mb-4 group">
       <span className="text-sm text-gray-400 font-medium flex items-center gap-2">
-        {emoji} {label}
+        <IconElement className="w-4 h-4 text-[#7BCA60]" /> {label}
       </span>
       <button 
         onClick={handleCopy}
@@ -72,7 +64,6 @@ export default function Minecraft() {
   const [activeTab, setActiveTab] = useState('java');
   const [loadingText, setLoadingText] = useState(loadingMessages[0]);
 
-  // Função adaptada para suportar chamadas silenciosas (sem tela de carregamento)
   const fetchServer = async (isSilent = false) => {
     if (!isSilent) {
       setLoading(true);
@@ -93,19 +84,17 @@ export default function Minecraft() {
   };
 
   useEffect(() => {
-    // Carregamento inicial (vísivel para o usuário)
     fetchServer(false);
 
-    // Sistema de Auto-Refresh Silencioso
     let refreshes = 0;
     const interval = setInterval(() => {
       if (refreshes < 3) {
-        fetchServer(true); // true = Atualiza por trás dos panos
+        fetchServer(true);
         refreshes++;
       } else {
-        clearInterval(interval); // Limpa o intervalo após 3 vezes
+        clearInterval(interval);
       }
-    }, 5 * 60 * 1000); // 5 minutos (5 * 60 * 1000 ms)
+    }, 5 * 60 * 1000);
 
     return () => clearInterval(interval);
   }, []);
@@ -114,7 +103,6 @@ export default function Minecraft() {
   const playersOnline = serverData?.players?.online || 0;
   const playersMax = serverData?.players?.max || 0;
   
-  // Usa o endpoint oficial de ícone da API como fallback seguro
   const defaultIcon = "https://api.mcstatus.io/v2/icon/born-although.gl.joinmc.link";
   const icon = serverData?.icon || defaultIcon;
 
@@ -123,7 +111,6 @@ export default function Minecraft() {
       className="min-h-screen pt-28 pb-10 px-4 flex flex-col items-center font-sans relative overflow-hidden" 
       style={{ backgroundColor: '#1E1E1E' }}
     >
-      {/* Importa a fonte pixelada do Google Fonts via CSS inline */}
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
@@ -134,31 +121,37 @@ export default function Minecraft() {
         `}
       </style>
 
-      {/* Subtle Background Decorations */}
-      <div className="absolute top-20 left-10 text-6xl opacity-5 rotate-12 select-none pointer-events-none">⛏️</div>
-      <div className="absolute bottom-20 right-10 text-6xl opacity-5 -rotate-12 select-none pointer-events-none">🧟</div>
+      {/* Background Decorations com os novos SVGs */}
+      <div className="absolute top-20 left-10 opacity-5 rotate-12 select-none pointer-events-none text-white">
+        <PickaxeIcon className="w-24 h-24" />
+      </div>
+      <div className="absolute bottom-20 right-10 opacity-5 -rotate-12 select-none pointer-events-none text-white">
+        <CreeperIcon className="w-24 h-24" />
+      </div>
 
       <div className="w-full max-w-xl z-10">
         
-        {/* Page Title with Minecraft Font */}
+        {/* Page Title */}
         <div className="text-center mb-8">
           <h1 className="text-2xl md:text-3xl font-extrabold flex items-center justify-center gap-3 minecraft-title tracking-wider">
             <span className="text-transparent bg-clip-text bg-gradient-to-b from-[#7BCA60] to-[#3C8527] drop-shadow-[0_4px_4px_rgba(0,0,0,0.5)]">
               IT SERVER
             </span>
-            <span className="animate-bounce inline-block text-3xl">🧊</span>
+            <div className="animate-bounce">
+              <CubeIcon className="w-8 h-8 text-[#7BCA60]" />
+            </div>
           </h1>
           <p className="text-gray-400 mt-4 font-medium">Don't forget to bring torches!</p>
         </div>
         
-        {/* --- SERVER CARD (Floating on hover) --- */}
+        {/* SERVER CARD */}
         <div className="bg-[#313235] rounded-xl p-4 shadow-[0_8px_30px_rgb(0,0,0,0.12)] mb-8 flex items-center border border-[#444548] transition-all duration-300 hover:-translate-y-2 hover:shadow-[0_15px_35px_rgba(60,133,39,0.15)] group">
           <img 
             src={icon} 
             alt="Server Icon" 
             className="w-16 h-16 md:w-20 md:h-20 rounded-lg object-cover bg-[#1E1E1E] group-hover:scale-105 transition-transform duration-300"
             style={{ imageRendering: 'pixelated' }}
-            onError={(e) => { e.target.src = defaultIcon; }} // Fallback extra caso a imagem venha quebrada
+            onError={(e) => { e.target.src = defaultIcon; }}
           />
 
           <div className="ml-5 flex-1">
@@ -185,7 +178,7 @@ export default function Minecraft() {
           </div>
         </div>
 
-        {/* --- TABS MENU --- */}
+        {/* TABS MENU */}
         <div className="bg-[#313235] rounded-xl shadow-lg border border-[#444548] overflow-hidden transition-all">
           <div className="flex bg-[#252628]">
             <button
@@ -196,7 +189,7 @@ export default function Minecraft() {
                   : 'text-gray-400 hover:bg-[#2A2B2E] hover:text-white border-b-4 border-transparent'
               }`}
             >
-              <span className={activeTab === 'java' ? 'animate-bounce' : ''}>☕</span> Java
+              <JavaIcon className={`w-5 h-5 ${activeTab === 'java' ? 'animate-bounce' : ''}`} /> Java
             </button>
             <button
               onClick={() => setActiveTab('bedrock')}
@@ -206,7 +199,7 @@ export default function Minecraft() {
                   : 'text-gray-400 hover:bg-[#2A2B2E] hover:text-white border-b-4 border-transparent'
               }`}
             >
-              <span className={activeTab === 'bedrock' ? 'animate-bounce' : ''}>📱</span> Bedrock
+              <BedrockIcon className={`w-5 h-5 ${activeTab === 'bedrock' ? 'animate-bounce' : ''}`} /> Bedrock
             </button>
           </div>
 
@@ -214,28 +207,28 @@ export default function Minecraft() {
           <div className="p-6 bg-[#313235]">
             {activeTab === 'java' && (
               <div className="animate-fade-in">
-                <ModernCopyButton emoji="🌍" label="Server IP" copyText="minecraft.itenorio.com" />
+                <ModernCopyButton IconElement={GlobeIcon} label="Server IP" copyText="minecraft.itenorio.com" />
                 <div className="mt-4 p-3 bg-[#252628] rounded-md border border-[#444548] text-xs text-gray-400 flex items-start gap-2">
-                  <span className="text-lg leading-none">💡</span>
-                  <p>PC players (Java Edition) don't need a port, the game finds it automatically!</p>
+                  <HintIcon className="w-5 h-5 text-yellow-500 shrink-0" />
+                  <p className="mt-0.5">PC players (Java Edition) don't need a port, the game finds it automatically!</p>
                 </div>
               </div>
             )}
 
             {activeTab === 'bedrock' && (
               <div className="animate-fade-in">
-                <ModernCopyButton emoji="🌍" label="Server Address" copyText="bedrock.itenorio.com" />
-                <ModernCopyButton emoji="🚪" label="Port" copyText="40206" />
+                <ModernCopyButton IconElement={GlobeIcon} label="Server Address" copyText="bedrock.itenorio.com" />
+                <ModernCopyButton IconElement={PortIcon} label="Port" copyText="40206" />
                 <div className="mt-2 p-3 bg-[#252628] rounded-md border border-[#444548] text-xs text-gray-400 flex items-start gap-2">
-                  <span className="text-lg leading-none">🎮</span>
-                  <p>Add this under "External Servers" on your phone or console.</p>
+                  <GamepadIcon className="w-5 h-5 text-blue-400 shrink-0" />
+                  <p className="mt-0.5">Add this under "External Servers" on your phone or console.</p>
                 </div>
               </div>
             )}
           </div>
         </div>
 
-        {/* --- REFRESH BUTTON (Força uma atualização visível) --- */}
+        {/* REFRESH BUTTON */}
         <div className="mt-8 flex justify-center">
           <button 
             onClick={() => fetchServer(false)}
@@ -252,7 +245,9 @@ export default function Minecraft() {
               </>
             ) : (
               <>
-                <span className="group-hover:rotate-180 transition-transform duration-500">🔄</span> 
+                <span className="group-hover:rotate-180 transition-transform duration-500 flex items-center justify-center">
+                  <RefreshIcon className="w-5 h-5" />
+                </span> 
                 Refresh Server
               </>
             )}
