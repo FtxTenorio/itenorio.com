@@ -89,17 +89,20 @@ export const Footer = ({ setCurrentPage }) => {
 
         </div>
 
-        {/* Linha de Direitos Autorais */}
+        {/* Linha de Direitos Autorais e Informação Jurídica */}
         <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-center md:text-left">
-          <p className="text-sm text-gray-500">
-            © {currentYear} Paulo Sérgio Rodrigues de Faria Tenório. All rights reserved.
-          </p>
+          <div className="text-sm text-gray-500">
+            <p>© {currentYear} iTenorio Tech. All rights reserved.</p>
+            <p className="text-xs text-gray-600 mt-1">
+              Registered as iTenorio Tech Desenvolvimento de Software LTDA in Brazil.
+            </p>
+          </div>
           <p className="text-xs text-gray-600 flex items-center gap-1">
-            Built with React & Tailwind
+            itenorio.com
           </p>
         </div>
 
       </div>
     </footer>
   );
-};
+}
