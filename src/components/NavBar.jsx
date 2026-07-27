@@ -6,16 +6,21 @@ import { useState } from 'react';
 export const Navbar = ({ currentPage, setCurrentPage }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isMobileServersOpen, setIsMobileServersOpen] = useState(false);
+  const [isMobileAboutOpen, setIsMobileAboutOpen] = useState(false);
 
   const handleNavClick = (page) => {
     setCurrentPage(page);
     setIsOpen(false);
-    setIsMobileServersOpen(false); // Resets mobile dropdown on navigation
+    setIsMobileServersOpen(false);
+    setIsMobileAboutOpen(false); // Reseta o dropdown mobile do About
   };
 
   // Classes for Desktop buttons
   const getLinkClass = (pageName) => {
-    const isActive = currentPage === pageName;
+    // Para o botão About Me ficar ativo se Games ou Music estiverem ativos
+    const isAboutActive = ['games', 'music'].includes(currentPage) && pageName === 'about';
+    const isActive = currentPage === pageName || isAboutActive;
+    
     return `px-4 py-2 rounded-full text-sm font-semibold transition-all duration-300 cursor-pointer bg-transparent border-none flex items-center gap-1 ${
       isActive
         ? 'text-white bg-white/20 shadow-[0_0_10px_rgba(255,255,255,0.1)]'
@@ -52,20 +57,55 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
               currentPage === 'home' ? 'text-white' : 'text-gray-400'
             }`}
           >
-            <span className={isMinecraft ? "text-[#3C8527] transition-colors" : "text-blue-500 transition-colors"}>i</span>Tenorio
+            <span className={isMinecraft ? "text-[#3C8527] transition-colors" : "text-[#0078d7] transition-colors"}>i</span>Tenorio
           </button>
         </div>
 
         {/* Navigation Buttons (Desktop) */}
         <div className="hidden md:flex items-center space-x-4 ml-10">
           <button onClick={() => handleNavClick('home')} className={getLinkClass('home')}>Home</button>
-          <button onClick={() => handleNavClick('games')} className={getLinkClass('games')}>Games</button>
-          <button onClick={() => handleNavClick('music')} className={getLinkClass('music')}>Music</button>
+          
+          {/* About Me Dropdown (Desktop) */}
+          <div className="relative group">
+            <button className={getLinkClass('about')}>
+              <span className="flex items-center gap-1">
+                About Me
+              </span>
+              <svg className="w-4 h-4 ml-1 transition-transform duration-300 group-hover:rotate-180" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+              </svg>
+            </button>
+            
+            {/* Dropdown Menu About */}
+            <div className="absolute left-0 mt-2 w-48 bg-[#1A1F2B] border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-left group-hover:translate-y-0 -translate-y-2 overflow-hidden">
+              <div className="py-2">
+                <button
+                  onClick={() => handleNavClick('games')}
+                  className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-colors ${
+                    currentPage === 'games'
+                      ? 'text-white bg-white/10 font-bold border-l-4 border-[#0078d7]' 
+                      : 'text-gray-300 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
+                  }`}
+                >
+                  <span>🎮</span> Games
+                </button>
+                <button
+                  onClick={() => handleNavClick('music')}
+                  className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-colors ${
+                    currentPage === 'music'
+                      ? 'text-white bg-white/10 font-bold border-l-4 border-[#0078d7]' 
+                      : 'text-gray-300 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
+                  }`}
+                >
+                  <span>🎵</span> Music
+                </button>
+              </div>
+            </div>
+          </div>
           
           {/* Servers Dropdown (Desktop) */}
           <div className="relative group">
             <button className={getLinkClass(isMinecraft ? 'minecraft' : 'servers')}>
-              {/* Mostra qual servidor está ativo direto no botão principal */}
               {isMinecraft ? (
                 <span className="flex items-center gap-1">
                   Servers <span className="text-xs text-[#6AE24B] font-bold ml-1">• Minecraft</span>
@@ -78,7 +118,6 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
               </svg>
             </button>
             
-            {/* Dropdown Menu - Appears on Hover */}
             <div className="absolute right-0 mt-2 w-48 bg-[#1A1F2B] border border-gray-700 rounded-lg shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform origin-top-right group-hover:translate-y-0 -translate-y-2 overflow-hidden">
               <div className="py-2">
                 <button
@@ -92,7 +131,6 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
                   <div className="flex items-center gap-2">
                     <span>⛏️</span> Minecraft
                   </div>
-                  {/* Ícone de check para deixar bem claro que está selecionado */}
                   {isMinecraft && (
                      <svg className="w-4 h-4 text-[#6AE24B]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
@@ -124,8 +162,46 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
         <div className="md:hidden bg-[rgba(11,15,25,0.95)] backdrop-blur-md border-b border-[rgba(255,255,255,0.1)] animate-fade-in">
           <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3 flex flex-col">
             <button onClick={() => handleNavClick('home')} className={getMobileLinkClass('home')}>Home</button>
-            <button onClick={() => handleNavClick('games')} className={getMobileLinkClass('games')}>Games</button>
-            <button onClick={() => handleNavClick('music')} className={getMobileLinkClass('music')}>Music</button>
+            
+            {/* About Me Dropdown (Mobile) */}
+            <div className="w-full pt-1">
+              <button 
+                onClick={() => setIsMobileAboutOpen(!isMobileAboutOpen)}
+                className={`flex justify-between items-center w-full px-3 py-2 rounded-md text-base font-medium text-gray-300 hover:text-white hover:bg-white/10 transition-all ${['games', 'music'].includes(currentPage) ? 'text-white bg-white/10' : ''}`}
+              >
+                <div className="flex items-center gap-2">
+                  About Me 
+                </div>
+                <svg className={`w-5 h-5 transition-transform duration-300 ${isMobileAboutOpen ? 'rotate-180' : ''}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+              
+              {isMobileAboutOpen && (
+                <div className="pl-6 pr-3 py-2 space-y-1 border-l-2 border-white/20 ml-3 mt-1 animate-fade-in">
+                  <button
+                    onClick={() => handleNavClick('games')}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
+                      currentPage === 'games'
+                        ? 'text-white bg-white/10 border-l-4 border-[#0078d7]'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
+                    }`}
+                  >
+                    <span>🎮</span> Games
+                  </button>
+                  <button
+                    onClick={() => handleNavClick('music')}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${
+                      currentPage === 'music'
+                        ? 'text-white bg-white/10 border-l-4 border-[#0078d7]'
+                        : 'text-gray-400 hover:text-white hover:bg-white/5 border-l-4 border-transparent'
+                    }`}
+                  >
+                    <span>🎵</span> Music
+                  </button>
+                </div>
+              )}
+            </div>
             
             {/* Servers Dropdown (Mobile) */}
             <div className="w-full pt-1 border-t border-[rgba(255,255,255,0.05)] mt-1">
@@ -142,7 +218,6 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
                 </svg>
               </button>
               
-              {/* Mobile Dropdown Items (Accordion) */}
               {isMobileServersOpen && (
                 <div className="pl-6 pr-3 py-2 space-y-1 border-l-2 border-[#3C8527]/50 ml-3 mt-1 animate-fade-in">
                   <button
