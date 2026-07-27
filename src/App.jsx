@@ -37,7 +37,7 @@ function App() {
   };
 
   // Verifica se estamos em uma página onde os itens "fan" devem ser escondidos
-  const hideFanItems = ['minecraft', 'stacks'].includes(currentPage);
+  const hideFanItems = ['minecraft'].includes(currentPage);
 
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">

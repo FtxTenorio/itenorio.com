@@ -34,11 +34,6 @@ export const Footer = ({ setCurrentPage }) => {
                 </button>
               </li>
               <li>
-                <button onClick={() => setCurrentPage && setCurrentPage('stacks')} className="hover:text-[#0078d7] transition-colors bg-transparent border-none p-0 cursor-pointer">
-                  Stacks & Arsenal
-                </button>
-              </li>
-              <li>
                 <button onClick={() => setCurrentPage && setCurrentPage('games')} className="hover:text-[#0078d7] transition-colors bg-transparent border-none p-0 cursor-pointer">
                   Games
                 </button>

@@ -124,7 +124,6 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
         <div className="md:hidden bg-[rgba(11,15,25,0.95)] backdrop-blur-md border-b border-[rgba(255,255,255,0.1)] animate-fade-in">
           <div className="px-2 pt-2 pb-4 space-y-1 sm:px-3 flex flex-col">
             <button onClick={() => handleNavClick('home')} className={getMobileLinkClass('home')}>Home</button>
-            <button onClick={() => handleNavClick('stacks')} className={getMobileLinkClass('stacks')}>Stacks</button>
             <button onClick={() => handleNavClick('games')} className={getMobileLinkClass('games')}>Games</button>
             <button onClick={() => handleNavClick('music')} className={getMobileLinkClass('music')}>Music</button>
             
