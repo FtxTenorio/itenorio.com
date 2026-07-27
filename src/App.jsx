@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react';
 import Games from './pages/Games';
 import Musics from './pages/Musics';
-import Stacks from './pages/Stacks';
 import LandingPage from './pages/LandingPage';
 import Minecraft from './pages/Minecraft'; // <-- Importe a nova página
 import { Navbar } from './components/NavBar';
@@ -29,8 +28,6 @@ function App() {
         return <Games />;
       case 'music':
         return <Musics />;
-      case 'stacks':
-        return <Stacks />;
       case 'minecraft':
         return <Minecraft />;
       case 'home':

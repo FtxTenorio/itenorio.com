@@ -59,7 +59,6 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
         {/* Navigation Buttons (Desktop) */}
         <div className="hidden md:flex items-center space-x-4 ml-10">
           <button onClick={() => handleNavClick('home')} className={getLinkClass('home')}>Home</button>
-          <button onClick={() => handleNavClick('stacks')} className={getLinkClass('stacks')}>Stacks</button>
           <button onClick={() => handleNavClick('games')} className={getLinkClass('games')}>Games</button>
           <button onClick={() => handleNavClick('music')} className={getLinkClass('music')}>Music</button>
           
