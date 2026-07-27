@@ -52,7 +52,7 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
               currentPage === 'home' ? 'text-white' : 'text-gray-400'
             }`}
           >
-            <span className={isMinecraft ? "text-[#3C8527] transition-colors" : "text-blue-500 transition-colors"}>I</span>Tenorio
+            <span className={isMinecraft ? "text-[#3C8527] transition-colors" : "text-blue-500 transition-colors"}>i</span>Tenorio
           </button>
         </div>
 

@@ -17,7 +17,7 @@ export const Footer = ({ setCurrentPage }) => {
               onClick={() => setCurrentPage && setCurrentPage('home')}
               className="text-white font-extrabold text-xl tracking-wider hover:text-gray-300 transition-colors cursor-pointer bg-transparent border-none p-0 mb-4 block"
             >
-              <span className="text-[#0078d7]">I</span>Tenorio
+              <span className="text-[#0078d7]">i</span>Tenorio
             </button>
             <p className="text-gray-400 text-sm leading-relaxed">
               Software Engineer & Backend Developer. Building scalable architectures and exploring the digital world.
@@ -75,7 +75,7 @@ export const Footer = ({ setCurrentPage }) => {
               <a href="https://github.com/FtxTenorio" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-white/10 hover:border-white/30 transition-all duration-300 group">
                 <i className="fab fa-github text-lg text-gray-400 group-hover:text-white"></i>
               </a>
-              <a href="https://www.linkedin.com/in/ftxtenorio/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#0077b5]/20 hover:border-[#0077b5] transition-all duration-300 group">
+              <a href="https://www.Linkedin.com/in/ftxtenorio/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#0077b5]/20 hover:border-[#0077b5] transition-all duration-300 group">
                 <i className="fab fa-linkedin text-lg text-gray-400 group-hover:text-[#0077b5]"></i>
               </a>
               <a href="https://www.instagram.com/ftxtenorio/" target="_blank" rel="noopener noreferrer" className="w-10 h-10 flex items-center justify-center rounded-full bg-white/5 border border-white/10 hover:bg-[#e1306c]/20 hover:border-[#e1306c] transition-all duration-300 group">
