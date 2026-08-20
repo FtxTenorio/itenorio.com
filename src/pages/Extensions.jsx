@@ -19,7 +19,7 @@ export default function Extensions() {
                 Browser Extensions
               </h1>
               <p className="text-gray-400 text-sm md:text-base">
-                Manage and view policies for all published browser extensions by Itenorio.
+                View policies for all published browser extensions by Itenorio.
               </p>
             </div>
 
