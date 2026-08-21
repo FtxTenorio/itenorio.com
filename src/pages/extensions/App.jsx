@@ -9,6 +9,7 @@ import Extensions from './components/Extensions'
 export default function App() {
   const [currentPage, setCurrentPage] = [useCurrentPage(state => state.currentPage), useCurrentPage(state => state.setCurrentPage)]
   const firstRender = useRef(true)
+
   useEffect(() => {
     if (firstRender.current) {
       firstRender.current = false
@@ -18,10 +19,12 @@ export default function App() {
     window.location.href = '/'
   }, [currentPage])
 
+  const navbarThemeClass = 'bg-[rgba(11,15,25,0.6)] border-[rgba(255,255,255,0.1)]';
+
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
       {/* Passamos o currentPage e setCurrentPage para a Navbar */}
-      <NavBarRaw currentPage={currentPage} setCurrentPage={setCurrentPage} navbarThemeClass={'bg-[rgba(11,15,25,0.6)] border-[rgba(255,255,255,0.1)]'}/>
+      <NavBarRaw currentPage={currentPage} setCurrentPage={setCurrentPage} navbarThemeClass={navbarThemeClass}/>
       <Extensions></Extensions>
       <Footer setCurrentPage={setCurrentPage} />
     </div>
