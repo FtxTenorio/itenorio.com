@@ -3,7 +3,7 @@ import { useState, useEffect } from 'react';
 import { 
   CopyIcon, CheckIcon, CreeperIcon, PickaxeIcon, CubeIcon, 
   GlobeIcon, PortIcon, HintIcon, GamepadIcon, JavaIcon, BedrockIcon, RefreshIcon 
-} from '../components/MinecraftIcons'; // Certifique-se de que o caminho do import está correto
+} from '../../components/MinecraftIcons'; // Certifique-se de que o caminho do import está correto
 
 // Fun loading messages in English
 const loadingMessages = [
