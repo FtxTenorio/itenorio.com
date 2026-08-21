@@ -53,7 +53,7 @@ export const Footer = ({ setCurrentPage }) => {
               <li className="flex items-start gap-3">
                 <i className="fas fa-envelope text-[#0078d7] mt-1"></i>
                 <a href="mailto:tenorio.development@gmail.com" className="hover:text-white transition-colors break-all">
-                  tenorio.development@gmail.com
+                  paulo@itenorio.com
                 </a>
               </li>
               <li className="flex items-start gap-3">

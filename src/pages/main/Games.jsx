@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { Tardis } from '../components/Tardis';
-import { Navbar } from '../components/NavBar';
+import { Tardis } from '../../components/Tardis';
+import { Navbar } from '../../components/NavBar';
 
 // ==========================================
 // MAIN COMPONENT (GAMES PAGE)

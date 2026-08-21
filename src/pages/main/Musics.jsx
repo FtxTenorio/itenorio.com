@@ -1,5 +1,5 @@
-import { Tardis } from '../components/Tardis';
-import { Navbar } from '../components/NavBar';
+import { Tardis } from '../../components/Tardis';
+import { Navbar } from '../../components/NavBar';
 
 const MusicPage = () => {
   // Dados atualizados com as imagens em alta resolução e os links do Spotify
