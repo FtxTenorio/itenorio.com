@@ -12,7 +12,10 @@ import Musics from './pages/main/Musics';
 export const useCurrentPage = create((set) => ({
   currentPage: localStorage.getItem('currentPage') || 'home',
 
-  setCurrentPage: (currentPage) => set({ currentPage }),
+  setCurrentPage: (currentPage) => {
+    localStorage.setItem('currentPage', currentPage);
+    set({ currentPage })
+  },
 }))
 
 function App() {
@@ -22,7 +25,6 @@ function App() {
 
   // Salva no cache e rola para o topo sempre que currentPage mudar
   useEffect(() => {
-    localStorage.setItem('currentPage', currentPage);
     window.scrollTo(0, 0);
   }, [currentPage]);
 
