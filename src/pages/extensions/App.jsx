@@ -12,7 +12,6 @@ export default function App() {
 
   useEffect(() => {
     if (firstRender.current) {
-      setCurrentPage('extensions')
       firstRender.current = false
       return
     }
@@ -25,7 +24,7 @@ export default function App() {
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
       {/* Passamos o currentPage e setCurrentPage para a Navbar */}
-      <NavBarRaw currentPage={currentPage} setCurrentPage={setCurrentPage} navbarThemeClass={navbarThemeClass} />
+      <NavBarRaw currentPage={currentPage} setCurrentPage={setCurrentPage} navbarThemeClass={navbarThemeClass}/>
       <Extensions></Extensions>
       <Footer setCurrentPage={setCurrentPage} />
     </div>
