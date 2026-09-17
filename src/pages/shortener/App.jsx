@@ -2,33 +2,42 @@ import React, { useEffect, useRef } from "react";
 import ReactDOM from "react-dom/client";
 import { useCurrentPage } from "../../App";
 import { Footer } from "../../components/Footer";
-// 1. Mudamos a importação para puxar a Navbar principal e completa
 import { Navbar } from "../../components/NavBar";
 import "../../index.css";
-import Extensions from "./components/Extensions";
+import Shortener from "./components/Shortener";
 
 export default function App() {
   const [currentPage, setCurrentPage] = [
     useCurrentPage((state) => state.currentPage),
     useCurrentPage((state) => state.setCurrentPage),
   ];
-
-  // 2. Corrigimos o bug de recarregar salvando a página inicial exata
-  const initialPage = useRef(currentPage);
+  const firstRender = useRef(true);
 
   useEffect(() => {
-    if (currentPage !== initialPage.current) {
+    if (firstRender.current) {
+      firstRender.current = false;
+      return;
+    }
+    // Se o estado global mudar para 'home', ele força a navegação para a raiz
+    if (currentPage === "home" || currentPage === "") {
       window.location.href = "/";
     }
   }, [currentPage]);
 
+  const navbarThemeClass =
+    "bg-[rgba(11,15,25,0.6)] border-[rgba(255,255,255,0.1)]";
+
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen flex flex-col">
-      {/* 3. Trocamos NavBarRaw por Navbar */}
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      <Navbar
+        currentPage={currentPage}
+        setCurrentPage={setCurrentPage}
+        navbarThemeClass={navbarThemeClass}
+      />
 
-      <main className="flex-grow pt-24 pb-8">
-        <Extensions />
+      {/* O componente principal expande para empurrar o Footer pro final */}
+      <main className="flex-grow flex items-center justify-center p-6 mt-16">
+        <Shortener />
       </main>
 
       <Footer setCurrentPage={setCurrentPage} />

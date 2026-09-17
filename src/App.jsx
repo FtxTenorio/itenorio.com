@@ -1,27 +1,39 @@
-import { useEffect } from 'react';
-import { create } from 'zustand';
-import { Footer } from './components/Footer';
-import { Navbar } from './components/NavBar';
-import { Tardis } from './components/Tardis';
-import { TheOneRing } from './components/TheOneRing';
-import Games from './pages/main/Games';
-import LandingPage from './pages/main/LandingPage';
-import Minecraft from './pages/main/Minecraft'; // <-- Importe a nova página
-import Musics from './pages/main/Musics';
+import { useEffect } from "react";
+import { create } from "zustand";
+import { Footer } from "./components/Footer";
+import { Navbar } from "./components/NavBar";
+import { Tardis } from "./components/Tardis";
+import { TheOneRing } from "./components/TheOneRing";
+import Games from "./pages/main/Games";
+import LandingPage from "./pages/main/LandingPage";
+import Minecraft from "./pages/main/Minecraft";
+import Musics from "./pages/main/Musics";
+
+// =================================================================
+// INTERCEPTADOR DE MPA:
+// Se o servidor carregar acidentalmente o SPA principal numa rota MPA
+// (por falta da barra final), nós forçamos o redirecionamento.
+// =================================================================
+const currentPath = window.location.pathname;
+if (currentPath === "/extensions" || currentPath === "/shortener") {
+  window.location.href = currentPath + "/";
+}
 
 export const useCurrentPage = create((set) => ({
-  currentPage: localStorage.getItem('currentPage') || 'home',
+  currentPage: localStorage.getItem("currentPage") || "home",
 
   setCurrentPage: (currentPage) => {
-    localStorage.setItem('currentPage', currentPage);
-    set({ currentPage })
+    localStorage.setItem("currentPage", currentPage);
+    set({ currentPage });
   },
-}))
+}));
 
 function App() {
   // Inicializa lendo do cache ou definindo 'home' como padrão
-  const [currentPage, setCurrentPage] = [useCurrentPage(state => state.currentPage), useCurrentPage(state => state.setCurrentPage)]
-
+  const [currentPage, setCurrentPage] = [
+    useCurrentPage((state) => state.currentPage),
+    useCurrentPage((state) => state.setCurrentPage),
+  ];
 
   // Salva no cache e rola para o topo sempre que currentPage mudar
   useEffect(() => {
@@ -31,20 +43,20 @@ function App() {
   // Função para renderizar o componente correto
   const renderPage = () => {
     switch (currentPage) {
-      case 'games':
+      case "games":
         return <Games />;
-      case 'music':
+      case "music":
         return <Musics />;
-      case 'minecraft':
+      case "minecraft":
         return <Minecraft />;
-      case 'home':
+      case "home":
       default:
         return <LandingPage setCurrentPage={setCurrentPage} />;
     }
   };
 
   // Verifica se estamos em uma página onde os itens "fan" devem ser escondidos
-  const hideFanItems = ['minecraft'].includes(currentPage);
+  const hideFanItems = ["minecraft"].includes(currentPage);
 
   return (
     <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
@@ -57,8 +69,9 @@ function App() {
         além de adicionar uma transição suave.
       */}
       <div
-        className={`transition-opacity duration-100 ${hideFanItems ? 'opacity-0 pointer-events-none' : 'opacity-100'
-          }`}
+        className={`transition-opacity duration-100 ${
+          hideFanItems ? "opacity-0 pointer-events-none" : "opacity-100"
+        }`}
       >
         <Tardis />
         <TheOneRing />
