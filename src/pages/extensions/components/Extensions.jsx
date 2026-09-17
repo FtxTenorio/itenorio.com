@@ -1,169 +1,413 @@
-import { useState } from 'react';
+import React, { useState } from "react";
+
+// FontAwesome is assumed to be loaded in your index.html/layout via CDN:
+// <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
 export default function Extensions() {
-  const [activePolicy, setActivePolicy] = useState(null);
+  const [activeExtension, setActiveExtension] = useState(null);
 
-  return <div className='mt-20'>
-    <main className="px-4 pt-20 pb-24 max-w-5xl mx-auto flex flex-col items-center w-full">
+  const extensions = [
+    {
+      id: "crunchy",
+      name: "Crunchy Navigator",
+      description:
+        "Improve the Crunchyroll experience with advanced filters, better navigation, and faster search.",
+      logo: "https://lh3.googleusercontent.com/H6Qz1U2YFHnHibDBIOcqIXNEQ7QpmDOWnRFcxF-8NqJm-o1jCEAwLc4sR44JnANlJO3qOQ7SSoCH391dMrkBMZ-7=s120",
+      isImage: true,
+      color: "#ff6b00",
+      rating: 5.0,
+      users: 6,
+    },
+  ];
 
-      {/* === VIEW 1: LISTA DE EXTENSÕES === */}
-      {!activePolicy && (
-        <div className="w-full flex flex-col items-center animate-fade-in">
+  return (
+    // Reduced top margin/padding to fit closer to the navbar
+    <div className="h-[75vh] bg-[#0b0f19] text-white pt-8 pb-24 w-full">
+      <main className="px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
+        {/* === VIEW 1: LISTA DE EXTENSÕES === */}
+        {!activeExtension && (
+          <div className="w-full flex flex-col items-start animate-fade-in">
+            {/* Cabeçalho Alinhado à Esquerda (Mais organizado e menos centralizado) */}
+            <div className="mb-10 text-left w-full">
+              <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white tracking-tight">
+                Browser Extensions
+              </h1>
+              <p className="text-gray-400 text-sm md:text-base max-w-2xl">
+                Discover powerful tools designed to enhance your browsing
+                experience. View features, details, and privacy policies for all
+                published browser extensions by Itenorio.
+              </p>
+            </div>
 
-          {/* Cabeçalho Centralizado */}
-          <div className="text-center mb-12">
-            <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white tracking-tight">
-              Browser Extensions
-            </h1>
-            <p className="text-gray-400 text-sm md:text-base">
-              View policies for all published browser extensions by Itenorio.
-            </p>
+            {/* Grid mais largo com 3 colunas em telas grandes */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {}
+              {extensions.map((ext) => (
+                <div
+                  key={ext.id}
+                  className="bg-[#121826] border border-white/10 p-6 rounded-lg shadow-sm hover:border-white/30 transition-all duration-300 flex flex-col text-left h-full group"
+                >
+                  <div className="flex items-start mb-4">
+                    {/* Logo / Ícone */}
+                    <div className="flex-shrink-0 mr-4 w-12 h-12 flex items-center justify-center rounded-md bg-white/5 border border-white/10 group-hover:scale-105 transition-transform">
+                      {ext.isImage ? (
+                        <img
+                          src={ext.logo}
+                          alt={ext.name}
+                          className="w-8 h-8 object-contain"
+                        />
+                      ) : (
+                        <i
+                          className={`${ext.logo} text-2xl`}
+                          style={{ color: ext.color }}
+                        ></i>
+                      )}
+                    </div>
+
+                    {/* Título e Stats rápidos */}
+                    <div className="flex flex-col flex-grow">
+                      <h2 className="text-lg font-bold text-white tracking-wide leading-tight">
+                        {ext.name}
+                      </h2>
+                      <div className="flex items-center gap-3 mt-1 text-xs text-gray-400 font-medium">
+                        <span className="flex items-center gap-1">
+                          <i className="fas fa-star text-yellow-500"></i>{" "}
+                          {ext.rating.toFixed(1)}
+                        </span>
+                        <span className="flex items-center gap-1">
+                          <i className="fas fa-users text-blue-400"></i>{" "}
+                          {ext.users}
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Descrição */}
+                  <p className="text-gray-400 text-sm leading-relaxed flex-grow mb-6">
+                    {ext.description}
+                  </p>
+
+                  {/* Botão de Ação */}
+                  <div className="mt-auto">
+                    <button
+                      onClick={() => setActiveExtension(ext.id)}
+                      className="w-full bg-white/5 border border-white/10 hover:bg-white/10 text-white px-4 py-2.5 rounded-md font-semibold transition-all duration-300 text-sm flex items-center justify-center gap-2"
+                    >
+                      View Details & Policy{" "}
+                      <i className="fas fa-arrow-right text-xs opacity-70"></i>
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
+        )}
 
-          <div className="w-full max-w-4xl grid grid-cols-1 md:grid-cols-2 gap-6">
+        {}
+        {/* === VIEW 2: DETALHES E POLÍTICA (CRUNCHY NAVIGATOR) === */}
+        {activeExtension === "crunchy" && (
+          <div className="w-full max-w-5xl flex flex-col gap-8 animate-fade-in text-left">
+            <button
+              onClick={() => setActiveExtension(null)}
+              className="self-start flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-semibold mb-2 bg-white/5 px-4 py-2 rounded-md border border-white/10"
+            >
+              <i className="fas fa-arrow-left"></i>
+              Back to Extensions
+            </button>
 
-            {/* Card 1 */}
-            <div className="bg-[#121826] border border-white/10 p-6 md:p-8 rounded-md shadow-sm hover:border-[#ff6b00]/50 transition-colors duration-300 flex text-left h-full">
-              {/* Ícone fixo na esquerda */}
-              <div className="flex-shrink-0 mr-4 md:mr-5">
-                <i className="fas fa-compass text-3xl text-[#ff6b00]"></i>
+            {/* Cabeçalho da Extensão - Estilo Marketing */}
+            <div className="bg-[#121826] border border-white/10 rounded-xl p-8 flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
+              {/* Decorative background glow */}
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff6b00]/10 blur-[80px] rounded-full pointer-events-none"></div>
+
+              <div className="flex-shrink-0">
+                <img
+                  src="https://lh3.googleusercontent.com/H6Qz1U2YFHnHibDBIOcqIXNEQ7QpmDOWnRFcxF-8NqJm-o1jCEAwLc4sR44JnANlJO3qOQ7SSoCH391dMrkBMZ-7=s120"
+                  alt="Crunchy Navigator Logo"
+                  className="w-24 h-24 md:w-32 md:h-32 rounded-2xl shadow-lg border border-white/10"
+                />
               </div>
-              {/* Título e Texto alinhados na mesma linha vertical */}
-              <div className="flex flex-col flex-grow">
-                <h2 className="text-xl font-bold text-white tracking-wide mb-2">Crunchy Navigator</h2>
-                <p className="text-gray-400 text-sm leading-relaxed flex-grow mb-6">
-                  Improve the Crunchyroll experience with advanced filters, better navigation, and faster search.
-                </p>
-                <div>
-                  <button
-                    onClick={() => setActivePolicy('crunchy')}
-                    className="bg-white/5 border border-white/10 hover:bg-[#ff6b00] hover:border-[#ff6b00] hover:text-white text-gray-300 px-5 py-2.5 rounded-sm font-semibold transition-all duration-300 text-sm flex items-center gap-2"
-                  >
-                    <i className="fas fa-file-contract"></i>
-                    Privacy Policy
-                  </button>
+
+              <div className="flex-col flex-grow z-10">
+                <div className="flex flex-wrap items-center gap-3 mb-2">
+                  <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                    Crunchy Navigator
+                  </h1>
+                  <span className="bg-[#ff6b00]/20 text-[#ff6b00] border border-[#ff6b00]/30 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider">
+                    Extension
+                  </span>
+                </div>
+
+                <a
+                  href="https://itenorio.com"
+                  className="text-blue-400 hover:underline text-sm mb-4 inline-block"
+                >
+                  itenorio.com
+                </a>
+
+                {/* Status Bar */}
+                <div className="flex flex-wrap items-center gap-6 mt-2 mb-6">
+                  <div className="flex items-center gap-2 text-sm text-gray-300">
+                    <div className="flex text-yellow-500 text-xs">
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                      <i className="fas fa-star"></i>
+                    </div>
+                    <span className="font-semibold text-white">5.0</span>
+                    <span className="text-gray-500">(1 rating)</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-300">
+                    <i className="fas fa-users text-gray-400"></i>
+                    <span>
+                      <strong>6</strong> users
+                    </span>
+                  </div>
+                  <div className="flex items-center gap-2 text-sm text-gray-300">
+                    <i className="fas fa-layer-group text-gray-400"></i>
+                    <span>Entertainment</span>
+                  </div>
+                </div>
+
+                {/* Metadata tags */}
+                <div className="flex flex-wrap gap-4 text-xs text-gray-400 bg-black/20 p-3 rounded-lg border border-white/5 inline-flex">
+                  <div className="flex flex-col">
+                    <span className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">
+                      Version
+                    </span>
+                    <span className="text-gray-300">1.0.4</span>
+                  </div>
+                  <div className="w-px bg-white/10"></div>
+                  <div className="flex flex-col">
+                    <span className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">
+                      Updated
+                    </span>
+                    <span className="text-gray-300">August 26, 2026</span>
+                  </div>
+                  <div className="w-px bg-white/10"></div>
+                  <div className="flex flex-col">
+                    <span className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">
+                      Size
+                    </span>
+                    <span className="text-gray-300">311KiB</span>
+                  </div>
+                  <div className="w-px bg-white/10"></div>
+                  <div className="flex flex-col">
+                    <span className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">
+                      Languages
+                    </span>
+                    <span className="text-gray-300">English (US)</span>
+                  </div>
                 </div>
               </div>
             </div>
 
+            {}
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
+              {/* Esquerda: Marketing e Features (Ocupa 2/3) */}
+              <div className="lg:col-span-2 space-y-8">
+                <section>
+                  <h2 className="text-2xl font-bold text-white mb-4 border-b border-white/10 pb-2">
+                    Overview
+                  </h2>
+                  <p className="text-gray-300 leading-relaxed mb-4">
+                    Improve the Crunchyroll experience with advanced filters,
+                    better navigation, and faster search. Take your anime
+                    browsing experience to the next level with powerful custom
+                    filters, refined navigation, and advanced discovery tools.
+                  </p>
+                </section>
+
+                <section>
+                  <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i className="fas fa-sparkles text-[#ff6b00]"></i> Current
+                    Features
+                  </h2>
+                  <ul className="space-y-3 text-gray-300">
+                    <li className="flex items-start gap-3">
+                      <i className="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span>
+                        <strong>Audio & Dub Filter:</strong> Quickly sort titles
+                        by audio language and dub availability.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <i className="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span>
+                        <strong>Rating Filter:</strong> Browse anime based on
+                        user ratings and score tiers.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <i className="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span>
+                        <strong>Duration Filter:</strong> Easily find short
+                        episodes, standard lengths, or movies.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <i className="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span>
+                        <strong>Age Rating Filter:</strong> Filter content
+                        suitable for specific age groups.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <i className="fas fa-check-circle text-green-500 mt-1"></i>
+                      <span>
+                        <strong>Filter Customization:</strong> Configure,
+                        toggle, and reset your filter preferences instantly.
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+
+                <section className="bg-gradient-to-br from-[#121826] to-[#1a1525] p-6 rounded-xl border border-purple-500/20">
+                  <h2 className="text-xl font-bold text-white mb-4 flex items-center gap-2">
+                    <i className="fas fa-rocket text-purple-400"></i> Upcoming
+                    Roadmap
+                  </h2>
+                  <p className="text-gray-400 text-sm mb-4">
+                    We are continuously working on new updates and features:
+                  </p>
+                  <ul className="space-y-3 text-gray-300 text-sm">
+                    <li className="flex items-start gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 flex-shrink-0"></div>
+                      <span>
+                        <strong>External Score Integration:</strong> Overlay
+                        live ratings from MyAnimeList (MAL) and AniList.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 flex-shrink-0"></div>
+                      <span>
+                        <strong>Enhanced Home Screen:</strong> Advanced filters
+                        and cleaner layouts for home screen recommendations.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 flex-shrink-0"></div>
+                      <span>
+                        <strong>Smart Recommendation Engine:</strong>{" "}
+                        Intelligent, personalized suggestions based on your
+                        taste.
+                      </span>
+                    </li>
+                    <li className="flex items-start gap-3">
+                      <div className="w-1.5 h-1.5 rounded-full bg-purple-400 mt-2 flex-shrink-0"></div>
+                      <span>
+                        <strong>Release Schedule & Calendar:</strong> Track
+                        weekly episode release days, countdowns, and key
+                        metadata at a glance.
+                      </span>
+                    </li>
+                  </ul>
+                </section>
+              </div>
+
+              {}
+              {/* Direita: Privacy Policy & Technical (Ocupa 1/3) */}
+              <div className="lg:col-span-1 space-y-6">
+                <div className="bg-[#121826] border border-white/10 p-6 rounded-xl">
+                  <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                    <i className="fas fa-shield-alt text-blue-400"></i> Privacy
+                    Policy
+                  </h3>
+
+                  <div className="space-y-5">
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-200 mb-1 flex items-center gap-2">
+                        <i className="fas fa-database text-[#ff6b00]"></i> Data
+                        Collection
+                      </h4>
+                      <p className="text-xs text-gray-400 leading-relaxed">
+                        <strong>Account Info:</strong> Optional opt-in to
+                        collect username/email for syncing.
+                        <br />
+                        <strong>Website Content:</strong> Reads on-page texts,
+                        titles, descriptions, and images strictly to power
+                        filters and recommendations.
+                      </p>
+                    </div>
+
+                    <div>
+                      <h4 className="text-sm font-bold text-gray-200 mb-1 flex items-center gap-2">
+                        <i className="fas fa-key text-[#0078d7]"></i> Required
+                        Permissions
+                      </h4>
+                      <ul className="text-xs text-gray-400 leading-relaxed list-disc pl-4 space-y-1">
+                        <li>Host Permission (crunchyroll.com)</li>
+                        <li>Scripting (for advanced logic)</li>
+                        <li>Storage (for saving configs)</li>
+                      </ul>
+                    </div>
+
+                    <div className="bg-black/30 p-3 rounded border border-white/5 text-xs text-gray-400">
+                      <i className="fas fa-check-circle text-green-500 mr-1"></i>{" "}
+                      Not sold to third parties.
+                      <br />
+                      <i className="fas fa-check-circle text-green-500 mr-1"></i>{" "}
+                      Not used for unrelated purposes.
+                    </div>
+                  </div>
+                </div>
+
+                <div className="bg-[#121826] border border-white/10 p-6 rounded-xl">
+                  <h3 className="text-lg font-bold text-white mb-2">
+                    Developer
+                  </h3>
+                  <div className="text-sm text-gray-400 mb-4">
+                    Non-trader. Consumer rights do not apply to contracts
+                    between you and this developer in the EU.
+                  </div>
+                  <a
+                    href="mailto:extensions@itenorio.com"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-white/5 border border-white/20 hover:bg-white/10 text-white px-4 py-2.5 rounded-md transition-all duration-300 text-sm tracking-wide"
+                  >
+                    <i className="fas fa-envelope"></i>
+                    Contact Support
+                  </a>
+                </div>
+              </div>
+            </div>
           </div>
-        </div>
-      )}
+        )}
 
-      {/* === VIEW 2: POLÍTICA DE PRIVACIDADE DO CRUNCHY NAVIGATOR === */}
-      {activePolicy === 'crunchy' && (
-        <div className="w-full max-w-4xl flex flex-col gap-6 animate-fade-in text-left">
-
-          <button
-            onClick={() => setActivePolicy(null)}
-            className="self-start flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-semibold mb-2"
-          >
-            <i className="fas fa-arrow-left"></i>
-            Back to Extensions
-          </button>
-
-          {/* Cabeçalho da Política Centralizado */}
-          <div className="mb-8 border-b border-white/10 pb-8 flex flex-col items-center text-center">
-            <i className="fas fa-compass text-5xl text-[#ff6b00] mb-4"></i>
-            <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight mb-2">
-              Crunchy Navigator
-            </h1>
-            <h2 className="text-lg text-gray-400 font-semibold mb-6">
-              Privacy Policy & Terms of Use
+        {/* Placeholder for other active extensions if you want to expand later */}
+        {activeExtension && activeExtension !== "crunchy" && (
+          <div className="w-full max-w-5xl text-center animate-fade-in py-20">
+            <button
+              onClick={() => setActiveExtension(null)}
+              className="mb-4 text-gray-400 hover:text-white"
+            >
+              <i className="fas fa-arrow-left"></i> Back
+            </button>
+            <h2 className="text-2xl font-bold text-white">
+              Details for{" "}
+              {extensions.find((e) => e.id === activeExtension)?.name}
             </h2>
-
-            <div className="flex flex-wrap justify-center gap-3">
-              <div className="bg-[#121826] border border-white/10 px-4 py-2 rounded-sm text-xs font-semibold text-green-400 flex items-center gap-2 uppercase tracking-wider">
-                <i className="fas fa-user-shield"></i> Privacy Focused
-              </div>
-              <div className="bg-[#121826] border border-white/10 px-4 py-2 rounded-sm text-xs font-semibold text-blue-400 flex items-center gap-2 uppercase tracking-wider">
-                <i className="fas fa-toggle-on"></i> Opt-in Features
-              </div>
-            </div>
+            <p className="text-gray-400 mt-2">Marketing page coming soon.</p>
           </div>
+        )}
+      </main>
 
-          {/* Card de Informação 1 */}
-          <div className="bg-[#121826] rounded-md p-6 md:p-8 border border-white/5 border-l-4 border-l-[#ff6b00] flex">
-            <div className="flex-shrink-0 mr-4 md:mr-6 mt-1">
-              <i className="fas fa-database text-2xl text-[#ff6b00]"></i>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white tracking-wide mb-4">Data Collection & Usage</h3>
-              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                Our core functionality is designed to respect your privacy, but we do process specific data to enhance your experience:
-              </p>
-              <ul className="list-none space-y-4 text-sm text-gray-400">
-                <li className="flex items-start gap-3">
-                  <i className="fas fa-info-circle text-[#ff6b00] mt-1 text-lg"></i>
-                  <span><strong>Account Information (Optional):</strong> By default, data collection is disabled. However, if you choose to opt-in, we may collect your Crunchyroll username and email address to personalize your experience, address you properly in the UI, and sync your extension preferences.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <i className="fas fa-search text-[#ff6b00] mt-1 text-lg"></i>
-                  <span><strong>Website Content Processing:</strong> To provide our advanced features, the extension actively reads and processes on-page website information, including texts, anime titles, descriptions, and images/thumbnails. This data is utilized to power our enhanced recommendation engine, build complex filtering systems, and generate accurate, real-time alerts for new anime releases and episode updates.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Card de Informação 2 */}
-          <div className="bg-[#121826] rounded-md p-6 md:p-8 border border-white/5 border-l-4 border-l-[#0078d7] flex">
-            <div className="flex-shrink-0 mr-4 md:mr-6 mt-1">
-              <i className="fas fa-key text-2xl text-[#0078d7]"></i>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white tracking-wide mb-4">Required Permissions</h3>
-              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                To provide advanced filters and better navigation, Crunchy Navigator requires the following browser permissions:
-              </p>
-              <ul className="list-none space-y-4 text-sm text-gray-400">
-                <li className="flex items-start gap-3">
-                  <i className="fas fa-check text-green-500 mt-1 text-lg"></i>
-                  <span><strong>Host Permission (crunchyroll.com):</strong> Necessary to inject the improved UI and read website content for filters and recommendations.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <i className="fas fa-check text-green-500 mt-1 text-lg"></i>
-                  <span><strong>Scripting:</strong> Essential for executing background logic, manipulating the DOM dynamically, and extracting the on-page data required to make our custom filters work seamlessly.</span>
-                </li>
-                <li className="flex items-start gap-3">
-                  <i className="fas fa-check text-green-500 mt-1 text-lg"></i>
-                  <span><strong>Storage:</strong> Required to save your custom filter configurations, feature toggles, and user preferences locally on your machine.</span>
-                </li>
-              </ul>
-            </div>
-          </div>
-
-          {/* Card de Informação 3 */}
-          <div className="bg-[#121826] rounded-md p-6 md:p-8 border border-white/5 border-l-4 border-l-green-500 flex">
-            <div className="flex-shrink-0 mr-4 md:mr-6 mt-1">
-              <i className="fas fa-envelope text-2xl text-green-500"></i>
-            </div>
-            <div>
-              <h3 className="text-xl font-bold text-white tracking-wide mb-4">Contact & Support</h3>
-              <p className="text-gray-300 text-sm md:text-base leading-relaxed mb-6">
-                If you have any questions regarding this privacy policy, how your data is handled, or if you need assistance with the extension, please reach out directly to our support email.
-              </p>
-              <a
-                href="mailto:extensions@itenorio.com"
-                className="inline-flex items-center gap-2 bg-white/5 border border-white/20 hover:bg-green-600 hover:border-green-600 text-white px-6 py-3 rounded-sm font-semibold transition-all duration-300 text-sm tracking-wide"
-              >
-                <i className="fas fa-paper-plane"></i>
-                extensions@itenorio.com
-              </a>
-            </div>
-          </div>
-
-        </div>
-      )}
-    </main>
-
-    <style jsx>{`
+      {}
+      <style jsx>{`
         @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
+          from {
+            opacity: 0;
+            transform: translateY(10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
         }
         .animate-fade-in {
-          animation: fadeIn 0.2s ease-out forwards;
+          animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
         }
       `}</style>
-  </div>
+    </div>
+  );
 }
