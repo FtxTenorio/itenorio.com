@@ -47,7 +47,7 @@ export default function Shortener() {
   };
 
   return (
-    <div className="mt-20 h-[70vh]">
+    <div className="mt-20">
       <main className="px-4 pt-10 pb-24 max-w-5xl mx-auto flex flex-col lg:flex-row gap-8 items-start w-full animate-fade-in">
         {/* Lado Esquerdo: Ferramenta */}
         <div className="w-full lg:w-3/5 bg-[#121826] border border-white/10 p-6 md:p-8 rounded-md shadow-sm">

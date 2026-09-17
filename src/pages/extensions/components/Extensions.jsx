@@ -22,7 +22,7 @@ export default function Extensions() {
 
   return (
     // Reduced top margin/padding to fit closer to the navbar
-    <div className="h-[75vh] bg-[#0b0f19] text-white pt-8 pb-24 w-full">
+    <div className="min-h-screen bg-[#0b0f19] text-white pt-8 pb-24 w-full">
       <main className="px-6 max-w-7xl mx-auto flex flex-col items-center w-full">
         {/* === VIEW 1: LISTA DE EXTENSÕES === */}
         {!activeExtension && (
