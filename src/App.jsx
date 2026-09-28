@@ -4,10 +4,7 @@ import { Footer } from "./components/Footer";
 import { Navbar } from "./components/NavBar";
 import { Tardis } from "./components/Tardis";
 import { TheOneRing } from "./components/TheOneRing";
-import Games from "./pages/main/Games";
 import LandingPage from "./pages/main/LandingPage";
-import Minecraft from "./pages/main/Minecraft";
-import Musics from "./pages/main/Musics";
 
 // =================================================================
 // INTERCEPTADOR DE MPA:
@@ -43,12 +40,6 @@ function App() {
   // Função para renderizar o componente correto
   const renderPage = () => {
     switch (currentPage) {
-      case "games":
-        return <Games />;
-      case "music":
-        return <Musics />;
-      case "minecraft":
-        return <Minecraft />;
       case "home":
       default:
         return <LandingPage setCurrentPage={setCurrentPage} />;
