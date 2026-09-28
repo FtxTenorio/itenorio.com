@@ -1041,7 +1041,7 @@ const PortfolioPage = () => {
               {/* Credly Link Footer */}
               <div className="mt-5 pt-3 border-t border-white/5 flex justify-end">
                 <a
-                  href="https://www.credly.com/users/paulo-tenorio/badges"
+                  href="https://link.itenorio.com/CREDLY"
                   target="_blank"
                   rel="noreferrer noopener"
                   className="w-full flex items-center justify-center gap-2 bg-white/5 border border-white/15 hover:bg-white/10 hover:border-[#ffc000] text-white py-2 px-4 rounded-xl font-semibold transition-all duration-300 text-xs group"
