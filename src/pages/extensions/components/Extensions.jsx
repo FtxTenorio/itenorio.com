@@ -85,7 +85,7 @@ export default function Extensions() {
       isImage: true,
       color: "#ff6b00",
       rating: 5.0,
-      users: 6,
+      users: 10,
       status: "Published",
     },
     {
