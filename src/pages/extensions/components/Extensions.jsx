@@ -252,7 +252,7 @@ export default function Extensions() {
                   <div className="flex items-center gap-2 text-sm text-gray-300">
                     <i className="fas fa-users text-gray-400"></i>
                     <span>
-                      <strong>6</strong> users
+                      <strong>10</strong> users
                     </span>
                   </div>
                   <div className="flex items-center gap-2 text-sm text-gray-300">
