@@ -1,7 +1,7 @@
 <div align="center">
 
   <!-- ================= HERO BANNER (VENOM NEON) ================= -->
-  <img src="https://capsule-render.vercel.app/api?type=venom&color=0:090d16,50:1e1b4b,100:0284c7&height=230&section=header&text=itenorio.com&fontSize=56&fontColor=38bdf8&stroke=ffffff&strokeWidth=1&animation=twinkling&fontAlignY=38&desc=Digital%20HQ%20%E2%80%A2%20Extensions%20Hub%20%E2%80%A2%20Serverless%20URL%20Shortener&descAlignY=62&descSize=18" width="100%" alt="itenorio.com Banner" />
+  <img src="https://capsule-render.vercel.app/api?type=venom&color=0:090d16,50:1e1b4b,100:0284c7&height=230&section=header&text=itenorio.com&fontSize=56&fontColor=38bdf8&stroke=ffffff&strokeWidth=1&animation=twinkling&fontAlignY=38&desc=Digital%20HQ%20%E2%80%A2%20Extensions%20Hub%20%E2%80%A2%20Serverless%20URL%20Shortener&descAlignY=62&descSize=18" width="100%" alt="itenorio.com Banner" /> 
 
   <!-- ================= TYPING SVG ================= -->
   <a href="https://itenorio.com">
