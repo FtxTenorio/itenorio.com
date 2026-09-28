@@ -1,15 +1,20 @@
 import { useEffect, useState } from "react";
 
 // ==========================================
-// DATA
+// DATA & ASSETS CONFIG
 // ==========================================
+const ASSETS_BASE_URL =
+  "https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets";
+
+const PROFILE_IMAGE_URL = `${ASSETS_BASE_URL}/profile-paulo-tenorio.png`;
+
 const techStack = [
   {
     id: "nodejs",
     name: "Node.js",
     years: 5,
     startedYear: 2021,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nodejs/nodejs-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-nodejs.svg`,
     description:
       "Used as the main engine for developing robust backend ecosystems, focusing on high scalability, event-driven architectures, and efficient asynchronous I/O manipulation.",
   },
@@ -18,7 +23,7 @@ const techStack = [
     name: "TypeScript",
     years: 5,
     startedYear: 2021,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/typescript/typescript-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-typescript.svg`,
     description:
       "Implemented to ensure safe static typing, modularity, and maintainability in large-scale applications, drastically reducing runtime bugs.",
   },
@@ -27,7 +32,7 @@ const techStack = [
     name: "NestJS",
     years: 5,
     startedYear: 2021,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/nestjs/nestjs-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-nestjs.svg`,
     description:
       "Preferred framework for building structured corporate APIs and microservices, fully leveraging dependency injection and Clean Architecture patterns.",
   },
@@ -36,7 +41,7 @@ const techStack = [
     name: "AWS",
     years: 4,
     startedYear: 2022,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/amazonwebservices/amazonwebservices-plain-wordmark.svg",
+    icon: `${ASSETS_BASE_URL}/tech-aws.svg`,
     description:
       "Solid experience designing and deploying serverless and traditional infrastructures, integrating essential services like Lambda, SQS, DynamoDB, Cognito, CloudFront, and API Gateway.",
   },
@@ -45,7 +50,7 @@ const techStack = [
     name: "Docker",
     years: 4,
     startedYear: 2022,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/docker/docker-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-docker.svg`,
     description:
       "Continuous use for containerizing development and production environments, ensuring absolute parity across environments and optimizing CI/CD pipelines.",
   },
@@ -54,7 +59,7 @@ const techStack = [
     name: "PostgreSQL",
     years: 4,
     startedYear: 2022,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/postgresql/postgresql-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-postgresql.svg`,
     description:
       "Modeling complex relational databases, query optimization, strategic index creation, and ensuring ACID transactional integrity.",
   },
@@ -63,7 +68,7 @@ const techStack = [
     name: "Python",
     years: 3,
     startedYear: 2023,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/python/python-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-python.svg`,
     description:
       "Applied in developing automation scripts, secondary data processing pipelines, and agile integrations with artificial intelligence tools.",
   },
@@ -72,7 +77,7 @@ const techStack = [
     name: "Terraform",
     years: 2,
     startedYear: 2024,
-    icon: "https://cdn.jsdelivr.net/gh/devicons/devicon@latest/icons/terraform/terraform-original.svg",
+    icon: `${ASSETS_BASE_URL}/tech-terraform.svg`,
     description:
       "Automated Infrastructure as Code (IaC) provisioning on AWS, maintaining replicable, modular, and secure states declaratively.",
   },
@@ -85,7 +90,7 @@ const certifications = [
     issuer: "Amazon Web Services",
     yearEarned: 2025,
     difficulty: "hard",
-    img: "https://images.credly.com/images/0e284c3f-5164-4b21-8660-0d84737941bc/image.png",
+    img: `${ASSETS_BASE_URL}/cert-aws-solutions-architect.png`,
     meaning:
       "Validates advanced technical competency in designing robust, resilient, and economically optimized distributed systems within the AWS platform.",
     details:
@@ -97,7 +102,7 @@ const certifications = [
     issuer: "HashiCorp",
     yearEarned: 2025,
     difficulty: "medium",
-    img: "https://images.credly.com/images/0dc62494-dc94-469a-83af-e35309f27356/blob",
+    img: `${ASSETS_BASE_URL}/cert-terraform-associate.png`,
     meaning:
       "Official HashiCorp certification validating mastery of open-source Infrastructure as Code (IaC) concepts.",
     details:
@@ -109,7 +114,7 @@ const certifications = [
     issuer: "Amazon Web Services",
     yearEarned: 2025,
     difficulty: "easy",
-    img: "https://images.credly.com/images/4d4693bb-530e-4bca-9327-de07f3aa2348/image.png",
+    img: `${ASSETS_BASE_URL}/cert-aws-ai-practitioner.png`,
     meaning:
       "Certifies understanding of Artificial Intelligence, Machine Learning concepts, and native AWS generative AI services.",
     details:
@@ -121,7 +126,7 @@ const certifications = [
     issuer: "Amazon Web Services",
     yearEarned: 2023,
     difficulty: "medium",
-    img: "https://images.credly.com/size/340x340/images/b9feab85-1a43-4f6c-99a5-631b88d5461b/image.png",
+    img: `${ASSETS_BASE_URL}/cert-aws-associate.png`,
     meaning:
       "Certifies practical ability to implement, manage, and operate AWS cloud applications autonomously.",
     details:
@@ -133,7 +138,7 @@ const certifications = [
     issuer: "Amazon Web Services",
     yearEarned: 2022,
     difficulty: "easy",
-    img: "https://images.credly.com/size/340x340/images/00634f82-b07f-4bbd-a6bb-53de397fc3a6/image.png",
+    img: `${ASSETS_BASE_URL}/cert-aws-cloud-practitioner.png`,
     meaning:
       "Foundational credential proving a holistic and general view of the entire AWS ecosystem and terminology.",
     details:
@@ -447,7 +452,7 @@ const PortfolioPage = () => {
         <div className="text-center mb-12 flex flex-col items-center max-w-3xl">
           <div className="relative w-36 h-36 mb-6 rounded-full overflow-hidden border-4 border-white/10 shadow-[0_0_30px_rgba(255,255,255,0.1)] transition-transform duration-300 hover:scale-105 z-20 bg-white/5">
             <img
-              src="https://source-of-data.s3.sa-east-1.amazonaws.com/public/tenorio-logo.png"
+              src={PROFILE_IMAGE_URL}
               alt="Paulo Tenório"
               className="w-full h-full object-cover"
             />
@@ -817,7 +822,7 @@ const PortfolioPage = () => {
           </div>
         </div>
 
-        {/* === SECTION 2: ACADEMIC BACKGROUND (STANDARDIZED TIMELINE STYLE) === */}
+        {/* === SECTION 2: ACADEMIC BACKGROUND === */}
         <div className="w-full max-w-4xl flex flex-col items-center mb-20">
           <div className="flex flex-col items-center justify-center mb-10 border-b border-white/10 pb-4 w-full text-center">
             <h2 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
