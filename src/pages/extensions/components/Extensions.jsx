@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-// Componente interno para renderizar o Card de Preview dinamicamente (reutilizado no Mobile e Desktop)
+// Internal component to dynamically render the Preview Card (reused on Mobile and Desktop)
 const ExtensionPreview = ({ ext, onOpen }) => (
   <div className="w-full bg-[#121826] border border-white/10 rounded-2xl p-8 md:p-12 flex flex-col items-center text-center relative overflow-hidden shadow-2xl">
     {/* Glow Background */}
@@ -49,17 +49,29 @@ const ExtensionPreview = ({ ext, onOpen }) => (
           </div>
         </div>
 
-        {/* Botão Azul Redondo de Ação */}
-        <div className="relative z-10 flex flex-col items-center group">
+        {/* Action Buttons */}
+        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+          {ext.storeUrl && (
+            <a
+              href={ext.storeUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group relative inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-[#ff6b00] to-[#ff8800] shadow-[0_0_25px_rgba(255,107,0,0.35)] hover:shadow-[0_0_35px_rgba(255,107,0,0.6)] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 overflow-hidden w-full sm:w-auto"
+            >
+              <span className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+              <i className="fab fa-chrome text-lg"></i>
+              <span>View in Store</span>
+              <i className="fas fa-external-link-alt text-xs opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"></i>
+            </a>
+          )}
+
           <button
             onClick={() => onOpen(ext.id)}
-            className="w-16 h-16 bg-blue-600 hover:bg-blue-500 rounded-full flex items-center justify-center shadow-[0_0_30px_rgba(37,99,235,0.4)] hover:shadow-[0_0_40px_rgba(37,99,235,0.6)] transition-all duration-300 transform group-hover:scale-105 group-active:scale-95"
+            className="group inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-semibold text-gray-200 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto"
           >
-            <i className="fas fa-arrow-right text-white text-xl transform group-hover:translate-x-1 transition-transform duration-300"></i>
+            <span>View Full Details</span>
+            <i className="fas fa-arrow-right text-sm text-blue-400 transform group-hover:translate-x-1 transition-transform duration-300"></i>
           </button>
-          <span className="mt-4 text-xs font-bold text-gray-500 uppercase tracking-widest group-hover:text-blue-400 transition-colors">
-            View Full Details
-          </span>
         </div>
       </>
     ) : (
@@ -87,6 +99,7 @@ export default function Extensions() {
       rating: 5.0,
       users: 10,
       status: "Published",
+      storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
     },
     {
       id: "coming-soon",
@@ -108,7 +121,7 @@ export default function Extensions() {
   return (
     <div className="min-h-screen bg-[#0b0f19] text-white pt-20 pb-24 w-full">
       <main className="px-4 md:px-6 max-w-6xl mx-auto flex flex-col items-center w-full">
-        {/* === VIEW 1: LISTA E PREVIEW === */}
+        {/* === VIEW 1: LIST AND PREVIEW === */}
         {!activeExtension && (
           <div className="w-full animate-fade-in">
             <div className="mb-10 text-left w-full">
@@ -121,7 +134,7 @@ export default function Extensions() {
               </p>
             </div>
 
-            {/* Layout Mobile: Cards empilhados diretamente, ignorando menu lateral */}
+            {/* Mobile Layout: Stacked cards directly, ignoring side menu */}
             <div className="flex lg:hidden flex-col gap-8 w-full">
               {extensions.map((ext) => (
                 <ExtensionPreview
@@ -132,9 +145,9 @@ export default function Extensions() {
               ))}
             </div>
 
-            {/* Layout Desktop: Menu lateral + Preview central */}
+            {/* Desktop Layout: Side menu + Central preview */}
             <div className="hidden lg:flex flex-row gap-10 w-full items-start">
-              {/* Menu Lateral de Seleção (Apenas Desktop) */}
+              {/* Side Selection Menu (Desktop Only) */}
               <div className="w-1/3 flex flex-col gap-3">
                 <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 px-1">
                   Available Tools
@@ -175,14 +188,18 @@ export default function Extensions() {
                     </div>
                     <div className="shrink-0">
                       <i
-                        className={`fas fa-chevron-right text-xs transition-colors ${previewId === ext.id ? "text-blue-400" : "text-transparent"}`}
+                        className={`fas fa-chevron-right text-xs transition-colors ${
+                          previewId === ext.id
+                            ? "text-blue-400"
+                            : "text-transparent"
+                        }`}
                       ></i>
                     </div>
                   </button>
                 ))}
               </div>
 
-              {/* Preview Central (Apenas Desktop) */}
+              {/* Central Preview (Desktop Only) */}
               <div className="w-2/3">
                 <ExtensionPreview
                   ext={activePreview}
@@ -193,7 +210,7 @@ export default function Extensions() {
           </div>
         )}
 
-        {/* === VIEW 2: DETALHES E POLÍTICA (CRUNCHY NAVIGATOR) === */}
+        {/* === VIEW 2: DETAILS AND POLICY (CRUNCHY NAVIGATOR) === */}
         {activeExtension === "crunchy" && (
           <div className="w-full max-w-5xl flex flex-col gap-8 animate-fade-in text-left">
             <button
@@ -204,7 +221,7 @@ export default function Extensions() {
               Back to Extensions
             </button>
 
-            {/* Cabeçalho da Extensão - Estilo Marketing */}
+            {/* Extension Header - Marketing Style */}
             <div className="bg-[#121826] border border-white/10 rounded-xl p-8 flex flex-col md:flex-row gap-8 items-start relative overflow-hidden">
               {/* Decorative background glow */}
               <div className="absolute top-0 right-0 w-64 h-64 bg-[#ff6b00]/10 blur-[80px] rounded-full pointer-events-none"></div>
@@ -217,22 +234,39 @@ export default function Extensions() {
                 />
               </div>
 
-              <div className="flex-col flex-grow z-10">
-                <div className="flex flex-wrap items-center gap-3 mb-2">
-                  <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
-                    Crunchy Navigator
-                  </h1>
-                  <span className="bg-[#ff6b00]/20 text-[#ff6b00] border border-[#ff6b00]/30 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider mt-1 md:mt-0">
-                    Extension
-                  </span>
-                </div>
+              <div className="flex flex-col flex-grow z-10 w-full">
+                <div className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 mb-2">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-3 mb-1">
+                      <h1 className="text-3xl md:text-4xl font-bold text-white tracking-tight">
+                        Crunchy Navigator
+                      </h1>
+                      <span className="bg-[#ff6b00]/20 text-[#ff6b00] border border-[#ff6b00]/30 px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider mt-1 md:mt-0">
+                        Extension
+                      </span>
+                    </div>
 
-                <a
-                  href="https://itenorio.com"
-                  className="text-blue-400 hover:underline text-sm mb-4 inline-block"
-                >
-                  itenorio.com
-                </a>
+                    <a
+                      href="https://itenorio.com"
+                      className="text-blue-400 hover:underline text-sm inline-block"
+                    >
+                      itenorio.com
+                    </a>
+                  </div>
+
+                  {/* Store CTA Button in Header */}
+                  <a
+                    href="https://link.itenorio.com/CRUNCHY_NAVIGATOR"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="group relative inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-bold text-white bg-gradient-to-r from-[#ff6b00] to-[#ff8800] shadow-[0_0_25px_rgba(255,107,0,0.35)] hover:shadow-[0_0_35px_rgba(255,107,0,0.65)] transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 self-start lg:self-center shrink-0 overflow-hidden"
+                  >
+                    <span className="absolute inset-0 w-full h-full bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></span>
+                    <i className="fab fa-chrome text-xl"></i>
+                    <span>Get Extension</span>
+                    <i className="fas fa-external-link-alt text-xs opacity-80 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform duration-200"></i>
+                  </a>
+                </div>
 
                 {/* Status Bar */}
                 <div className="flex flex-wrap items-center gap-4 md:gap-6 mt-2 mb-6">
@@ -262,7 +296,7 @@ export default function Extensions() {
                 </div>
 
                 {/* Metadata tags */}
-                <div className="flex flex-wrap gap-4 text-xs text-gray-400 bg-black/20 p-3 rounded-lg border border-white/5 w-full sm:w-auto inline-flex">
+                <div className="flex flex-wrap gap-4 text-xs text-gray-400 bg-black/20 p-3 rounded-lg border border-white/5 w-full sm:w-fit">
                   <div className="flex flex-col">
                     <span className="uppercase text-[10px] text-gray-500 font-bold mb-0.5">
                       Version
@@ -295,7 +329,7 @@ export default function Extensions() {
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-4">
-              {/* Esquerda: Marketing e Features (Ocupa 2/3) */}
+              {/* Left Column: Marketing and Features (2/3 width) */}
               <div className="lg:col-span-2 space-y-8">
                 <section>
                   <h2 className="text-2xl font-bold text-white mb-4 border-b border-white/10 pb-2">
@@ -396,7 +430,7 @@ export default function Extensions() {
                 </section>
               </div>
 
-              {/* Direita: Privacy Policy & Technical (Ocupa 1/3) */}
+              {/* Right Column: Privacy Policy & Technical (1/3 width) */}
               <div className="lg:col-span-1 space-y-6">
                 <div className="bg-[#121826] border border-white/10 p-6 rounded-xl">
                   <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
