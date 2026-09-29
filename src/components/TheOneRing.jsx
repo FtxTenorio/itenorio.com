@@ -10,7 +10,7 @@ export const TheOneRing = () => {
         />
       </div>
 
-      <style jsx>{`
+      <style>{`
         .ring-container {
           position: fixed;
           top: 50%;
