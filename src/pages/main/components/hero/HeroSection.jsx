@@ -41,17 +41,20 @@ export const HeroSection = () => {
   }, [displayedText, isDeleting, lineIndex]);
 
   return (
-    <div className="relative text-center mb-12 flex flex-col items-center max-w-3xl px-4">
+    <div className="relative text-center mb-5 sm:mb-12 flex flex-col items-center max-w-3xl px-3 sm:px-4">
       {/* Ambient Venom Neon Background Aura */}
       <div
-        className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-80 h-40 bg-sky-500/15 blur-[90px] rounded-full -z-10"
+        className="pointer-events-none absolute -top-10 left-1/2 -translate-x-1/2 w-64 sm:w-80 h-32 sm:h-40 bg-sky-500/15 blur-[90px] rounded-full -z-10"
         aria-hidden="true"
       />
 
-      <ProfileAvatar />
+      {/* Slightly scaled down avatar on mobile to save vertical space */}
+      <div className="scale-90 sm:scale-100 -my-2 sm:my-0 origin-center">
+        <ProfileAvatar />
+      </div>
 
       {/* Live Status Badge */}
-      <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[11px] font-mono uppercase tracking-widest mb-4 shadow-lg">
+      <div className="inline-flex items-center gap-1.5 sm:gap-2 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-full bg-slate-900/90 border border-slate-800 text-[10px] sm:text-[11px] font-mono uppercase tracking-widest mb-2.5 sm:mb-4 shadow-lg">
         <span className="text-slate-400">itenorio.com</span>
         <span className="text-slate-700">|</span>
         <span className="relative flex h-2 w-2">
@@ -62,25 +65,25 @@ export const HeroSection = () => {
       </div>
 
       {/* Venom Neon Glowing Name */}
-      <h1 className="text-4xl md:text-6xl font-extrabold mb-3 tracking-tight bg-gradient-to-r from-white via-sky-300 to-sky-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(56,189,248,0.45)] glowing-text">
+      <h1 className="text-3xl sm:text-4xl md:text-6xl font-extrabold mb-1.5 sm:mb-3 tracking-tight bg-gradient-to-r from-white via-sky-300 to-sky-500 bg-clip-text text-transparent drop-shadow-[0_0_25px_rgba(56,189,248,0.45)] glowing-text">
         Paulo Tenório
       </h1>
 
       {/* Role Sub-header */}
-      <h2 className="text-lg md:text-xl text-slate-200 font-semibold mb-3">
+      <h2 className="text-sm sm:text-lg md:text-xl text-slate-200 font-semibold mb-2 sm:mb-3">
         Senior Backend Engineer & Cloud Architect
       </h2>
 
       {/* Dynamic Typing Text (Replacing the static subtitle) */}
-      <div className="min-h-[2rem] flex items-center justify-center mb-6 px-3 py-1 rounded-md bg-slate-950/60 border border-sky-500/20 shadow-[0_0_15px_rgba(2,132,199,0.15)]">
-        <p className="font-mono text-xs sm:text-sm md:text-base font-bold text-sky-400 tracking-tight">
+      <div className="min-h-[1.75rem] sm:min-h-[2rem] flex items-center justify-center mb-3.5 sm:mb-6 px-2.5 py-0.5 sm:px-3 sm:py-1 rounded-md bg-slate-950/60 border border-sky-500/20 shadow-[0_0_15px_rgba(2,132,199,0.15)] max-w-full">
+        <p className="font-mono text-[11px] sm:text-sm md:text-base font-bold text-sky-400 tracking-tight leading-tight">
           {displayedText}
-          <span className="inline-block w-2 h-4 ml-1 align-middle bg-sky-400 animate-pulse" />
+          <span className="inline-block w-1.5 sm:w-2 h-3.5 sm:h-4 ml-1 align-middle bg-sky-400 animate-pulse" />
         </p>
       </div>
 
       {/* Bio Description */}
-      <p className="text-gray-300 text-base md:text-lg mx-auto leading-relaxed mb-8 max-w-2xl">
+      <p className="text-gray-300 text-xs sm:text-base md:text-lg mx-auto leading-snug sm:leading-relaxed mb-4 sm:mb-8 max-w-md sm:max-w-2xl">
         I&apos;m building a space to share my journey, my projects, and the
         things that make me, me. Delivering{" "}
         <span className="text-sky-300 font-medium">
@@ -93,8 +96,11 @@ export const HeroSection = () => {
         for modern businesses.
       </p>
 
-      <QuickBadges />
-      <SocialLinks />
+      {/* Slightly more compact badges & social links on mobile */}
+      <div className="w-full flex flex-col items-center scale-95 sm:scale-100 origin-top">
+        <QuickBadges />
+        <SocialLinks />
+      </div>
     </div>
   );
 };
