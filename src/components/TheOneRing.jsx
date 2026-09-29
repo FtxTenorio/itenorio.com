@@ -3,9 +3,9 @@ export const TheOneRing = () => {
     <>
       <div className="ring-container">
         {/* Substitua o src pelo caminho real da sua imagem no S3 ou /public */}
-        <img 
-          src="/the-one-ring-2-logo.png" 
-          alt="Inscrição do Um Anel" 
+        <img
+          src="https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets/the-one-ring-2-logo.png"
+          alt="Inscrição do Um Anel"
           className="the-ring-image"
         />
       </div>
@@ -27,13 +27,18 @@ export const TheOneRing = () => {
           width: 100%;
           height: auto;
           /* O SEGREDO ESTÁ AQUI: Inverte o preto para branco, colore de laranja/amarelo e faz brilhar */
-          filter: invert(1) sepia(1) saturate(10000%) hue-rotate(15deg) drop-shadow(0 0 10px rgba(255, 100, 0, 0.8));
+          filter: invert(1) sepia(1) saturate(10000%) hue-rotate(15deg)
+            drop-shadow(0 0 10px rgba(255, 100, 0, 0.8));
           animation: spin-ring 120s linear infinite; /* Rotação super lenta */
         }
 
         @keyframes spin-ring {
-          from { transform: rotate(0deg); }
-          to { transform: rotate(360deg); }
+          from {
+            transform: rotate(0deg);
+          }
+          to {
+            transform: rotate(360deg);
+          }
         }
       `}</style>
     </>

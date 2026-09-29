@@ -93,7 +93,7 @@ export default function Extensions() {
       shortDesc: "Advanced filters and better navigation.",
       description:
         "Improve the Crunchyroll experience with advanced filters, better navigation, and faster search. Take your anime browsing experience to the next level with powerful custom filters.",
-      logo: "https://lh3.googleusercontent.com/H6Qz1U2YFHnHibDBIOcqIXNEQ7QpmDOWnRFcxF-8NqJm-o1jCEAwLc4sR44JnANlJO3qOQ7SSoCH391dMrkBMZ-7=s120",
+      logo: "https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets/crunchy-navigator-ext.png",
       isImage: true,
       color: "#ff6b00",
       rating: 5.0,
