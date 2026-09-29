@@ -3,8 +3,9 @@ import { SOCIAL_LINKS } from "../data/config";
 // Option 1: Static / Config-driven list (can be moved to ../data/config.js)
 const DEFAULT_LINKS = [
   { id: "home", label: "Home", path: "/" },
-  { id: "extensions", label: "Extensions", path: "/extensions" },
-  { id: "shortener", label: "URL Shortener", path: "/shortener" },
+  { id: "extensions", label: "Extensions", path: "/extensions/" },
+  { id: "shortener", label: "URL Shortener", path: "/shortener/" },
+  { id: "websites", label: "Websites", path: "/websites/" },
 ];
 
 export const Footer = ({ setCurrentPage, customLinks = DEFAULT_LINKS }) => {

@@ -7,7 +7,9 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
 
   const currentPath = window.location.pathname.replace(/\/$/, "");
   const isPortfolioActive =
-    currentPath === "/extensions" || currentPath === "/shortener";
+    currentPath === "/extensions" ||
+    currentPath === "/shortener" ||
+    currentPath === "/websites";
   const isRoot = currentPath === "";
 
   const handleNavClick = (page) => {
@@ -79,6 +81,12 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
                 className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-colors ${currentPath === "/extensions" ? "text-white bg-white/10 font-bold border-l-4 border-[#0078d7]" : "text-gray-300 hover:text-white hover:bg-white/5 border-l-4 border-transparent"}`}
               >
                 <span>🧩</span> Extensions
+              </button>
+              <button
+                onClick={() => handlePortfolioClick("/websites")}
+                className={`w-full text-left px-4 py-2 text-sm flex items-center gap-2 transition-colors ${currentPath === "/websites" ? "text-white bg-white/10 font-bold border-l-4 border-[#0078d7]" : "text-gray-300 hover:text-white hover:bg-white/5 border-l-4 border-transparent"}`}
+              >
+                <span>🌐</span> Websites
               </button>
               <button
                 onClick={() => handlePortfolioClick("/shortener")}
@@ -173,6 +181,12 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
                     className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${currentPath === "/extensions" ? "text-white bg-white/10 border-l-4 border-[#0078d7]" : "text-gray-400 hover:text-white hover:bg-white/5 border-l-4 border-transparent"}`}
                   >
                     <span>🧩</span> Extensions
+                  </button>
+                  <button
+                    onClick={() => handlePortfolioClick("/websites")}
+                    className={`w-full text-left px-3 py-2 rounded-md text-sm font-medium transition-all flex items-center gap-2 ${currentPath === "/websites" ? "text-white bg-white/10 border-l-4 border-[#0078d7]" : "text-gray-400 hover:text-white hover:bg-white/5 border-l-4 border-transparent"}`}
+                  >
+                    <span>🌐</span> Websites
                   </button>
                   <button
                     onClick={() => handlePortfolioClick("/shortener")}
