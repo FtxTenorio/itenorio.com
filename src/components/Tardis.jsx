@@ -13,14 +13,86 @@ const DOCTOR_QUOTES = [
   "Run!",
 ];
 
+const TARDIS_WIDTH = 120;
+const TARDIS_HEIGHT = 160;
+const EDGE_PADDING = 12; // Extra margin so the rotating corners never clip off-screen
+
 export const Tardis = () => {
   const [isZapped, setIsZapped] = useState(false);
   const [catchphrase, setCatchphrase] = useState("");
+
+  const visualLayerRef = useRef(null);
+  const hitboxLayerRef = useRef(null);
   const timeoutRef = useRef(null);
 
-  // Clean up timer if the component unmounts mid-animation
+  // Physics state stored in a ref to run at 60fps+ without triggering React re-renders
+  const physicsRef = useRef({
+    x: 40,
+    y: typeof window !== "undefined" ? window.innerHeight * 0.25 : 150,
+    vx: 1.8, // Horizontal speed
+    vy: 1.1, // Vertical speed
+  });
+
   useEffect(() => {
+    let animationFrameId;
+
+    // Helper to slightly randomize the speed/angle when bouncing off a wall
+    const randomizeVelocity = (currentVelocity) => {
+      const direction = currentVelocity > 0 ? -1 : 1;
+      const randomSpeed = 1.2 + Math.random() * 1.3; // Speed between 1.2 and 2.5
+      return direction * randomSpeed;
+    };
+
+    const updatePosition = () => {
+      const state = physicsRef.current;
+      const isMobile = window.innerWidth <= 768;
+      const scale = isMobile ? 0.5 : 1;
+
+      const currentWidth = TARDIS_WIDTH * scale;
+      const currentHeight = TARDIS_HEIGHT * scale;
+
+      const minX = EDGE_PADDING;
+      const maxX = window.innerWidth - currentWidth - EDGE_PADDING;
+      const minY = EDGE_PADDING;
+      const maxY = window.innerHeight - currentHeight - EDGE_PADDING;
+
+      state.x += state.vx;
+      state.y += state.vy;
+
+      // Horizontal wall collision (Left / Right)
+      if (state.x <= minX) {
+        state.x = minX;
+        state.vx = randomizeVelocity(state.vx);
+      } else if (state.x >= maxX) {
+        state.x = maxX;
+        state.vx = randomizeVelocity(state.vx);
+      }
+
+      // Vertical wall collision (Top / Bottom)
+      if (state.y <= minY) {
+        state.y = minY;
+        state.vy = randomizeVelocity(state.vy);
+      } else if (state.y >= maxY) {
+        state.y = maxY;
+        state.vy = randomizeVelocity(state.vy);
+      }
+
+      const transformString = `translate3d(${state.x}px, ${state.y}px, 0) scale(${scale})`;
+
+      if (visualLayerRef.current) {
+        visualLayerRef.current.style.transform = transformString;
+      }
+      if (hitboxLayerRef.current) {
+        hitboxLayerRef.current.style.transform = transformString;
+      }
+
+      animationFrameId = requestAnimationFrame(updatePosition);
+    };
+
+    animationFrameId = requestAnimationFrame(updatePosition);
+
     return () => {
+      cancelAnimationFrame(animationFrameId);
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
@@ -38,6 +110,12 @@ export const Tardis = () => {
     setCatchphrase(randomQuote);
     setIsZapped(true);
 
+    // Also give it a random directional kick when clicked
+    physicsRef.current.vx =
+      (Math.random() > 0.5 ? 1 : -1) * (1.5 + Math.random() * 1.5);
+    physicsRef.current.vy =
+      (Math.random() > 0.5 ? 1 : -1) * (1.2 + Math.random() * 1.5);
+
     // Reset the effect after 3.5 seconds and return to normal state
     timeoutRef.current = setTimeout(() => {
       setIsZapped(false);
@@ -48,7 +126,11 @@ export const Tardis = () => {
   return (
     <>
       {/* 1. VISUAL LAYER: Stays behind site text and elements (z-index: 1) */}
-      <div className="tardis-drifter tardis-visual-layer" aria-hidden="true">
+      <div
+        ref={visualLayerRef}
+        className="tardis-drifter tardis-visual-layer"
+        aria-hidden="true"
+      >
         <div
           className={`tardis-wrapper ${
             isZapped ? "vortex-zap" : "normal-spin"
@@ -243,7 +325,7 @@ export const Tardis = () => {
       </div>
 
       {/* 2. INVISIBLE HITBOX LAYER: Floats above all site elements (z-index: 9999) */}
-      <div className="tardis-drifter tardis-hitbox-layer">
+      <div ref={hitboxLayerRef} className="tardis-drifter tardis-hitbox-layer">
         <div
           className={`tardis-hitbox ${
             isZapped ? "vortex-zap-hitbox" : "normal-spin"
@@ -262,22 +344,14 @@ export const Tardis = () => {
       </div>
 
       <style>{`
-        /* 1. SHARED HORIZONTAL DRIFT */
-
-        @keyframes drift {
-          from {
-            left: -150px;
-          }
-
-          to {
-            left: 110vw;
-          }
-        }
+        /* 1. SHARED BOUNCING CONTAINER */
 
         .tardis-drifter {
           position: fixed;
-          top: 25%;
-          animation: drift 45s linear infinite;
+          top: 0;
+          left: 0;
+          transform-origin: top left;
+          will-change: transform;
         }
 
         /* Visual layer stays in the background behind text */
@@ -316,21 +390,21 @@ export const Tardis = () => {
           cursor: default;
         }
 
-        /* Slow floating rotation when in normal state (shared by both layers) */
+        /* Slow floating wobble when in normal state */
 
         @keyframes subtle-float {
           0%,
           100% {
-            transform: translateY(0) rotate(-5deg);
+            transform: translateY(0) rotate(-6deg);
           }
 
           50% {
-            transform: translateY(-20px) rotate(5deg);
+            transform: translateY(-10px) rotate(6deg);
           }
         }
 
         .normal-spin {
-          animation: subtle-float 6s ease-in-out infinite;
+          animation: subtle-float 4s ease-in-out infinite;
         }
 
         /* 3. CHAOTIC VORTEX ANIMATION ON CLICK */
@@ -450,11 +524,6 @@ export const Tardis = () => {
            ========================================== */
 
         @media (max-width: 768px) {
-          .tardis-drifter {
-            transform: scale(0.5);
-            transform-origin: center left;
-          }
-
           .tardis-hitbox {
             pointer-events: none;
           }
