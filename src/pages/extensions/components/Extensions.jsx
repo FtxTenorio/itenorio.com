@@ -50,7 +50,7 @@ const ExtensionPreview = ({ ext, onOpen }) => (
         </div>
 
         {/* Action Buttons */}
-        <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+        <div className="relative z-10 flex flex-col sm:flex-row flex-wrap items-center gap-4 w-full justify-center">
           {ext.storeUrl && (
             <a
               href={ext.storeUrl}
@@ -72,6 +72,17 @@ const ExtensionPreview = ({ ext, onOpen }) => (
             <span>View Full Details</span>
             <i className="fas fa-arrow-right text-sm text-blue-400 transform group-hover:translate-x-1 transition-transform duration-300"></i>
           </button>
+
+          {/* NOVO: Botão direto para a Privacy Policy */}
+          {ext.privacyUrl && (
+            <a
+              href={ext.privacyUrl}
+              className="group inline-flex items-center justify-center gap-3 px-6 py-3.5 rounded-xl font-semibold text-gray-400 hover:text-gray-200 bg-transparent hover:bg-white/5 border border-transparent hover:border-white/10 transition-all duration-300 w-full sm:w-auto"
+            >
+              <i className="fas fa-shield-alt text-sm text-blue-400/70 group-hover:text-blue-400 transition-colors"></i>
+              <span>Privacy Policy</span>
+            </a>
+          )}
         </div>
       </>
     ) : (
@@ -100,6 +111,7 @@ export default function Extensions() {
       users: 10,
       status: "Published",
       storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
+      privacyUrl: "/extensions/crunchy-navigator/privacy-policy/", // <--- Rota adicionada aqui
     },
     {
       id: "coming-soon",
@@ -432,48 +444,24 @@ export default function Extensions() {
 
               {/* Right Column: Privacy Policy & Technical (1/3 width) */}
               <div className="lg:col-span-1 space-y-6">
+                {/* NOVO: Card de Privacy Policy Atualizado */}
                 <div className="bg-[#121826] border border-white/10 p-6 rounded-xl">
-                  <h3 className="text-lg font-bold text-white mb-4 flex items-center gap-2">
+                  <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
                     <i className="fas fa-shield-alt text-blue-400"></i> Privacy
                     Policy
                   </h3>
-
-                  <div className="space-y-5">
-                    <div>
-                      <h4 className="text-sm font-bold text-gray-200 mb-1 flex items-center gap-2">
-                        <i className="fas fa-database text-[#ff6b00]"></i> Data
-                        Collection
-                      </h4>
-                      <p className="text-xs text-gray-400 leading-relaxed">
-                        <strong>Account Info:</strong> Optional opt-in to
-                        collect username/email for syncing.
-                        <br />
-                        <strong>Website Content:</strong> Reads on-page texts,
-                        titles, descriptions, and images strictly to power
-                        filters and recommendations.
-                      </p>
-                    </div>
-
-                    <div>
-                      <h4 className="text-sm font-bold text-gray-200 mb-1 flex items-center gap-2">
-                        <i className="fas fa-key text-[#0078d7]"></i> Required
-                        Permissions
-                      </h4>
-                      <ul className="text-xs text-gray-400 leading-relaxed list-disc pl-4 space-y-1">
-                        <li>Host Permission (crunchyroll.com)</li>
-                        <li>Scripting (for advanced logic)</li>
-                        <li>Storage (for saving configs)</li>
-                      </ul>
-                    </div>
-
-                    <div className="bg-black/30 p-3 rounded border border-white/5 text-xs text-gray-400">
-                      <i className="fas fa-check-circle text-green-500 mr-1"></i>{" "}
-                      Not sold to third parties.
-                      <br />
-                      <i className="fas fa-check-circle text-green-500 mr-1"></i>{" "}
-                      Not used for unrelated purposes.
-                    </div>
-                  </div>
+                  <p className="text-sm text-gray-400 mb-6 leading-relaxed">
+                    We respect your privacy. Crunchy Navigator operates 100%
+                    locally on your device and does not collect or transmit
+                    personal data.
+                  </p>
+                  <a
+                    href="/extensions/crunchy-navigator/privacy-policy/"
+                    className="w-full inline-flex items-center justify-center gap-2 bg-white/5 border border-white/20 hover:bg-white/10 text-white px-4 py-2.5 rounded-md transition-all duration-300 text-sm tracking-wide"
+                  >
+                    <i className="fas fa-file-contract"></i>
+                    Read Full Policy
+                  </a>
                 </div>
 
                 <div className="bg-[#121826] border border-white/10 p-6 rounded-xl">

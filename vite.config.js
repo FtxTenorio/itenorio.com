@@ -15,6 +15,10 @@ export default defineConfig({
         extensions: resolve(__dirname, "extensions/index.html"),
         shortener: resolve(__dirname, "shortener/index.html"),
         websites: resolve(__dirname, "websites/index.html"),
+        privacyUrl: resolve(
+          __dirname,
+          "/extensions/crunchy-navigator/privacy-policy/index.html",
+        ),
       },
     },
   },
