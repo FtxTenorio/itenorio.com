@@ -108,7 +108,7 @@ export default function Extensions() {
       isImage: true,
       color: "#ff6b00",
       rating: 5.0,
-      users: 10,
+      users: 13,
       status: "Published",
       storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
       privacyUrl: "/extensions/crunchy-navigator/privacy-policy/", // <--- Rota adicionada aqui
