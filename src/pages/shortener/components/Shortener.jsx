@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 
 export default function Shortener() {
   const [url, setUrl] = useState("");
@@ -6,6 +6,29 @@ export default function Shortener() {
   const [result, setResult] = useState(null);
   const [error, setError] = useState("");
   const [copied, setCopied] = useState(false);
+
+  const [stats, setStats] = useState(null);
+  const [loadingStats, setLoadingStats] = useState(true);
+
+  useEffect(() => {
+    const fetchStats = async () => {
+      try {
+        const response = await fetch(
+          "https://link.itenorio.com/statistics-url",
+        );
+        if (response.ok) {
+          const data = await response.json();
+          setStats(data);
+        }
+      } catch (err) {
+        console.error("Failed to load statistics:", err);
+      } finally {
+        setLoadingStats(false);
+      }
+    };
+
+    fetchStats();
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -17,9 +40,7 @@ export default function Shortener() {
     try {
       const response = await fetch("https://link.itenorio.com/links", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ originalUrl: url }),
       });
 
@@ -46,157 +67,248 @@ export default function Shortener() {
     }
   };
 
+  const getDomain = (urlToParse) => {
+    try {
+      return new URL(urlToParse).hostname;
+    } catch {
+      return "example.com";
+    }
+  };
+
+  const recentChartData = stats?.charts?.clicksByDay?.slice(-7) || [];
+  const maxChartClicks = recentChartData.reduce(
+    (max, day) => Math.max(max, day.clicks),
+    1,
+  );
+
   return (
-    <div className="mt-20">
-      <main className="px-4 pt-10 pb-24 max-w-5xl mx-auto flex flex-col lg:flex-row gap-8 items-start w-full animate-fade-in">
-        {/* Lado Esquerdo: Ferramenta */}
-        <div className="w-full lg:w-3/5 bg-[#121826] border border-white/10 p-6 md:p-8 rounded-md shadow-sm">
-          <div className="mb-8 border-b border-white/10 pb-6">
-            <h1 className="text-2xl md:text-3xl font-bold mb-2 text-white tracking-tight">
-              Link Shortener
-            </h1>
-            <p className="text-gray-400 text-sm">
-              Paste your long URL below to create a concise link.
-            </p>
+    <div className="min-h-screen pt-20 pb-24 text-gray-200">
+      <main className="max-w-7xl mx-auto px-4 md:px-8 animate-fade-in flex flex-col gap-6">
+        {/* TOP: STATS SUMMARY */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <div className="bg-[#121826] border border-white/5 rounded-lg p-5 flex flex-col justify-center">
+            <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">
+              Public Links
+            </span>
+            <div className="text-2xl font-bold text-white flex items-baseline gap-2">
+              {loadingStats ? (
+                <span className="animate-pulse bg-white/10 h-8 w-16 rounded"></span>
+              ) : (
+                stats?.summary?.totalLinks || 0
+              )}
+            </div>
           </div>
 
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-            <input
-              type="url"
-              value={url}
-              onChange={(e) => setUrl(e.target.value)}
-              placeholder="https://your-very-long-url.com/..."
-              required
-              className="w-full bg-[#0b0f19] border border-white/10 rounded-sm px-4 py-3 text-white focus:outline-none focus:border-[#ff6b00]/50 transition-colors placeholder-gray-600 text-sm"
-            />
-            <button
-              type="submit"
-              disabled={loading || !url}
-              className="w-full bg-white/5 border border-white/10 hover:bg-[#ff6b00] hover:border-[#ff6b00] hover:text-white text-gray-300 font-semibold py-3 px-6 rounded-sm transition-all duration-300 text-sm disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
-            >
-              {loading ? (
-                <>
-                  <i className="fas fa-spinner fa-spin"></i> Shortening...
-                </>
+          <div className="bg-[#121826] border border-white/5 rounded-lg p-5 flex flex-col justify-center">
+            <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">
+              Total Clicks
+            </span>
+            <div className="text-2xl font-bold text-white flex items-baseline gap-2">
+              {loadingStats ? (
+                <span className="animate-pulse bg-white/10 h-8 w-24 rounded"></span>
               ) : (
-                <>
-                  <i className="fas fa-link"></i> Shorten Link
-                </>
+                stats?.summary?.totalClicks || 0
               )}
-            </button>
-          </form>
-
-          {error && (
-            <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-sm text-red-400 text-sm flex items-center gap-3 animate-fade-in">
-              <i className="fa-solid fa-circle-exclamation"></i>
-              {error}
             </div>
-          )}
+          </div>
 
-          {result && (
-            <div className="mt-6 p-6 bg-[#0b0f19] border border-[#ff6b00]/30 rounded-sm animate-fade-in">
-              <p className="text-gray-400 text-xs uppercase tracking-wider font-semibold mb-3">
-                Ready to share
+          <div className="bg-[#121826] border border-white/5 rounded-lg p-5 flex flex-col justify-center">
+            <span className="text-gray-500 text-xs font-semibold uppercase tracking-wider mb-2">
+              Avg Clicks / Link
+            </span>
+            <div className="text-2xl font-bold text-white flex items-baseline gap-2">
+              {loadingStats ? (
+                <span className="animate-pulse bg-white/10 h-8 w-16 rounded"></span>
+              ) : (
+                stats?.summary?.averageClicksPerLink || 0
+              )}
+            </div>
+          </div>
+        </div>
+
+        {/* MIDDLE: 3 COLUMNS DESKTOP LAYOUT */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* LEFT: TOP LINKS */}
+          <div className="lg:col-span-3 bg-[#121826] border border-white/5 rounded-lg p-5 flex flex-col min-h-[260px]">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-6 flex items-center justify-between">
+              Top Links
+              <i className="fas fa-arrow-trend-up"></i>
+            </h3>
+
+            <div className="flex-1 flex flex-col gap-4">
+              {loadingStats ? (
+                Array.from({ length: 5 }).map((_, i) => (
+                  <div
+                    key={i}
+                    className="animate-pulse flex justify-between items-center h-8"
+                  >
+                    <div className="bg-white/5 h-4 w-1/2 rounded"></div>
+                    <div className="bg-white/5 h-4 w-8 rounded"></div>
+                  </div>
+                ))
+              ) : stats?.topLinks?.length > 0 ? (
+                stats.topLinks.map((link) => (
+                  <div
+                    key={link.shortCode}
+                    className="flex items-center justify-between group"
+                  >
+                    <div className="flex items-center gap-3 overflow-hidden pr-2">
+                      <img
+                        src={`https://www.google.com/s2/favicons?domain=${getDomain(link.originalUrl)}&sz=32`}
+                        alt={link.shortCode}
+                        className="w-4 h-4 rounded-sm opacity-80 group-hover:opacity-100 transition-opacity"
+                        onError={(e) => {
+                          e.target.style.display = "none";
+                        }}
+                      />
+
+                      <a
+                        href={`https://link.itenorio.com/${link.shortCode}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-sm font-medium text-gray-300 hover:text-white transition-colors truncate flex items-center gap-2"
+                        title={link.originalUrl}
+                      >
+                        {link.shortCode}
+                        <i className="fas fa-external-link-alt text-[10px] text-gray-600 group-hover:text-gray-300 transition-colors"></i>
+                      </a>
+                    </div>
+
+                    <span className="text-xs font-mono bg-white/5 px-2 py-1 rounded text-gray-400 shrink-0">
+                      {link.clicks}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="text-sm text-gray-600 my-auto text-center">
+                  No data available.
+                </div>
+              )}
+            </div>
+          </div>
+
+          {/* CENTER: MAIN SHORTENER */}
+          <div className="lg:col-span-6 bg-[#121826] border border-white/10 rounded-lg p-8 shadow-2xl flex flex-col justify-center relative">
+            <div className="mb-6">
+              <h1 className="text-2xl font-bold text-white tracking-tight">
+                Create Short Link
+              </h1>
+              <p className="text-gray-400 text-sm mt-1">
+                Generate a clean, reliable URL.
               </p>
-              <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            </div>
+
+            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+              <div className="relative">
+                <input
+                  type="url"
+                  value={url}
+                  onChange={(e) => setUrl(e.target.value)}
+                  placeholder="https://example.com/very/long/path"
+                  required
+                  className="w-full bg-[#0b0f19] border border-white/10 rounded-md px-4 py-4 text-white focus:outline-none focus:border-[#ff6b00]/50 transition-colors placeholder-gray-600 text-sm"
+                />
+              </div>
+              <button
+                type="submit"
+                disabled={loading || !url}
+                className="w-full bg-white text-black hover:bg-gray-200 font-medium py-3.5 px-6 rounded-md transition-colors text-sm disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2"
+              >
+                {loading ? (
+                  <i className="fas fa-spinner fa-spin"></i>
+                ) : (
+                  "Shorten URL"
+                )}
+              </button>
+            </form>
+
+            {error && (
+              <div className="mt-4 p-3 bg-red-500/10 border border-red-500/20 rounded text-red-400 text-xs flex items-center gap-2">
+                <i className="fa-solid fa-circle-exclamation"></i>
+                {error}
+              </div>
+            )}
+
+            {result && (
+              <div className="mt-6 p-4 bg-[#0b0f19] border border-[#ff6b00]/30 rounded-md animate-fade-in flex items-center justify-between gap-4">
                 <a
                   href={result}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="text-[#ff6b00] font-medium truncate hover:underline text-lg max-w-full"
+                  className="text-[#ff6b00] font-mono truncate hover:underline text-sm"
                 >
                   {result}
                 </a>
                 <button
                   onClick={handleCopy}
-                  className="shrink-0 bg-white/5 border border-white/10 hover:bg-white/10 text-white px-4 py-2 rounded-sm transition-colors flex items-center gap-2 text-sm w-full sm:w-auto justify-center"
+                  className="shrink-0 bg-white/10 hover:bg-white/20 text-white px-3 py-1.5 rounded transition-colors flex items-center gap-2 text-xs font-medium"
                 >
                   <i
                     className={`fa-solid ${copied ? "fa-check text-green-400" : "fa-copy"}`}
                   ></i>
-                  {copied ? "Copied!" : "Copy"}
+                  {copied ? "Copied" : "Copy"}
                 </button>
               </div>
-            </div>
-          )}
-        </div>
-
-        {/* Lado Direito: Explicação Simples e Passo a Passo */}
-        <div className="w-full lg:w-2/5 flex flex-col gap-6">
-          {/* Explicação Honesta */}
-          <div className="bg-[#121826] border border-white/10 p-6 rounded-md shadow-sm border-l-4 border-l-[#0078d7]">
-            <h3 className="text-lg font-bold text-white mb-3 flex items-center gap-2">
-              <i className="fas fa-info-circle text-[#0078d7]"></i>
-              Personal Utility
-            </h3>
-            <p className="text-gray-400 text-sm leading-relaxed">
-              I built this simple tool just to shorten URLs without relying on
-              third-party services. It does exactly one thing: makes long links
-              short and clean.
-            </p>
+            )}
           </div>
 
-          {/* Passo a Passo Lateral */}
-          <div className="bg-[#121826] border border-white/10 p-6 rounded-md shadow-sm">
-            <h3 className="text-lg font-bold text-white mb-4">How it works</h3>
-            <ul className="space-y-4">
-              <li className="flex items-start gap-4">
-                <div className="bg-white/5 border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-gray-400">
-                  1
+          {/* RIGHT: CHART */}
+          {/* Adicionado min-h-[260px] para forçar o card a ter altura no mobile */}
+          <div className="lg:col-span-3 bg-[#121826] border border-white/5 rounded-lg p-5 flex flex-col min-h-[260px]">
+            <h3 className="text-xs font-semibold uppercase tracking-wider text-gray-500 mb-8 flex items-center justify-between">
+              Traffic (7 Days)
+              <i className="fas fa-chart-column"></i>
+            </h3>
+
+            {/* Trocado o flex-1 (que colapsava no mobile) por w-full, h-40 e min-h-[160px] garantindo a renderização do gráfico */}
+            <div className="w-full h-40 min-h-[160px] flex items-end justify-around gap-2 mt-auto border-b border-white/5 pb-2 mb-4 relative">
+              {loadingStats ? (
+                <div className="w-full h-full flex items-center justify-center">
+                  <i className="fas fa-spinner fa-spin text-gray-600"></i>
                 </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-200">
-                    Paste URL
-                  </h4>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Drop your long link into the input field.
-                  </p>
+              ) : recentChartData.length > 0 ? (
+                recentChartData.map((day) => (
+                  // flex-1 distribui o espaço certinho, min-w-[12px] impede que as barras desapareçam em celulares finos
+                  <div
+                    key={day.date}
+                    className="flex-1 min-w-[12px] max-w-[40px] flex flex-col items-center gap-2 group relative h-full justify-end"
+                  >
+                    {/* Tooltip com pointer-events-none para não travar o mouse */}
+                    <div className="absolute -top-8 bg-[#0b0f19] border border-white/10 text-white text-xs py-1 px-2 rounded opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap z-10 pointer-events-none">
+                      {day.clicks}
+                    </div>
+
+                    {/* Bar */}
+                    <div
+                      className="w-full bg-[#ff6b00]/30 rounded-t-sm group-hover:bg-[#ff6b00] transition-all duration-300"
+                      style={{
+                        height: `${Math.max((day.clicks / maxChartClicks) * 100, 4)}%`,
+                      }}
+                    ></div>
+
+                    {/* Label (Day) */}
+                    <span className="text-[10px] text-gray-600 absolute -bottom-6">
+                      {day.date.split("-")[2]}
+                    </span>
+                  </div>
+                ))
+              ) : (
+                <div className="absolute inset-0 flex items-center justify-center text-xs text-gray-600">
+                  No traffic yet.
                 </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <div className="bg-white/5 border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-gray-400">
-                  2
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-200">
-                    Shorten
-                  </h4>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Click the button to generate a clean link.
-                  </p>
-                </div>
-              </li>
-              <li className="flex items-start gap-4">
-                <div className="bg-white/5 border border-white/10 w-8 h-8 rounded-full flex items-center justify-center shrink-0 mt-0.5 text-[#ff6b00]">
-                  3
-                </div>
-                <div>
-                  <h4 className="text-sm font-semibold text-gray-200">
-                    Copy & Share
-                  </h4>
-                  <p className="text-xs text-gray-500 mt-1">
-                    Copy the new link and use it wherever you need.
-                  </p>
-                </div>
-              </li>
-            </ul>
+              )}
+            </div>
           </div>
         </div>
       </main>
 
       <style>{`
         @keyframes fadeIn {
-          from {
-            opacity: 0;
-            transform: translateY(5px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
+          from { opacity: 0; transform: translateY(5px); }
+          to { opacity: 1; transform: translateY(0); }
         }
         .animate-fade-in {
-          animation: fadeIn 0.2s ease-out forwards;
+          animation: fadeIn 0.3s ease-out forwards;
         }
       `}</style>
     </div>
