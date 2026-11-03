@@ -97,6 +97,10 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
             </div>
           </div>
         </div>
+
+        <a href="/blog/" className={getLinkClass("blog")}>
+          Blog
+        </a>
       </div>
 
       <div className="md:hidden flex items-center">
@@ -197,6 +201,13 @@ export const Navbar = ({ currentPage, setCurrentPage }) => {
                 </div>
               )}
             </div>
+
+            <a
+              href="/blog/"
+              className={`${getMobileLinkClass("blog")} border-t border-[rgba(255,255,255,0.05)] mt-1`}
+            >
+              Blog
+            </a>
           </div>
         </div>
       )}
