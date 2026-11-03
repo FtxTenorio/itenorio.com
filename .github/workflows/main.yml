@@ -54,7 +54,7 @@ jobs:
           AWS_REGION: 'us-east-1'
           BUILD_VERSION: ${{ needs.build.outputs.build_version }}
         run: |
-          aws s3 sync s3://itenorio.com-staging/$BUILD_VERSION s3://itenorio.com --delete
+          aws s3 sync s3://itenorio.com-staging/$BUILD_VERSION s3://itenorio.com --delete --exclude "blog/*"  # blog/ é publicado pelo repo src-frontend-itenorio-blog
 
       - name: Invalidar Cache do CloudFront
         env:
