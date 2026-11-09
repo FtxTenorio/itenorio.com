@@ -51,3 +51,26 @@ export function GlowBubbles({ bubbles }) {
     </div>
   );
 }
+
+const PAGE_BUBBLES = [
+  { color: "#0078d7", className: "-top-40 -left-32 w-[34rem] h-[26rem]" },
+  { color: "#38bdf8", className: "top-1/2 -right-40 w-[28rem] h-[28rem]" },
+];
+
+/**
+ * Background for the pages that are not split into sections (extensions,
+ * websites, legal, 404…): the same bubbles of light as the home page and a
+ * wave flowing into the footer.
+ */
+export function PageBackdrop({ children, background, footer }) {
+  return (
+    <div
+      className="relative isolate flex flex-grow flex-col pb-14 sm:pb-24"
+      style={{ backgroundColor: background }}
+    >
+      <GlowBubbles bubbles={PAGE_BUBBLES} />
+      <SectionWave fill={footer} />
+      <div className="relative z-10 flex flex-grow flex-col">{children}</div>
+    </div>
+  );
+}

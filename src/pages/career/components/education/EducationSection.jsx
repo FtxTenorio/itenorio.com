@@ -7,7 +7,7 @@ import { EducationCard } from "./EducationCard";
 const ordered = [...educationList].reverse();
 
 export const EducationSection = () => (
-  <section id="education" className="w-full max-w-4xl mb-24" aria-labelledby="education-title">
+  <section id="education" className="w-full max-w-4xl mx-auto" aria-labelledby="education-title">
     <SectionHeader
       id="education-title"
       eyebrow="Education"

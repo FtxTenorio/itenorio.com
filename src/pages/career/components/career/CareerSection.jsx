@@ -11,7 +11,7 @@ export const CareerSection = ({ onSelectTech, onSelectCert }) => {
   useStackedCards(listRef);
 
   return (
-    <section id="experience" className="w-full max-w-4xl mb-24" aria-labelledby="experience-title">
+    <section id="experience" className="w-full max-w-4xl mx-auto" aria-labelledby="experience-title">
       <SectionHeader
         id="experience-title"
         eyebrow="Experience"

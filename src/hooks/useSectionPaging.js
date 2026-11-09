@@ -10,7 +10,9 @@ const isLargeScreen = () =>
   !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
 /**
- * Home page "lock": on large screens one wheel gesture (or PageDown/Up, arrow
+ * Full-screen sections with a "lock" (used by the home page and the
+ * shortener). Adds html.section-paging, so .snap-section fills the screen
+ * (index.css), and on large screens one wheel gesture (or PageDown/Up, arrow
  * keys, Space) moves exactly one section, so the reader never stops halfway
  * between two. A section taller than the screen scrolls normally until its
  * edge first. Sections are the elements with .snap-section; the footer is the
@@ -18,6 +20,8 @@ const isLargeScreen = () =>
  */
 export function useSectionPaging() {
   useEffect(() => {
+    const root = document.documentElement;
+    root.classList.add("section-paging");
     let lockedUntil = 0;
     let lastWheel = 0;
     let accumulated = 0;
@@ -99,6 +103,7 @@ export function useSectionPaging() {
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown);
     return () => {
+      root.classList.remove("section-paging");
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
     };

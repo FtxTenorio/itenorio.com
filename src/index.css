@@ -126,11 +126,12 @@
   }
 }
 
-/* Home on large screens: one section per screen. Moving between them is
-   handled by useSectionPaging (src/pages/home). Only when the window is tall
+/* Pages with full-screen sections (home, shortener) on large screens: one
+   section per screen. Moving between them is handled by useSectionPaging
+   (src/hooks). Only when the window is tall
    enough; otherwise the page scrolls normally. Navbar: 5rem (md:h-20). */
 @media (min-width: 1024px) and (min-height: 700px) {
-  html.home-snap .snap-section {
+  html.section-paging .snap-section {
     min-height: calc(100svh - 5rem);
     display: flex;
     flex-direction: column;
