@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { Carousel } from "../../components/ui/Carousel";
-import { extensions } from "../../data/extensions";
+import { extensions, formatUsers } from "../../data/extensions";
 import { ExtensionLogo } from "./components/ExtensionLogo";
 
 const isPublished = (ext) => ext.status === "Published";
@@ -59,7 +59,7 @@ function ExtensionSlide({ ext }) {
             {[
               ["fas fa-tag", ext.price],
               ["fas fa-star", `${ext.rating.toFixed(1)} rating`],
-              ["fas fa-users", `${ext.users} users`],
+              ["fas fa-users", `${formatUsers(ext.users)} users`],
               ["fas fa-code-branch", `v${ext.version}`],
             ].map(([icon, text]) => (
               <li
