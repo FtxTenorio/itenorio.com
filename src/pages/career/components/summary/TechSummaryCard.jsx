@@ -50,7 +50,7 @@ export const TechSummaryCard = ({ onSelectTech }) => (
 
     <div className="mt-5 pt-3 border-t border-white/5 flex items-center justify-between text-[11px] text-gray-400">
       <span>Primary Focus: Backend & Cloud IaC</span>
-      <span className="text-blue-400 font-mono">2021 — Present</span>
+      <span className="text-blue-400 font-mono">2021 - Present</span>
     </div>
   </div>
 );

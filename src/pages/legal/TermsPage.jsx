@@ -3,7 +3,7 @@ import { CompanyIdentification, LegalPage, LegalSection } from "./LegalPage";
 
 const linkClass = "text-white underline hover:text-brand-soft";
 
-// /legal/terms — general terms for every product of iTenorio Tech (websites,
+// /legal/terms: general terms for every product of iTenorio Tech (websites,
 // browser extensions, tools, apps, services), present and future. Products can
 // add their own terms on their page; those prevail for that product.
 export default function TermsPage() {
@@ -173,7 +173,7 @@ export default function TermsPage() {
         <p>
           These terms are governed by the laws of Brazil. Consumers may bring
           claims in the courts of their own domicile; otherwise, the courts of
-          São Paulo – SP, Brazil, have exclusive jurisdiction. If a provision is
+          São Paulo, SP, Brazil, have exclusive jurisdiction. If a provision is
           found invalid, the others remain in force. These terms are written in
           English; translations, if any, are for convenience.
         </p>

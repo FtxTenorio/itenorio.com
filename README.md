@@ -37,7 +37,7 @@
 
 ### ⚡ What is `itenorio.com`?
 
-**`itenorio.com`** is the website of **iTenorio Tech** (ITENORIO TECH DESENVOLVIMENTO DE SOFTWARE LTDA, CNPJ 68.333.521/0001-02) — a React + Vite single-page app that serves as the company home with **Crunchyroll Navigator** as the featured product, my career page (`/career`), a showcase for browser extensions, and a web client for my serverless utilities.
+**`itenorio.com`** is the website of **iTenorio Tech** (ITENORIO TECH DESENVOLVIMENTO DE SOFTWARE LTDA, CNPJ 68.333.521/0001-02): a React + Vite single-page app that serves as the company home with **Crunchyroll Navigator** as the featured product, my career page (`/career`), a showcase for browser extensions, and a web client for my serverless utilities.
 
 <table align="center" width="100%">
   <tr>

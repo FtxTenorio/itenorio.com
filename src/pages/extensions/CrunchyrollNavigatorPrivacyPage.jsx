@@ -1,4 +1,4 @@
-// Served at /extensions/crunchy-navigator/privacy-policy/ — this exact URL is
+// Served at /extensions/crunchy-navigator/privacy-policy/: this exact URL is
 // referenced by the Chrome Web Store listing. Do not move it.
 import { Link } from "react-router-dom";
 

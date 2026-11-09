@@ -117,7 +117,7 @@ export const careerTrajectory = [
         year: "2024",
         title: "High-Impact Architecture & IaC Automation",
         details:
-          "Automated a massive AEM (CMS/DAM) migration, cutting estimated effort from 6 months to 1 month and executing with 2 engineers instead of 10—with 100% validated data and zero rework. Adopted Terraform for declarative IaC.",
+          "Automated a massive AEM (CMS/DAM) migration, cutting estimated effort from 6 months to 1 month and executing with 2 engineers instead of 10, with 100% validated data and zero rework. Adopted Terraform for declarative IaC.",
         unlocked: ["terraform"],
         certs: [],
       },
@@ -176,7 +176,7 @@ const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "
 /** Whole years since the first job in careerTrajectory ("Aug 2021" → 5 in Nov 2026). */
 export function yearsOfExperience(now = new Date()) {
   const starts = careerTrajectory.map((job) => {
-    const [month, year] = job.period.split(/\s*[-–]\s*/)[0].split(" ");
+    const [month, year] = job.period.split(/\s*-\s*/)[0].split(" ");
     return new Date(Number(year), MONTHS.indexOf(month), 1);
   });
   const first = new Date(Math.min(...starts));

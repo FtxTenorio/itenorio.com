@@ -24,7 +24,7 @@ export const Footer = () => {
             <Logo className="mb-4" />
             <p className="text-gray-400 text-sm leading-relaxed mb-5">
               A small software studio from São Paulo, Brazil. We build browser
-              extensions, websites and backend systems — remote-first, working
+              extensions, websites and backend systems. Remote-first, working
               with people worldwide.
             </p>
             <div className="flex gap-2">

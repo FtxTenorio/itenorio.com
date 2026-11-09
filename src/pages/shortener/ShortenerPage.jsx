@@ -322,7 +322,7 @@ function Statistics({ stats, loadingStats }) {
   );
 }
 
-// /shortener — the form fills the first screen; the statistics are one
+// /shortener: the form fills the first screen; the statistics are one
 // screen below (one scroll gesture on desktop, see useSectionPaging).
 export default function ShortenerPage() {
   useSectionPaging();

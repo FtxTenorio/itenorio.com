@@ -19,7 +19,7 @@ const { render, routes, notFoundMeta, SITE_URL, structuredDataFor, pageUrl } = a
   pathToFileURL(resolve(ssrDir, "entry-server.js")).href
 );
 
-const DEFAULT_IMAGE = { src: "/og-image.jpg", alt: "iTenorio Tech — software development studio" };
+const DEFAULT_IMAGE = { src: "/og-image.jpg", alt: "iTenorio Tech, software development studio" };
 
 const escapeHtml = (value) =>
   String(value)

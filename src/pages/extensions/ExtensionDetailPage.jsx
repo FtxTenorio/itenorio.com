@@ -24,7 +24,7 @@ const SideCard = ({ children }) => (
 const secondaryButton =
   "w-full inline-flex items-center justify-center gap-2 bg-white/5 border border-white/20 hover:bg-white/10 text-white px-4 py-2.5 rounded-md transition-colors text-sm";
 
-// /extensions/:slug — full details of one published extension.
+// /extensions/:slug: full details of one published extension.
 export default function ExtensionDetailPage() {
   const { slug } = useParams();
   const ext = extensions.find((item) => item.slug === slug);
@@ -78,7 +78,7 @@ export default function ExtensionDetailPage() {
                 className="inline-flex items-center justify-center gap-3 px-6 py-3 rounded-lg font-semibold text-white bg-crunchy hover:bg-[#ff7d1f] transition-colors self-stretch sm:self-start lg:self-center shrink-0"
               >
                 <i className="fab fa-chrome text-xl" aria-hidden="true" />
-                <span>Add to Chrome — Free</span>
+                <span>Add to Chrome for free</span>
                 <i className="fas fa-external-link-alt text-xs opacity-80" aria-hidden="true" />
               </a>
             )}
@@ -186,7 +186,7 @@ export default function ExtensionDetailPage() {
             </h3>
             <SupportNote ext={ext} />
             <p className="text-xs text-gray-500 mt-3 leading-relaxed">
-              Support payments are optional and do not unlock any feature —
+              Support payments are optional and do not unlock any feature;
               every feature is free for everyone. Full refund within 7 days, see the{" "}
               <Link to="/legal/refund-policy" className="text-gray-300 hover:text-white underline">
                 Refund Policy

@@ -9,7 +9,7 @@ const mail = (address) => (
   </a>
 );
 
-// /legal/refund-policy — refunds for every product of iTenorio Tech: voluntary
+// /legal/refund-policy: refunds for every product of iTenorio Tech: voluntary
 // support, future paid products and subscriptions, and client services.
 export default function RefundPolicyPage() {
   return (
@@ -95,7 +95,7 @@ export default function RefundPolicyPage() {
         </p>
         <p>
           Refunds go back to the original payment method. Card refunds usually
-          appear within 5–10 business days, depending on your bank; Pix
+          appear within 5 to 10 business days, depending on your bank; Pix
           payments are returned by Pix to the paying account. We refund the
           amount we received in the currency charged; exchange-rate differences
           and fees charged by your bank or payment provider are outside our

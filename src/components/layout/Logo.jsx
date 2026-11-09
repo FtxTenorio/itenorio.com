@@ -7,7 +7,7 @@ export const Logo = ({ className = "" }) => (
   <Link
     to="/"
     className={`group inline-flex items-start gap-1 text-white hover:opacity-95 transition-opacity ${className}`}
-    aria-label="iTenorio Tech — home"
+    aria-label="iTenorio Tech home"
   >
     <span
       className="inline-flex items-center rounded-md border border-brand-soft/40 bg-brand/15 px-2 py-1 font-mono text-[1.05rem] font-bold leading-none tracking-tight shadow-[0_0_14px_rgba(56,189,248,0.25)] transition-shadow group-hover:shadow-[0_0_20px_rgba(56,189,248,0.45)]"

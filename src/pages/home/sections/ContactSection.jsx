@@ -10,7 +10,7 @@ export const ContactSection = () => {
       id="contact"
       eyebrow="Contact"
       title="Let's talk."
-      intro="Questions about our products, a project in mind or support with an extension — email us and a real person will reply."
+      intro="Questions about our products, a project in mind or support with an extension? Email us and a real person will reply."
       fullScreen
       background={HOME_BG.base}
       wave={HOME_BG.footer}
