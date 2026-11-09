@@ -170,3 +170,16 @@ export const careerTrajectory = [
     certsApplied: [],
   },
 ];
+
+const MONTHS = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+/** Whole years since the first job in careerTrajectory ("Aug 2021" → 5 in Nov 2026). */
+export function yearsOfExperience(now = new Date()) {
+  const starts = careerTrajectory.map((job) => {
+    const [month, year] = job.period.split(/\s*[-–]\s*/)[0].split(" ");
+    return new Date(Number(year), MONTHS.indexOf(month), 1);
+  });
+  const first = new Date(Math.min(...starts));
+  const months = (now.getFullYear() - first.getFullYear()) * 12 + now.getMonth() - first.getMonth();
+  return Math.floor(months / 12);
+}

@@ -11,6 +11,7 @@ export const ContactSection = () => {
       title="Let's talk."
       intro="Questions about our products, a project in mind or support with an extension — email us and a real person will reply."
       className="border-t border-line"
+      fullScreen
     >
       <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6">
         <ul className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">

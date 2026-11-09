@@ -1,13 +1,14 @@
 import { Link } from "react-router-dom";
+import { yearsOfExperience } from "../../../data/careerTrajectory";
 
 const FACTS = [
   { value: "Brazil", label: "São Paulo-based LTDA" },
   { value: "Remote", label: "Working with people worldwide" },
-  { value: "5+ yrs", label: "Backend & cloud engineering" },
+  { value: `${yearsOfExperience()}+ yrs`, label: "Backend & cloud engineering" },
 ];
 
 export const HeroSection = () => (
-  <section className="relative overflow-hidden border-b border-line">
+  <section className="snap-section relative overflow-hidden border-b border-line">
     {/* Subtle grid + glow background */}
     <div
       className="absolute inset-0 pointer-events-none opacity-[0.35]"
@@ -25,7 +26,7 @@ export const HeroSection = () => (
       aria-hidden="true"
     />
 
-    <div className="relative max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-16 sm:pt-28 sm:pb-24">
+    <div className="relative w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-16 sm:pt-28 sm:pb-24 lg:py-4">
       <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs text-gray-300 mb-6">
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
         Independent software studio · São Paulo, Brazil

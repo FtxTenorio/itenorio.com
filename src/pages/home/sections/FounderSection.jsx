@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
 import { PROFILE_IMAGE_URL, SOCIAL_LINKS } from "../../../data/config";
+import { yearsOfExperience } from "../../../data/careerTrajectory";
 
 const BACKGROUND = [
   "Senior Backend Engineer & Cloud Architect",
@@ -9,7 +10,7 @@ const BACKGROUND = [
 ];
 
 export const FounderSection = () => (
-  <Section id="about" eyebrow="Who is behind it">
+  <Section id="about" eyebrow="Who is behind it" fullScreen>
     <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-start">
       <img
         src={PROFILE_IMAGE_URL}
@@ -24,7 +25,7 @@ export const FounderSection = () => (
         </h2>
         <p className="text-gray-300 leading-relaxed mb-4">
           I founded iTenorio Tech and I&apos;m its managing partner. I&apos;m a
-          backend engineer with 5+ years building scalable APIs, payment
+          backend engineer with {yearsOfExperience()}+ years building scalable APIs, payment
           integrations and cloud infrastructure for companies in Brazil and
           abroad. Crunchyroll Navigator started as a tool I wanted for myself —
           now it is the studio&apos;s first product.

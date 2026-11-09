@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 export const Logo = ({ className = "" }) => (
   <Link
     to="/"
-    className={`group inline-flex items-center gap-2.5 text-white hover:opacity-95 transition-opacity ${className}`}
+    className={`group inline-flex items-start gap-1 text-white hover:opacity-95 transition-opacity ${className}`}
     aria-label="iTenorio Tech — home"
   >
     <span
@@ -19,7 +19,7 @@ export const Logo = ({ className = "" }) => (
       <span className="logo-caret ml-[3px] h-[1em] w-[2px] bg-brand-soft" />
     </span>
     <span
-      className="font-mono text-[10px] font-semibold uppercase leading-none tracking-[0.25em] text-gray-500"
+      className="-mt-1 font-mono text-[9px] font-bold uppercase leading-none tracking-[0.25em] text-gray-300"
       aria-hidden="true"
     >
       Tech

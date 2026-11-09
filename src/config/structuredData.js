@@ -64,7 +64,7 @@ const person = {
   name: "Paulo Tenório",
   jobTitle: current.role,
   url: `${SITE_URL}/career/`,
-  image: "https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets/profile-paulo-tenorio.png",
+  image: `${SITE_URL}/images/paulo-tenorio.webp`,
   worksFor: { "@id": ORG_ID },
   sameAs: SOCIAL_PROFILES,
   alumniOf: [...new Set(educationList.map((edu) => edu.institution))].map((name) => ({

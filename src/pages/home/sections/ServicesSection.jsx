@@ -29,6 +29,7 @@ export const ServicesSection = () => (
     title="Small team, end-to-end software."
     intro="From the first idea to the store listing and the server behind it, every project is designed, built and maintained in-house."
     className="bg-ink-deep/60 border-y border-line"
+    fullScreen
   >
     <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
       {SERVICES.map((service) => (
