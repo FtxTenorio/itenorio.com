@@ -7,6 +7,7 @@ export const websites = [
     description:
       "The website of iTenorio Tech: a React + Vite single-page app with react-router, serving the company home, the Crunchyroll Navigator product page, my career page, and a web client for AWS serverless utilities.",
     liveUrl: "https://itenorio.com",
+    capture: "/images/websites/itenorio.webp",
     githubUrl: "https://github.com/FtxTenorio/itenorio.com",
     isPrivate: false,
     color: "#3b82f6",
@@ -125,6 +126,7 @@ export const websites = [
     description:
       "Institutional website and reservation showcase for Chalé da Cris, a coastal pousada located in Fortim, Ceará, Brazil. Engineered with Next.js 14 (App Router & SSG), TypeScript, and automated WebP image pipelines, integrated with the Hospedin booking engine.",
     liveUrl: "https://chaledacris.com",
+    capture: "/images/websites/chaledacris.webp",
     githubUrl: null, // Private repository
     isPrivate: true,
     color: "#10b981",

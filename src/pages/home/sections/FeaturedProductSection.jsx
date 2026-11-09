@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
+import { HOME_BG } from "../../../config/theme";
 import { extensions } from "../../../data/extensions";
 import { ExtensionLogo } from "../../extensions/components/ExtensionLogo";
 import { SupportNote } from "../../extensions/components/SupportNote";
@@ -29,10 +30,21 @@ export const FeaturedProductSection = () => {
   if (!product) return null;
 
   return (
-    <Section id="product" eyebrow="Featured product">
-      <div className="grid lg:grid-cols-2 gap-10 lg:gap-16 items-center">
+    <Section
+      id="product"
+      eyebrow="Featured product"
+      fullScreen
+      background={HOME_BG.alt}
+      wave={HOME_BG.base}
+      waveFlip
+      bubbles={[
+        { color: "#ff6b00", className: "top-[10%] right-[5%] w-[28rem] h-[28rem]" },
+        { color: "#0078d7", className: "bottom-[5%] -left-32 w-[24rem] h-[24rem]" },
+      ]}
+    >
+      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-12 items-center">
         <div>
-          <div className="flex items-center gap-4 mb-5">
+          <div className="flex items-center gap-4 mb-5 lg:mb-4">
             <ExtensionLogo ext={product} className="w-14 h-14 sm:w-16 sm:h-16" />
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
@@ -44,9 +56,9 @@ export const FeaturedProductSection = () => {
             </div>
           </div>
 
-          <p className="text-gray-300 leading-relaxed mb-8">{product.description}</p>
+          <p className="text-gray-300 leading-relaxed mb-8 lg:mb-5 lg:[@media(max-height:900px)]:hidden">{product.description}</p>
 
-          <ul className="space-y-4 mb-8">
+          <ul className="space-y-4 lg:space-y-3 mb-8 lg:mb-5">
             {HIGHLIGHTS.map((item) => (
               <li key={item.title} className="flex gap-4">
                 <span className="w-9 h-9 shrink-0 rounded-lg bg-crunchy/10 border border-crunchy/20 text-crunchy flex items-center justify-center">
@@ -60,7 +72,7 @@ export const FeaturedProductSection = () => {
             ))}
           </ul>
 
-          <ul className="flex flex-wrap gap-2 mb-6 text-xs">
+          <ul className="flex flex-wrap gap-2 mb-6 lg:mb-4 text-xs">
             {[
               ["fas fa-tag", product.price],
               ["fab fa-chrome", product.platform],
@@ -78,7 +90,7 @@ export const FeaturedProductSection = () => {
             ))}
           </ul>
 
-          <SupportNote ext={product} className="mb-8" />
+          <SupportNote ext={product} className="mb-8 lg:mb-5" />
 
           <div className="flex flex-col sm:flex-row flex-wrap gap-3">
             <a

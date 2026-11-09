@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
 import { COMPANY, CONTACT_EMAILS } from "../../data/company";
 import { SOCIAL_LINKS } from "../../data/config";
-import { LEGAL_LINKS, NAV_LINKS } from "../../data/navigation";
+import { BLOG_LINK, LEGAL_LINKS, NAV_LINKS } from "../../data/navigation";
 import { Logo } from "./Logo";
 
-const FOOTER_LINKS = [{ to: "/", label: "Home" }, ...NAV_LINKS];
+const FOOTER_LINKS = [...NAV_LINKS, { ...BLOG_LINK, external: true }];
 
 const ColumnTitle = ({ children }) => (
   <h2 className="text-white font-semibold mb-4 uppercase tracking-wider text-xs">

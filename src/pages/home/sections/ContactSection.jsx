@@ -1,4 +1,5 @@
 import { Section } from "../../../components/ui/Section";
+import { HOME_BG } from "../../../config/theme";
 import { COMPANY, CONTACT_EMAILS } from "../../../data/company";
 
 export const ContactSection = () => {
@@ -10,7 +11,13 @@ export const ContactSection = () => {
       eyebrow="Contact"
       title="Let's talk."
       intro="Questions about our products, a project in mind or support with an extension — email us and a real person will reply."
-      className="border-t border-line"
+      fullScreen
+      background={HOME_BG.base}
+      wave={HOME_BG.footer}
+      bubbles={[
+        { color: "#0078d7", className: "top-[20%] right-[15%] w-[24rem] h-[24rem]" },
+        { color: "#10b981", className: "-bottom-20 left-[10%] w-[20rem] h-[20rem]" },
+      ]}
     >
       <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6">
         <ul className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">

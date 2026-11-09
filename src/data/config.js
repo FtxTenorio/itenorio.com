@@ -1,7 +1,8 @@
 export const ASSETS_BASE_URL =
   "https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets";
 
-export const PROFILE_IMAGE_URL = `${ASSETS_BASE_URL}/profile-paulo-tenorio.png`;
+// Profile photo used on the home page (FounderSection) and on /career.
+export const PROFILE_IMAGE_URL = "/images/paulo-tenorio.webp";
 
 export const SOCIAL_LINKS = [
   {

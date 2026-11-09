@@ -125,3 +125,55 @@
     filter: none;
   }
 }
+
+/* Home on large screens: one section per screen. Moving between them is
+   handled by useSectionPaging (src/pages/home). Only when the window is tall
+   enough; otherwise the page scrolls normally. Navbar: 5rem (md:h-20). */
+@media (min-width: 1024px) and (min-height: 700px) {
+  html.home-snap .snap-section {
+    min-height: calc(100svh - 5rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+
+/* Home decorations (SectionDecor.jsx): drifting wave layer, floating bubbles */
+@keyframes wave-drift {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  50% {
+    transform: translateX(-3%);
+  }
+}
+
+@keyframes bubble-float {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(4%, -6%) scale(1.08);
+  }
+  66% {
+    transform: translate(-5%, 4%) scale(0.95);
+  }
+}
+
+.wave-drift {
+  animation: wave-drift 14s ease-in-out infinite;
+}
+
+.bubble-float {
+  opacity: 0.18;
+  animation: bubble-float 22s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .wave-drift,
+  .bubble-float {
+    animation: none;
+  }
+}

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Link, NavLink, useLocation } from "react-router-dom";
-import { NAV_LINKS } from "../../data/navigation";
+import { BLOG_LINK, NAV_LINKS } from "../../data/navigation";
 import { Logo } from "./Logo";
 
 const desktopLinkClass = ({ isActive }) =>
@@ -32,15 +32,9 @@ export const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map((link) => (
-            link.external ? (
-              <a key={link.to} href={link.to} className={desktopLinkClass({ isActive: false })}>
-                {link.label}
-              </a>
-            ) : (
-              <NavLink key={link.to} to={link.to} className={desktopLinkClass}>
-                {link.label}
-              </NavLink>
-            )
+            <NavLink key={link.to} to={link.to} end={link.end} className={desktopLinkClass}>
+              {link.label}
+            </NavLink>
           ))}
           <Link
             to="/#contact"
@@ -48,6 +42,16 @@ export const Navbar = () => {
           >
             Contact
           </Link>
+          {/* The blog is a separate site: set apart after Contact */}
+          <span className="mx-3 h-6 w-px bg-white/15" aria-hidden="true" />
+          <a
+            href={BLOG_LINK.to}
+            className="inline-flex items-center gap-2 px-3 py-2 rounded-md text-sm font-medium text-gray-300 hover:text-white hover:bg-white/5 transition-colors"
+          >
+            <i className={`${BLOG_LINK.icon} text-xs text-brand-soft`} aria-hidden="true" />
+            {BLOG_LINK.label}
+            <i className="fas fa-arrow-up-right-from-square text-[10px] text-gray-500" aria-hidden="true" />
+          </a>
         </div>
 
         <button
@@ -69,17 +73,10 @@ export const Navbar = () => {
         >
           <div className="px-4 py-3 space-y-1">
             {NAV_LINKS.map((link) => (
-              link.external ? (
-                <a key={link.to} href={link.to} className={mobileLinkClass({ isActive: false })}>
-                  <i className={`${link.icon} w-5 text-center text-gray-500`} aria-hidden="true" />
-                  {link.label}
-                </a>
-              ) : (
-                <NavLink key={link.to} to={link.to} className={mobileLinkClass}>
-                  <i className={`${link.icon} w-5 text-center text-gray-500`} aria-hidden="true" />
-                  {link.label}
-                </NavLink>
-              )
+              <NavLink key={link.to} to={link.to} end={link.end} className={mobileLinkClass}>
+                <i className={`${link.icon} w-5 text-center text-gray-500`} aria-hidden="true" />
+                {link.label}
+              </NavLink>
             ))}
             <Link
               to="/#contact"
@@ -88,6 +85,12 @@ export const Navbar = () => {
               <i className="fas fa-envelope" aria-hidden="true" />
               Contact
             </Link>
+            <div className="my-3 h-px bg-white/10" aria-hidden="true" />
+            <a href={BLOG_LINK.to} className={mobileLinkClass({ isActive: false })}>
+              <i className={`${BLOG_LINK.icon} w-5 text-center text-brand-soft`} aria-hidden="true" />
+              {BLOG_LINK.label}
+              <i className="fas fa-arrow-up-right-from-square ml-auto text-xs text-gray-500" aria-hidden="true" />
+            </a>
           </div>
         </div>
       )}

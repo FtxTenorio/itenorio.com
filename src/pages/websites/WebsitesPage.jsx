@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { websites } from "../../data/websites";
+import { Carousel } from "../../components/ui/Carousel";
 
 // Helper function to generate real-time website screenshots for free via Microlink API
 const getLiveScreenshot = (url) =>
@@ -7,24 +8,42 @@ const getLiveScreenshot = (url) =>
     url,
   )}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1280&viewport.height=800`;
 
-// Internal component to render the Website Preview Card (reused on Mobile and Desktop)
-const WebsitePreview = ({ site, onOpen }) => {
-  const [imgLoaded, setImgLoaded] = useState(false);
+/** One website per carousel slide: static capture on the left, details on the right. */
+const WebsiteSlide = ({ site, onOpen }) => (
+  <article className="grid gap-6 lg:gap-10 lg:grid-cols-[1.15fr_1fr] items-center rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
+    <button
+      type="button"
+      onClick={() => onOpen(site.id)}
+      className="group w-full rounded-xl overflow-hidden border border-white/15 bg-ink text-left"
+      style={{ boxShadow: `0 25px 60px -25px ${site.color}66` }}
+      aria-label={`Open the README of ${site.name}`}
+    >
+      <div className="bg-surface-raised px-4 py-2 flex items-center gap-3 border-b border-white/10">
+        <span className="flex gap-1.5" aria-hidden="true">
+          <span className="w-2.5 h-2.5 rounded-full bg-red-500/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80" />
+          <span className="w-2.5 h-2.5 rounded-full bg-green-500/80" />
+        </span>
+        <span className="flex-1 min-w-0 truncate rounded-md bg-ink px-3 py-1 font-mono text-[11px] text-gray-400">
+          <i className="fas fa-lock text-[9px] text-emerald-400 mr-2" aria-hidden="true" />
+          {site.liveUrl}
+        </span>
+      </div>
+      <img
+        src={site.capture}
+        alt={`Home page of ${site.name}`}
+        width="1280"
+        height="800"
+        className="w-full aspect-[16/10] object-cover object-top transition-transform duration-500 group-hover:scale-[1.02]"
+      />
+    </button>
 
-  return (
-    <div className="w-full bg-[#121826] border border-white/10 rounded-2xl p-6 md:p-10 flex flex-col items-center text-center relative overflow-hidden shadow-2xl">
-      {/* Glow Background */}
-      <div
-        className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 blur-[110px] rounded-full pointer-events-none opacity-20"
-        style={{ backgroundColor: site.color }}
-      ></div>
-
-      {/* Top Repo Badge & Visibility */}
-      <div className="flex items-center gap-2 mb-5 relative z-10 bg-black/40 border border-white/10 px-3.5 py-1.5 rounded-full text-xs text-gray-300">
-        <i className="fab fa-github text-sm text-white"></i>
-        <span className="font-mono">{site.repoName}</span>
+    <div className="min-w-0">
+      <p className="inline-flex items-center gap-2 mb-3 rounded-full border border-white/10 bg-black/30 px-3 py-1 text-xs text-gray-300">
+        <i className="fab fa-github" aria-hidden="true" />
+        <span className="font-mono truncate">{site.repoName}</span>
         <span
-          className={`ml-1 px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
+          className={`px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider border ${
             site.isPrivate
               ? "bg-amber-500/10 text-amber-400 border-amber-500/30"
               : "bg-emerald-500/10 text-emerald-400 border-emerald-500/30"
@@ -32,131 +51,63 @@ const WebsitePreview = ({ site, onOpen }) => {
         >
           {site.isPrivate ? "Private" : "Public"}
         </span>
-      </div>
-
-      {/* Live Browser Frame Preview */}
-      <div
-        onClick={() => onOpen(site.id)}
-        className="w-full max-w-lg rounded-xl overflow-hidden border border-white/15 bg-[#0b0f19] shadow-2xl mb-6 relative z-10 group cursor-pointer"
-      >
-        {/* Browser Top Bar */}
-        <div className="bg-[#1a2234] px-4 py-2.5 flex items-center justify-between border-b border-white/10">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-red-500/80"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/80"></span>
-            <span className="w-2.5 h-2.5 rounded-full bg-green-500/80"></span>
-          </div>
-          <div className="bg-[#0b0f19] border border-white/5 rounded-md px-3 py-1 text-[11px] font-mono text-gray-400 flex items-center gap-2 max-w-[220px] sm:max-w-xs truncate">
-            <i className="fas fa-lock text-[9px] text-emerald-400"></i>
-            <span className="truncate">{site.liveUrl}</span>
-          </div>
-          <div className="text-gray-500 text-xs">
-            <i className="fas fa-expand-alt group-hover:text-white transition-colors"></i>
-          </div>
-        </div>
-
-        {/* Live Screenshot Area */}
-        <div className="relative aspect-video w-full bg-[#0b0f19] overflow-hidden flex items-center justify-center">
-          {!imgLoaded && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center gap-2 text-gray-500 text-xs animate-pulse">
-              <i className="fas fa-circle-notch fa-spin text-xl text-blue-400"></i>
-              <span>Capturing live preview...</span>
-            </div>
-          )}
-          <img
-            src={getLiveScreenshot(site.liveUrl)}
-            alt={`${site.name} live preview`}
-            onLoad={() => setImgLoaded(true)}
-            className={`w-full h-full object-cover object-top transition-all duration-500 group-hover:scale-105 ${
-              imgLoaded ? "opacity-100" : "opacity-0"
-            }`}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#0b0f19] via-transparent to-transparent opacity-60"></div>
-          <div className="absolute bottom-3 right-3 bg-black/70 backdrop-blur-md border border-white/10 px-2.5 py-1 rounded text-[10px] font-mono text-emerald-400 flex items-center gap-1.5">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping"></span>
-            Live Capture
-          </div>
-        </div>
-      </div>
-
-      {/* Title & Description */}
-      <div className="flex items-center gap-2.5 mb-2 relative z-10">
-        <h2 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-          {site.name}
-        </h2>
-        <i
-          className="fas fa-check-circle text-blue-500 text-sm"
-          title="Production Ready"
-        ></i>
-      </div>
-
-      <p className="text-gray-400 text-sm md:text-base mb-6 max-w-lg relative z-10 leading-relaxed">
-        {site.description}
       </p>
+      <h2 className="text-2xl font-bold tracking-tight mb-3">{site.name}</h2>
+      <p className="text-gray-300 leading-relaxed mb-5 line-clamp-4">{site.description}</p>
 
-      {/* Tech Pills */}
-      <div className="flex flex-wrap justify-center gap-2 mb-8 relative z-10 max-w-lg">
+      <ul className="flex flex-wrap gap-2 mb-6">
         {site.stack.slice(0, 5).map((tech) => (
-          <span
+          <li
             key={tech}
             className="bg-black/30 border border-white/10 px-3 py-1 rounded-full text-xs font-medium text-gray-300"
           >
             {tech}
-          </span>
+          </li>
         ))}
-      </div>
+      </ul>
 
-      {/* Action Buttons */}
-      <div className="relative z-10 flex flex-col sm:flex-row items-center gap-4 w-full justify-center">
+      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
         <button
+          type="button"
           onClick={() => onOpen(site.id)}
-          style={{
-            backgroundImage: `linear-gradient(to right, ${site.color}, ${site.secondaryColor})`,
-          }}
-          className="group relative inline-flex items-center justify-center gap-3 px-7 py-3.5 rounded-xl font-bold text-white shadow-lg hover:brightness-110 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 overflow-hidden w-full sm:w-auto"
+          style={{ backgroundImage: `linear-gradient(to right, ${site.color}, ${site.secondaryColor})` }}
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg font-semibold text-white hover:brightness-110 transition"
         >
-          <i className="fas fa-book-open text-sm"></i>
-          <span>Interactive README</span>
-          <i className="fas fa-arrow-right text-xs opacity-90 group-hover:translate-x-1 transition-transform duration-200"></i>
+          <i className="fas fa-book-open text-sm" aria-hidden="true" />
+          Interactive README
         </button>
-
         <a
           href={site.liveUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center justify-center gap-2.5 px-6 py-3.5 rounded-xl font-semibold text-gray-200 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-white/20 transition-all duration-300 transform hover:-translate-y-0.5 active:scale-95 w-full sm:w-auto"
+          className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-white/15 hover:bg-white/5 font-semibold text-gray-200 transition-colors"
         >
-          <i className="fas fa-globe text-blue-400"></i>
-          <span>Visit Website</span>
-          <i className="fas fa-external-link-alt text-xs text-gray-400 group-hover:text-white transition-colors"></i>
+          <i className="fas fa-globe text-blue-400" aria-hidden="true" />
+          Visit website
         </a>
-
         {site.githubUrl && (
           <a
             href={site.githubUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-5 py-3.5 rounded-xl font-semibold text-gray-300 bg-[#0b0f19] hover:bg-white/5 border border-white/10 transition-all duration-300 w-full sm:w-auto"
-            title="View Source on GitHub"
+            className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg border border-white/10 text-gray-300 hover:bg-white/5 transition-colors"
+            aria-label="Source code on GitHub"
           >
-            <i className="fab fa-github text-lg"></i>
-            <span className="sm:hidden">GitHub Repository</span>
+            <i className="fab fa-github text-lg" aria-hidden="true" />
           </a>
         )}
       </div>
     </div>
-  );
-};
+  </article>
+);
 
 export default function Websites() {
   const [activeSiteId, setActiveSiteId] = useState(null);
-  const [previewId, setPreviewId] = useState("itenorio");
   const [selectedRoute, setSelectedRoute] = useState("https://itenorio.com");
   const [copiedCmd, setCopiedCmd] = useState(false);
   const [loreOpen, setLoreOpen] = useState(false);
 
 
-  const activePreview = websites.find((s) => s.id === previewId);
   const activeSite = websites.find((s) => s.id === activeSiteId);
 
   const handleOpenSite = (id) => {
@@ -177,93 +128,31 @@ export default function Websites() {
   };
 
   return (
-    <div className="text-white pt-10 pb-24 w-full">
+    <div className="text-white pt-10 pb-24 lg:pt-8 lg:pb-8 w-full">
       <div className="px-4 md:px-6 max-w-6xl mx-auto flex flex-col items-center w-full">
-        {/* === VIEW 1: LIST AND PREVIEW === */}
+        {/* === VIEW 1: CAROUSEL (fits the first screen on desktop) === */}
         {!activeSite && (
-          <div className="w-full animate-fade-in">
-            <div className="mb-10 text-left w-full">
-              <h1 className="text-3xl md:text-4xl font-bold mb-3 text-white tracking-tight">
-                Websites & Platforms
+          <div className="w-full animate-fade-in lg:min-h-[calc(100svh-5rem-4rem)] lg:flex lg:flex-col lg:justify-center">
+            <Carousel
+              label="Websites"
+              items={websites}
+              getLabel={(site) => site.name}
+              accent={(site) => site.color}
+              renderSlide={(site) => <WebsiteSlide site={site} onOpen={handleOpenSite} />}
+              header={
+            <header className="text-left">
+              <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3">Portfolio</p>
+              <h1 className="text-3xl md:text-4xl font-bold mb-2 text-white tracking-tight">
+                Websites &amp; Platforms
               </h1>
-              <p className="text-gray-400 text-sm md:text-base max-w-2xl">
-                Production web applications engineered with React, Vite, and AWS
-                cloud infrastructure. Select a project to inspect its live
-                capture and interactive architecture README.
+              <p className="text-gray-400 max-w-2xl">
+                Production websites built with React, Next.js and AWS. Open a project for its
+                interactive README.
               </p>
-            </div>
+            </header>
 
-            {/* Mobile Layout: Stacked cards directly */}
-            <div className="flex lg:hidden flex-col gap-8 w-full">
-              {websites.map((site) => (
-                <WebsitePreview
-                  key={site.id}
-                  site={site}
-                  onOpen={handleOpenSite}
-                />
-              ))}
-            </div>
-
-            {/* Desktop Layout: Side menu + Central preview */}
-            <div className="hidden lg:flex flex-row gap-10 w-full items-start">
-              {/* Side Selection Menu */}
-              <div className="w-1/3 flex flex-col gap-3">
-                <h3 className="text-xs font-bold text-gray-500 uppercase tracking-widest mb-2 px-1">
-                  Deployed Projects
-                </h3>
-                {websites.map((site) => (
-                  <button
-                    key={site.id}
-                    onClick={() => setPreviewId(site.id)}
-                    className={`flex items-center gap-4 p-4 rounded-xl border transition-all duration-300 text-left w-full ${
-                      previewId === site.id
-                        ? "bg-white/10 border-white/20 shadow-lg"
-                        : "bg-[#121826] border-white/5 hover:border-white/10 hover:bg-white/5"
-                    }`}
-                  >
-                    <div className="w-12 h-12 rounded-lg bg-[#0b0f19] border border-white/10 flex items-center justify-center shrink-0">
-                      <i
-                        className={`${site.icon} text-xl`}
-                        style={{ color: site.color }}
-                      ></i>
-                    </div>
-                    <div className="flex-grow overflow-hidden">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="font-bold text-white text-sm truncate">
-                          {site.name}
-                        </h4>
-                        <span
-                          className={`text-[9px] px-1.5 py-0.5 rounded font-mono uppercase ${
-                            site.isPrivate
-                              ? "bg-amber-500/10 text-amber-400 border border-amber-500/20"
-                              : "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20"
-                          }`}
-                        >
-                          {site.isPrivate ? "Private" : "Public"}
-                        </span>
-                      </div>
-                      <p className="text-xs text-gray-400 truncate">
-                        {site.shortDesc}
-                      </p>
-                    </div>
-                    <div className="shrink-0">
-                      <i
-                        className={`fas fa-chevron-right text-xs transition-colors ${
-                          previewId === site.id
-                            ? "text-blue-400"
-                            : "text-transparent"
-                        }`}
-                      ></i>
-                    </div>
-                  </button>
-                ))}
-              </div>
-
-              {/* Central Preview */}
-              <div className="w-2/3">
-                <WebsitePreview site={activePreview} onOpen={handleOpenSite} />
-              </div>
-            </div>
+              }
+            />
           </div>
         )}
 
