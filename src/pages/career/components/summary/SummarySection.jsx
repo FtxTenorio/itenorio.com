@@ -3,7 +3,7 @@ import { TechSummaryCard } from "./TechSummaryCard";
 import { CertSummaryCard } from "./CertSummaryCard";
 
 export const SummarySection = ({ onSelectTech, onSelectCert }) => (
-  <section id="skills" className="w-full max-w-4xl mb-12" aria-labelledby="skills-title">
+  <section id="skills" className="w-full max-w-4xl mx-auto" aria-labelledby="skills-title">
     <SectionHeader
       id="skills-title"
       eyebrow="Skills"

@@ -4,7 +4,7 @@ import { QuickBadges } from "./QuickBadges";
 import { SocialLinks } from "./SocialLinks";
 
 export const HeroSection = () => (
-  <header className="w-full max-w-4xl pt-6 pb-20 flex flex-col items-center text-center">
+  <header className="w-full max-w-4xl mx-auto pb-4 flex flex-col items-center text-center">
     <ProfileAvatar />
 
     <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3">Career</p>

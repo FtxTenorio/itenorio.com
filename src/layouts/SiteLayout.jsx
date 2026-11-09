@@ -3,7 +3,13 @@ import { Outlet, useLocation, useNavigationType } from "react-router-dom";
 import { Navbar } from "../components/layout/Navbar";
 import { Footer } from "../components/layout/Footer";
 import { PageLoader } from "../components/ui/PageLoader";
-import { findRoute, notFoundMeta } from "../config/routes";
+import { PageBackdrop } from "../components/ui/SectionDecor";
+import { HOME_BG } from "../config/theme";
+import { findRoute, normalizePath, notFoundMeta } from "../config/routes";
+
+// Pages that draw their own section backgrounds (bands with waves); every
+// other page gets the shared PageBackdrop.
+const OWN_BACKGROUND = new Set(["/", "/career", "/shortener"]);
 
 /** Keeps <title> and the meta description in sync with the current route. */
 function usePageMeta(pathname) {
@@ -77,9 +83,15 @@ export function SiteLayout() {
         Skip to content
       </a>
       <Navbar />
-      <main id="main" className="flex-grow pt-16 md:pt-20">
+      <main id="main" className="flex flex-grow flex-col pt-16 md:pt-20">
         <Suspense fallback={<PageLoader />}>
-          <Outlet />
+          {OWN_BACKGROUND.has(normalizePath(location.pathname)) ? (
+            <Outlet />
+          ) : (
+            <PageBackdrop background={HOME_BG.base} footer={HOME_BG.footer}>
+              <Outlet />
+            </PageBackdrop>
+          )}
         </Suspense>
       </main>
       <Footer />

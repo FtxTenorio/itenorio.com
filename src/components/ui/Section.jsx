@@ -5,7 +5,7 @@ import { GlowBubbles, SectionWave } from "./SectionDecor";
  * Optional decoration: `background` (color), `bubbles` (GlowBubbles) and
  * `wave` (color of the next section, drawn as a wave at the bottom).
  * `fullScreen`: on large screens the section fills the viewport below the
- * navbar and is a scroll-snap stop (see .snap-section / html.home-snap).
+ * navbar and is a scroll-snap stop (see .snap-section / html.section-paging).
  */
 export const Section = ({
   id,
