@@ -23,8 +23,6 @@ jobs:
         run: npm install
 
       - name: Rodar Build
-        env:
-          VITE_TMDB_API_KEY: ${{ secrets.VITE_TMDB_API_KEY }}
         run: npm run build
 
       - name: Gerar Versão
