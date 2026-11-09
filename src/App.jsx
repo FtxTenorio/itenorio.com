@@ -1,79 +1,37 @@
-import { useEffect } from "react";
-import { create } from "zustand";
-import { Footer } from "./components/Footer";
-import { Navbar } from "./components/NavBar";
-import { Tardis } from "./components/Tardis";
-import { TheOneRing } from "./components/TheOneRing";
-import LandingPage from "./pages/main/LandingPage";
+import { lazy } from "react";
+import { Route, Routes } from "react-router-dom";
+import { SiteLayout } from "./layouts/SiteLayout";
+import CareerPage from "./pages/career/CareerPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
-// =================================================================
-// INTERCEPTADOR DE MPA:
-// Se o servidor carregar acidentalmente o SPA principal numa rota MPA
-// (por falta da barra final), nós forçamos o redirecionamento.
-// =================================================================
-const currentPath = window.location.pathname;
-if (currentPath === "/extensions" || currentPath === "/shortener") {
-  window.location.href = currentPath + "/";
-}
+// Heavier, less visited pages are split into their own chunks
+// (the <Suspense> fallback lives in SiteLayout, so the navbar stays visible).
+const ExtensionsPage = lazy(() => import("./pages/extensions/ExtensionsPage"));
+const CrunchyrollNavigatorPrivacyPage = lazy(
+  () => import("./pages/extensions/CrunchyrollNavigatorPrivacyPage"),
+);
+const WebsitesPage = lazy(() => import("./pages/websites/WebsitesPage"));
+const ShortenerPage = lazy(() => import("./pages/shortener/ShortenerPage"));
 
-export const useCurrentPage = create((set) => ({
-  currentPage: localStorage.getItem("currentPage") || "home",
-
-  setCurrentPage: (currentPage) => {
-    localStorage.setItem("currentPage", currentPage);
-    set({ currentPage });
-  },
-}));
-
-function App() {
-  // Inicializa lendo do cache ou definindo 'home' como padrão
-  const [currentPage, setCurrentPage] = [
-    useCurrentPage((state) => state.currentPage),
-    useCurrentPage((state) => state.setCurrentPage),
-  ];
-
-  // Salva no cache e rola para o topo sempre que currentPage mudar
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, [currentPage]);
-
-  // Função para renderizar o componente correto
-  const renderPage = () => {
-    switch (currentPage) {
-      case "home":
-      default:
-        return <LandingPage setCurrentPage={setCurrentPage} />;
-    }
-  };
-
-  // Verifica se estamos em uma página onde os itens "fan" devem ser escondidos
-  const hideFanItems = ["minecraft"].includes(currentPage);
-
+// Every path below must also be listed in src/config/routes.js so the build
+// emits a matching dist/<path>/index.html for S3 + CloudFront.
+export default function App() {
   return (
-    <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen">
-      {/* Passamos o currentPage e setCurrentPage para a Navbar */}
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-
-      {/* 
-        Mantém a Tardis e o Anel sempre renderizados para as imagens não recarregarem.
-        Usamos opacidade e pointer-events para escondê-los visualmente e impedir cliques,
-        além de adicionar uma transição suave.
-      */}
-      <div
-        className={`transition-opacity duration-100 ${
-          hideFanItems ? "opacity-0 pointer-events-none" : "opacity-100"
-        }`}
-      >
-        <Tardis />
-        <TheOneRing />
-      </div>
-
-      {/* Renderiza o conteúdo dinâmico */}
-      {renderPage()}
-
-      <Footer setCurrentPage={setCurrentPage} />
-    </div>
+    <Routes>
+      <Route element={<SiteLayout />}>
+        <Route index element={<CareerPage />} />
+        <Route path="career" element={<CareerPage />} />
+        <Route path="extensions">
+          <Route index element={<ExtensionsPage />} />
+          <Route
+            path="crunchy-navigator/privacy-policy"
+            element={<CrunchyrollNavigatorPrivacyPage />}
+          />
+        </Route>
+        <Route path="websites" element={<WebsitesPage />} />
+        <Route path="shortener" element={<ShortenerPage />} />
+        <Route path="*" element={<NotFoundPage />} />
+      </Route>
+    </Routes>
   );
 }
-
-export default App;

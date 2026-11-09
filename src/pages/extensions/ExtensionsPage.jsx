@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { extensions } from "../../../data/extensions";
+import { useState } from "react";
+import { extensions } from "../../data/extensions";
 
 function ExtensionLogo({ ext, className = "w-24 h-24" }) {
   return (
@@ -139,8 +139,8 @@ export default function Extensions() {
   );
 
   return (
-    <div className="min-h-screen bg-[#0b0f19] text-white pt-20 pb-24 w-full">
-      <main className="px-4 md:px-6 max-w-6xl mx-auto flex flex-col items-center w-full">
+    <div className="text-white pt-10 pb-24 w-full">
+      <div className="px-4 md:px-6 max-w-6xl mx-auto flex flex-col items-center w-full">
         {!activeExtension ? (
           <div className="w-full animate-fade-in">
             <div className="mb-10 text-left w-full">
@@ -456,17 +456,8 @@ export default function Extensions() {
             </div>
           </div>
         )}
-      </main>
+      </div>
 
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(10px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-        }
-      `}</style>
     </div>
   );
 }

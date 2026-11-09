@@ -82,8 +82,8 @@ export default function Shortener() {
   );
 
   return (
-    <div className="min-h-screen pt-20 pb-24 text-gray-200">
-      <main className="max-w-7xl mx-auto px-4 md:px-8 animate-fade-in flex flex-col gap-6">
+    <div className="pt-10 pb-24 text-gray-200">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 animate-fade-in flex flex-col gap-6">
         {/* TOP: STATS SUMMARY */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="bg-[#121826] border border-white/5 rounded-lg p-5 flex flex-col justify-center">
@@ -300,17 +300,8 @@ export default function Shortener() {
             </div>
           </div>
         </div>
-      </main>
+      </div>
 
-      <style>{`
-        @keyframes fadeIn {
-          from { opacity: 0; transform: translateY(5px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fadeIn 0.3s ease-out forwards;
-        }
-      `}</style>
     </div>
   );
 }

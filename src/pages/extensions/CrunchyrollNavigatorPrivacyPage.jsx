@@ -1,20 +1,17 @@
-import React, { useEffect, useRef } from "react";
-import ReactDOM from "react-dom/client";
-import { useCurrentPage } from "../../App";
-import { Footer } from "../../components/Footer";
-import { Navbar } from "../../components/NavBar";
-import "../../index.css";
+// Served at /extensions/crunchy-navigator/privacy-policy/ — this exact URL is
+// referenced by the Chrome Web Store listing. Do not move it.
+import { Link } from "react-router-dom";
 
 const PrivacyContent = () => {
   return (
     <div className="w-full max-w-5xl mx-auto animate-fade-in text-left">
-      <a
-        href="/extensions"
+      <Link
+        to="/extensions"
         className="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors text-sm font-semibold mb-6 bg-white/5 hover:bg-white/10 px-4 py-2 rounded-md border border-white/10"
       >
         <i className="fas fa-arrow-left"></i>
         Back to Extensions
-      </a>
+      </Link>
 
       <div className="bg-[#121826] border border-white/10 rounded-3xl p-6 md:p-10 relative overflow-hidden shadow-2xl">
         {/* Glow Backgrounds */}
@@ -256,41 +253,10 @@ const PrivacyContent = () => {
   );
 };
 
-export default function App() {
-  const [currentPage, setCurrentPage] = [
-    useCurrentPage((state) => state.currentPage),
-    useCurrentPage((state) => state.setCurrentPage),
-  ];
-
-  const initialPage = useRef(currentPage);
-
-  useEffect(() => {
-    if (currentPage !== initialPage.current) {
-      window.location.href = "/";
-    }
-  }, [currentPage]);
-
+export default function CrunchyrollNavigatorPrivacyPage() {
   return (
-    <div className="bg-[#0b0f19] text-white overflow-x-hidden min-h-screen flex flex-col">
-      <Navbar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-
-      <main className="flex-grow pt-24 pb-12 px-4 md:px-6">
-        <PrivacyContent />
-      </main>
-
-      <Footer setCurrentPage={setCurrentPage} />
+    <div className="pt-8 pb-12 px-4 md:px-6">
+      <PrivacyContent />
     </div>
   );
 }
-
-const rootElement = document.getElementById("root");
-
-if (!window.__CRUNCHY_ROOT__) {
-  window.__CRUNCHY_ROOT__ = ReactDOM.createRoot(rootElement);
-}
-
-window.__CRUNCHY_ROOT__.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>,
-);
