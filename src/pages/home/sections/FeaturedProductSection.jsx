@@ -100,7 +100,7 @@ export const FeaturedProductSection = () => {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-crunchy hover:bg-[#ff7d1f] font-semibold transition-colors"
             >
               <i className="fab fa-chrome" aria-hidden="true" />
-              Add to Chrome — Free
+              Add to Chrome for free
             </a>
             <Link
               to={`/extensions/${product.slug}`}

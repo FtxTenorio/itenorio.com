@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-/* Design tokens — use as bg-ink, bg-surface, text-brand, border-line, etc. */
+/* Design tokens: use as bg-ink, bg-surface, text-brand, border-line, etc. */
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;

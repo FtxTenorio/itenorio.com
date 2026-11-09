@@ -13,7 +13,7 @@ export const COMPANY = {
   address: {
     street: "Av. Paulista, 777, Andar 15, Conj 15, Sala 3401",
     district: "Bela Vista",
-    city: "São Paulo – SP",
+    city: "São Paulo, SP",
     postalCode: "01311-914",
     country: "Brazil",
   },

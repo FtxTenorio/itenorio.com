@@ -8,7 +8,7 @@ export const extensions = [
     tagline: "A better Simulcasts page for Crunchyroll.",
     shortDesc: "Audio & dub filters, episode list and dub badges.",
     description:
-      "A free Chrome extension for Crunchyroll that adds dub, rating, genre and length filters, instant search, dub badges and a full episode list to the Simulcasts page — so you can find what to watch in seconds.",
+      "A free Chrome extension for Crunchyroll that adds dub, rating, genre and length filters, instant search, dub badges and a full episode list to the Simulcasts page, so you can find what to watch in seconds.",
     platform: "Chrome",
     price: "Free",
     supportNote:
@@ -19,7 +19,7 @@ export const extensions = [
     isImage: true,
     color: "#ff6b00",
     // rating / ratingCount / users / size / updated are copied by hand from
-    // the Chrome Web Store listing — update them when the listing changes.
+    // the Chrome Web Store listing; update them when the listing changes.
     // `users` is the real count; pages show it rounded down (formatUsers).
     rating: 5.0,
     ratingCount: 1,
@@ -34,7 +34,7 @@ export const extensions = [
     size: "420 KiB",
     language: "21 languages",
     overview:
-      "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode — without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
+      "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode, without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
     // Real store screenshots (rendered from the extension repo's
     // tools/promo-tiles, English). Files live in public/images/crunchyroll-navigator/.
     screenshots: [
@@ -63,7 +63,7 @@ export const extensions = [
       {
         title: "Dub filter",
         description:
-          "Filter the simulcast season by audio language — English, Japanese, Spanish, Portuguese, German and more — with \"only\", \"at least\" or \"up to\" the languages you pick.",
+          "Filter the simulcast season by audio language (English, Japanese, Spanish, Portuguese, German and more) with \"only\", \"at least\" or \"up to\" the languages you pick.",
       },
       {
         title: "Episode list in one click",

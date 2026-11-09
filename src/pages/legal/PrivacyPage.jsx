@@ -9,7 +9,7 @@ const mail = (address) => (
   </a>
 );
 
-// /legal/privacy — company-wide privacy policy (Brazilian LGPD), covering the
+// /legal/privacy: company-wide privacy policy (Brazilian LGPD), covering the
 // website, contact, payments and the link shortener. Products with their own
 // policy (e.g. Crunchyroll Navigator, whose policy URL is used by the Chrome
 // Web Store) keep it on their page.

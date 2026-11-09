@@ -89,7 +89,7 @@ function ExtensionSlide({ ext }) {
               className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-crunchy hover:bg-[#ff7d1f] font-semibold transition-colors"
             >
               <i className="fab fa-chrome" aria-hidden="true" />
-              Add to Chrome — Free
+              Add to Chrome for free
             </a>
             <Link
               to={`/extensions/${ext.slug}`}
@@ -107,7 +107,7 @@ function ExtensionSlide({ ext }) {
   );
 }
 
-// /extensions — catalogue of browser extensions, one per slide.
+// /extensions: catalogue of browser extensions, one per slide.
 // Details of each published extension live at /extensions/:slug.
 export default function ExtensionsPage() {
   return (

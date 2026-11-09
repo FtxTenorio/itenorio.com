@@ -39,7 +39,7 @@ export const FounderSection = () => (
           I founded iTenorio Tech and I&apos;m its managing partner. I&apos;m a
           backend engineer with {yearsOfExperience()}+ years building scalable APIs, payment
           integrations and cloud infrastructure for companies in Brazil and
-          abroad. Crunchyroll Navigator started as a tool I wanted for myself —
+          abroad. Crunchyroll Navigator started as a tool I wanted for myself:
           now it is the studio&apos;s first product.
         </p>
 

@@ -24,7 +24,7 @@ export const MilestoneItem = ({ milestone, onSelectTech, onSelectCert }) => (
             key={tech.id}
             onClick={() => onSelectTech(tech)}
             className="flex items-center gap-1.5 bg-blue-500/10 hover:bg-blue-500/20 border border-blue-500/30 px-2.5 py-1 rounded-md text-[11px] text-blue-300 transition-colors"
-            title="Unlocked in this year — click for details"
+            title="Unlocked in this year. Click for details"
           >
             <img src={tech.icon} alt={tech.name} className="w-3.5 h-3.5" />
             <span>+ {tech.name}</span>
@@ -40,7 +40,7 @@ export const MilestoneItem = ({ milestone, onSelectTech, onSelectCert }) => (
             key={cert.id}
             onClick={() => onSelectCert(cert)}
             className="flex items-center gap-1.5 bg-yellow-500/10 hover:bg-yellow-500/20 border border-yellow-500/30 px-2.5 py-1 rounded-md text-[11px] text-yellow-300 transition-colors"
-            title="Certification earned in this year — click for details"
+            title="Certification earned in this year. Click for details"
           >
             <img
               src={cert.img}
