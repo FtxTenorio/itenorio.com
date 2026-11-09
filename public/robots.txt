@@ -2,3 +2,4 @@ User-agent: *
 Allow: /
 
 Sitemap: https://itenorio.com/sitemap.xml
+Sitemap: https://itenorio.com/blog/sitemap.xml

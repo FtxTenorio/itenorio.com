@@ -2,10 +2,11 @@
 //
 // This file is plain JavaScript (no JSX, no browser APIs) because it is used in
 // two places:
-//   1. vite.config.js — at build time, to emit one physical `index.html` per
-//      route (dist/career/index.html, dist/extensions/index.html, ...) plus
-//      sitemap.xml. The site is hosted on S3 + CloudFront, which only serves
-//      files that exist, so every client-side route needs its own HTML file.
+//   1. scripts/prerender.mjs — at build time, to write one pre-rendered
+//      `index.html` per route (dist/career/index.html, ...) plus sitemap.xml.
+//      The site is hosted on S3 + CloudFront, which only serves files that
+//      exist, so every client-side route needs its own HTML file.
+//      Optional `image: { src, alt }` sets the page's share image (1200×630).
 //   2. src/App.jsx / SiteLayout — at runtime, to set <title> and the meta
 //      description when navigating between pages.
 //
@@ -35,9 +36,13 @@ export const routes = [
   },
   {
     path: "/extensions/crunchy-navigator",
-    title: "Crunchyroll Navigator — iTenorio Tech",
+    title: "Crunchyroll Navigator — Dub filter & episode list for Crunchyroll",
+    image: {
+      src: "/images/crunchyroll-navigator/og.jpg",
+      alt: "Crunchyroll Navigator: show only dubbed anime in your language",
+    },
     description:
-      "Crunchyroll Navigator is a free Chrome extension for Crunchyroll that adds audio and dub filters, an episode list and dub badges to the Simulcasts page.",
+      "Free Chrome extension that filters Crunchyroll simulcasts by dub language, adds rating, genre and length filters, and lists every episode without leaving the page.",
   },
   {
     path: "/extensions/crunchy-navigator/privacy-policy",
