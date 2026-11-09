@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
+import { HOME_BG } from "../../../config/theme";
 import { PROFILE_IMAGE_URL, SOCIAL_LINKS } from "../../../data/config";
 import { yearsOfExperience } from "../../../data/careerTrajectory";
 
@@ -10,7 +11,18 @@ const BACKGROUND = [
 ];
 
 export const FounderSection = () => (
-  <Section id="about" eyebrow="Who is behind it" fullScreen>
+  <Section
+    id="about"
+    eyebrow="Who is behind it"
+    fullScreen
+    background={HOME_BG.alt}
+    wave={HOME_BG.base}
+    waveFlip
+    bubbles={[
+      { color: "#8b5cf6", className: "top-[15%] -left-24 w-[26rem] h-[26rem]" },
+      { color: "#0078d7", className: "bottom-[10%] right-[10%] w-[22rem] h-[22rem]" },
+    ]}
+  >
     <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-start">
       <img
         src={PROFILE_IMAGE_URL}

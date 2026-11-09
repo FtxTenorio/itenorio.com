@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
+import { HOME_BG } from "../../../config/theme";
 import { extensions } from "../../../data/extensions";
 import { ExtensionLogo } from "../../extensions/components/ExtensionLogo";
 import { SupportNote } from "../../extensions/components/SupportNote";
@@ -29,7 +30,18 @@ export const FeaturedProductSection = () => {
   if (!product) return null;
 
   return (
-    <Section id="product" eyebrow="Featured product" fullScreen>
+    <Section
+      id="product"
+      eyebrow="Featured product"
+      fullScreen
+      background={HOME_BG.alt}
+      wave={HOME_BG.base}
+      waveFlip
+      bubbles={[
+        { color: "#ff6b00", className: "top-[10%] right-[5%] w-[28rem] h-[28rem]" },
+        { color: "#0078d7", className: "bottom-[5%] -left-32 w-[24rem] h-[24rem]" },
+      ]}
+    >
       <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-12 items-center">
         <div>
           <div className="flex items-center gap-4 mb-5 lg:mb-4">

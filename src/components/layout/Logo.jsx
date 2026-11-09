@@ -19,7 +19,7 @@ export const Logo = ({ className = "" }) => (
       <span className="logo-caret ml-[3px] h-[1em] w-[2px] bg-brand-soft" />
     </span>
     <span
-      className="-mt-1 font-mono text-[9px] font-bold uppercase leading-none tracking-[0.25em] text-gray-300"
+      className="font-mono text-[9px] font-bold uppercase leading-none tracking-[0.25em] text-gray-300"
       aria-hidden="true"
     >
       Tech

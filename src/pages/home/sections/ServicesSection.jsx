@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
+import { HOME_BG } from "../../../config/theme";
 
 const SERVICES = [
   {
@@ -28,8 +29,13 @@ export const ServicesSection = () => (
     eyebrow="What we do"
     title="Small team, end-to-end software."
     intro="From the first idea to the store listing and the server behind it, every project is designed, built and maintained in-house."
-    className="bg-ink-deep/60 border-y border-line"
     fullScreen
+    background={HOME_BG.base}
+    wave={HOME_BG.alt}
+    bubbles={[
+      { color: "#38bdf8", className: "-top-24 left-[20%] w-[26rem] h-[26rem]" },
+      { color: "#6366f1", className: "bottom-0 -right-24 w-[22rem] h-[22rem]" },
+    ]}
   >
     <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
       {SERVICES.map((service) => (
