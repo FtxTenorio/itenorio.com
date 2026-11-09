@@ -187,7 +187,7 @@ export default function ExtensionDetailPage() {
             <SupportNote ext={ext} />
             <p className="text-xs text-gray-500 mt-3 leading-relaxed">
               Support payments are optional and do not unlock any feature —
-              every feature is free for everyone. Refunds within 30 days, see the{" "}
+              every feature is free for everyone. Full refund within 7 days, see the{" "}
               <Link to="/legal/refund-policy" className="text-gray-300 hover:text-white underline">
                 Refund Policy
               </Link>{" "}

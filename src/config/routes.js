@@ -54,13 +54,19 @@ export const routes = [
     path: "/legal/terms",
     title: "Terms of Service — iTenorio Tech",
     description:
-      "Terms of service of iTenorio Tech for itenorio.com, its free browser extensions and voluntary support payments.",
+      "Terms of service of iTenorio Tech for its websites, browser extensions, tools, apps and services.",
   },
   {
     path: "/legal/refund-policy",
     title: "Refund Policy — iTenorio Tech",
     description:
-      "Refund policy of iTenorio Tech: voluntary support payments are refunded in full on request within 30 days.",
+      "Refund policy of iTenorio Tech: full refund within 7 days, mistaken charges fixed, recurring payments cancellable at any time.",
+  },
+  {
+    path: "/legal/privacy",
+    title: "Privacy Policy — iTenorio Tech",
+    description:
+      "How iTenorio Tech handles personal data (LGPD): what we collect, why, who we share it with and your rights.",
   },
   {
     path: "/websites",
