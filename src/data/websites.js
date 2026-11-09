@@ -43,7 +43,7 @@ export const websites = [
         path: "/career",
         url: "https://itenorio.com/career",
         icon: "fa-solid fa-briefcase",
-        desc: "Career timeline, AWS certifications, tech stack, education and the integrated <TheOneRing /> visual component.",
+        desc: "Experience as stacked cards, education path, tech stack and AWS certifications.",
       },
       {
         title: "Extensions Hub",
@@ -77,9 +77,9 @@ export const websites = [
         icon: "fa-solid fa-cloud-bolt",
       },
       {
-        title: "Interactive UI & Easter Eggs",
-        desc: "Custom animations and the <TheOneRing /> and TARDIS components hidden on the career page.",
-        icon: "fa-solid fa-wand-magic-sparkles",
+        title: "Pre-rendered & SEO-ready",
+        desc: "Every route is rendered to real HTML at build time, with per-page metadata, share images and schema.org data.",
+        icon: "fa-solid fa-magnifying-glass-chart",
       },
     ],
     fileTree: [
@@ -90,7 +90,7 @@ export const websites = [
       },
       {
         name: "public/",
-        comment: "🎨 Static assets, icons & 3D/visual artifacts (TheOneRing)",
+        comment: "🎨 Static assets: favicons, share images, robots.txt",
         isFolder: true,
       },
       {
@@ -101,12 +101,12 @@ export const websites = [
       },
       {
         name: "index.html",
-        comment: "🏠 Single HTML template (meta rewritten per route)",
+        comment: "🏠 Single HTML template (meta filled in per route)",
         isFolder: false,
       },
       {
         name: "vite.config.js",
-        comment: "⚡ Vite config + per-route HTML / sitemap plugin",
+        comment: "⚡ Vite config (scripts/prerender.mjs renders each route)",
         isFolder: false,
       },
       {
@@ -115,14 +115,6 @@ export const websites = [
         isFolder: false,
       },
     ],
-    lore: {
-      question:
-        "💍 What is TheOneRing doing in a software engineer's portfolio?",
-      quote:
-        '"One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them."',
-      answer:
-        "Because a personal website shouldn't look like a boring corporate spreadsheet. I built and integrated the TheOneRing component inside src/ & public/ to give the career page a unique interactive centerpiece.",
-    },
   },
   {
     id: "chaledacris",

@@ -5,7 +5,7 @@
 
   <!-- ================= TYPING SVG ================= -->
   <a href="https://itenorio.com">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2600&pause=800&color=38BDF8&center=true&vCenter=true&multiline=false&repeat=true&width=850&height=50&lines=Not+just+a+static+portfolio+%E2%80%94+it+is+a+live+web+ecosystem+%E2%9A%A1;React+Router+%2B+Vite+Architecture+%F0%9F%9A%80;Home+of+itenorio.com%2Fextensions+and+itenorio.com%2Fshortener+%F0%9F%94%97;Warning%3A+Contains+TheOneRing+component+hidden+in+the+code+%F0%9F%92%8D" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2600&pause=800&color=38BDF8&center=true&vCenter=true&multiline=false&repeat=true&width=850&height=50&lines=Not+just+a+static+portfolio+%E2%80%94+it+is+a+live+web+ecosystem+%E2%9A%A1;React+Router+%2B+Vite+Architecture+%F0%9F%9A%80;Home+of+itenorio.com%2Fextensions+and+itenorio.com%2Fshortener+%F0%9F%94%97" alt="Typing SVG" />
   </a>
 
   <br/>
@@ -47,7 +47,7 @@
         <li><b>One SPA, static-host friendly:</b> <code>react-router</code> routes in <code>src/App.jsx</code>; a tiny Vite plugin emits one <code>index.html</code> per route (listed in <code>src/config/routes.js</code>) so S3 + CloudFront serve every URL directly.</li>
         <li><b>Dynamic Extension Preview Cards:</b> Interactive showcase rendering live metadata, previews, and store links for my browser tools (such as <i>Crunchyroll Navigator</i>).</li>
         <li><b>Serverless Link Shortener Client:</b> Dedicated <code>/shortener</code> route integrated with my AWS Serverless backend (Lambda + API Gateway + DynamoDB) to mint short links under <code>link.itenorio.com</code>.</li>
-        <li><b>Interactive UI & Easter Eggs:</b> Custom animations, responsive raw/split Navbar layouts, and the legendary <code>&lt;TheOneRing /&gt;</code> component integrated right into the app 💍.</li>
+        <li><b>SEO-ready static output:</b> every route is pre-rendered to real HTML at build time, with per-page metadata, Open Graph images and schema.org JSON-LD.</li>
       </ul>
     </td>
     <td width="45%" valign="top">
@@ -82,7 +82,7 @@
       </a>
       <p align="left">
         <b>Route:</b> <code><a href="https://itenorio.com">itenorio.com/</a></code><br/>
-        iTenorio Tech company page: featured product (Crunchyroll Navigator), services, founder and contact/legal details. My résumé, with the <code>TheOneRing</code> easter egg, lives at <code><a href="https://itenorio.com/career">/career</a></code>.
+        iTenorio Tech company page: featured product (Crunchyroll Navigator), services, founder and contact/legal details. My résumé lives at <code><a href="https://itenorio.com/career">/career</a></code>.
       </p>
     </td>
     <td width="33%" align="center" valign="top">
@@ -120,7 +120,7 @@
 flowchart TB
     subgraph Repo["📦 FtxTenorio/itenorio.com (Vite + React Router)"]
         CFG["🗺️ src/config/routes.js (every public URL)"]
-        V["⚙️ vite.config.js (emits dist/&lt;route&gt;/index.html + sitemap.xml)"]
+        V["⚙️ scripts/prerender.mjs (renders dist/&lt;route&gt;/index.html + sitemap.xml)"]
         APP["🧭 src/App.jsx (routes) → layouts/SiteLayout.jsx (navbar + footer)"]
         P["📄 src/pages/* (home, career, extensions, websites, shortener)"]
         D["🗃️ src/data/* (company, extensions, career, websites...)"]
@@ -152,17 +152,19 @@ flowchart TB
 itenorio.com/
 ├── .github/workflows/        # 🚀 CI/CD: build + sync dist/ to S3, invalidate CloudFront
 ├── public/                   # 🎨 Static files copied as-is (favicons, robots.txt)
-├── index.html                # The only HTML template (title/meta rewritten per route at build)
-├── vite.config.js            # Vite + plugin that emits dist/<route>/index.html, 404.html, sitemap.xml
+├── index.html                # The only HTML template (meta filled in per route at build)
+├── vite.config.js            # Vite + React + Tailwind
+├── scripts/prerender.mjs     # After the build: pre-renders dist/<route>/index.html, 404.html, sitemap.xml
 └── src/
-    ├── main.jsx              # Entry: <BrowserRouter><App/>
+    ├── main.jsx              # Browser entry: hydrates the pre-rendered HTML
+    ├── entry-server.jsx      # Build-time entry used by scripts/prerender.mjs
     ├── App.jsx               # All routes (react-router)
-    ├── config/routes.js      # Every public URL + its <title>/description (used by build AND app)
+    ├── config/routes.js      # Every public URL + its <title>/description/share image
+    ├── config/structuredData.js # schema.org JSON-LD per route
     ├── layouts/SiteLayout.jsx# Navbar + footer + page meta + scroll handling
     ├── components/
     │   ├── layout/           # Navbar, Footer, Logo
-    │   ├── ui/               # Section, PageLoader
-    │   └── easter-eggs/      # Tardis, TheOneRing (shown on /career)
+    │   └── ui/               # Section, PageLoader
     ├── pages/
     │   ├── home/             # /            company home (sections/)
     │   ├── career/           # /career      résumé (components/)
@@ -194,7 +196,7 @@ npm install
 # 3. Spin up the Vite development server with HMR
 npm run dev
 
-# 4. Build for production (outputs dist/, one index.html per route)
+# 4. Build for production (outputs dist/, one pre-rendered index.html per route)
 npm run build
 
 # 5. Serve the production build locally
@@ -203,20 +205,6 @@ npm run preview
 
 ---
 
-### 🕵️‍♂️ Secret Lore *(Click to expand)*
-
-<details>
-  <summary><b>💍 What is <code>TheOneRing</code> doing in a software engineer's portfolio?</b></summary>
-  <br/>
-  <blockquote>
-    <i>"One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them."</i>
-  </blockquote>
-  <p>
-    Because a personal website shouldn't look like a boring corporate spreadsheet. I built and integrated the <b><code>TheOneRing</code></b> component inside <code>src/</code> & <code>public/</code> to give the main landing page a unique interactive centerpiece. Check it out live at <a href="https://itenorio.com">itenorio.com</a>!
-  </p>
-</details>
-
----
 
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0284c7,50:1e1b4b,100:090d16&height=120&section=footer&text=Engineered%20by%20Paulo%20Ten%C3%B3rio%20%E2%80%A2%20itenorio.com&fontSize=19&fontColor=38bdf8&fontAlignY=65" width="100%" alt="Footer" />

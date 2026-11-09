@@ -671,6 +671,7 @@ export default function Websites() {
                   )}
 
                   {/* Section 5: Interactive Secret Lore / Deep Dive Accordion */}
+                  {activeSite.lore && (
                   <section>
                     <button
                       onClick={() => setLoreOpen(!loreOpen)}
@@ -700,6 +701,7 @@ export default function Websites() {
                       </div>
                     )}
                   </section>
+                  )}
                 </div>
               </div>
 
