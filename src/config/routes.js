@@ -34,6 +34,12 @@ export const routes = [
       "Browser extensions built and maintained by iTenorio Tech, including Crunchyroll Navigator, a free Chrome extension for Crunchyroll.",
   },
   {
+    path: "/extensions/crunchy-navigator",
+    title: "Crunchyroll Navigator — iTenorio Tech",
+    description:
+      "Crunchyroll Navigator is a free Chrome extension for Crunchyroll that adds audio and dub filters, an episode list and dub badges to the Simulcasts page.",
+  },
+  {
     path: "/extensions/crunchy-navigator/privacy-policy",
     title: "Privacy Policy — Crunchyroll Navigator",
     description:

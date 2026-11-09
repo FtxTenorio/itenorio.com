@@ -7,6 +7,9 @@ import NotFoundPage from "./pages/NotFoundPage";
 // Heavier, less visited pages are split into their own chunks
 // (the <Suspense> fallback lives in SiteLayout, so the navbar stays visible).
 const ExtensionsPage = lazy(() => import("./pages/extensions/ExtensionsPage"));
+const ExtensionDetailPage = lazy(
+  () => import("./pages/extensions/ExtensionDetailPage"),
+);
 const CrunchyrollNavigatorPrivacyPage = lazy(
   () => import("./pages/extensions/CrunchyrollNavigatorPrivacyPage"),
 );
@@ -23,6 +26,7 @@ export default function App() {
         <Route path="career" element={<CareerPage />} />
         <Route path="extensions">
           <Route index element={<ExtensionsPage />} />
+          <Route path=":slug" element={<ExtensionDetailPage />} />
           <Route
             path="crunchy-navigator/privacy-policy"
             element={<CrunchyrollNavigatorPrivacyPage />}

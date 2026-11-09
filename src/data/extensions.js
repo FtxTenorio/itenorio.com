@@ -1,28 +1,50 @@
 export const extensions = [
   {
     id: "crunchy",
-    name: "Crunchy Navigator",
-    shortDesc: "Advanced filters and better navigation.",
+    // URL: /extensions/crunchy-navigator (the slug predates the rename and is
+    // part of the privacy policy URL used by the Chrome Web Store listing).
+    slug: "crunchy-navigator",
+    name: "Crunchyroll Navigator",
+    tagline: "A better Simulcasts page for Crunchyroll.",
+    shortDesc: "Audio & dub filters, episode list and dub badges.",
     description:
-      "Improve the Crunchyroll experience with advanced filters, better navigation, and faster search. Take your anime browsing experience to the next level with powerful custom filters.",
+      "A free Chrome extension for Crunchyroll that adds audio and dub filters, an episode list and dub badges to the Simulcasts page — so you can find what to watch in seconds.",
+    platform: "Chrome",
+    price: "Free",
+    supportNote:
+      "Crunchyroll Navigator is free and maintained with voluntary support from its users.",
+    disclaimer:
+      "Crunchyroll Navigator is an independent project by iTenorio Tech. It is not affiliated with, endorsed or sponsored by Crunchyroll. Crunchyroll is a trademark of its respective owner.",
     logo: "https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets/crunchy-navigator-ext.png",
     isImage: true,
     color: "#ff6b00",
+    // rating / ratingCount / users / size / updated are copied by hand from
+    // the Chrome Web Store listing — update them when the listing changes.
     rating: 5.0,
     ratingCount: 1,
     users: 27,
     status: "Published",
     storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
     privacyUrl: "/extensions/crunchy-navigator/privacy-policy/",
-    websiteUrl: "https://itenorio.com",
+    websiteUrl: "https://itenorio.com/extensions/crunchy-navigator",
     category: "Entertainment",
-    version: "2.1.1",
+    version: "2.3.0",
     updated: "Oct 31, 2026",
     size: "415 KiB",
     language: "English",
     overview:
-      "Improve the Crunchyroll experience with advanced filters, better navigation, and faster search. Take your anime browsing experience to the next level with powerful custom filters, refined navigation, and advanced discovery tools.",
+      "Crunchyroll Navigator improves the Crunchyroll experience on desktop. On the Simulcasts page it lets you filter the season by audio language and dub availability, shows dub badges right on each title, and adds an episode list so you can jump to what you want without opening every show. It runs entirely in your browser, needs no account and collects no personal data.",
     features: [
+      {
+        title: "Episode List",
+        description:
+          "See the episodes of a title from the Simulcasts page and jump straight to the one you want.",
+      },
+      {
+        title: "Dub Badges",
+        description:
+          "Badges on every card show which audio languages and dubs are available at a glance.",
+      },
       {
         title: "Audio & Dub Filter",
         description:
@@ -68,7 +90,7 @@ export const extensions = [
       },
     ],
     privacyDescription:
-      "We respect your privacy. Crunchy Navigator operates locally on your device and does not collect or transmit personal data.",
+      "We respect your privacy. Crunchyroll Navigator operates locally on your device and does not collect or transmit personal data.",
     developerType:
       "Non-trader. Consumer rights do not apply to contracts between you and this developer in the EU.",
     supportEmail: "extensions@itenorio.com",

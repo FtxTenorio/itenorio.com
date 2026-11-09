@@ -25,7 +25,7 @@ const PrivacyContent = () => {
               <div className="relative">
                 <img
                   src="https://lh3.googleusercontent.com/H6Qz1U2YFHnHibDBIOcqIXNEQ7QpmDOWnRFcxF-8NqJm-o1jCEAwLc4sR44JnANlJO3qOQ7SSoCH391dMrkBMZ-7=s120"
-                  alt="Crunchy Navigator"
+                  alt="Crunchyroll Navigator"
                   className="w-16 h-16 md:w-20 md:h-20 rounded-2xl border border-white/10 shadow-lg"
                 />
                 <div className="absolute -bottom-2 -right-2 bg-[#ff6b00] w-6 h-6 rounded-full border-2 border-[#121826] flex items-center justify-center">
@@ -37,7 +37,7 @@ const PrivacyContent = () => {
                   Privacy Policy
                 </h1>
                 <p className="text-[#ff6b00] font-bold tracking-wide uppercase text-sm mt-1">
-                  Crunchy Navigator
+                  Crunchyroll Navigator
                 </p>
               </div>
             </div>
