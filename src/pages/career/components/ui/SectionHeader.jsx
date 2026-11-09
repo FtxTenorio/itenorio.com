@@ -1,27 +1,11 @@
-export const SectionHeader = ({
-  title,
-  subtitle,
-  leftAccentColor,
-  rightAccentColor,
-}) => (
-  <div className="flex flex-col items-center justify-center mb-10 border-b border-white/10 pb-4 w-full text-center">
-    <h2 className="text-xl font-bold text-white uppercase tracking-wider flex items-center gap-2">
-      {leftAccentColor && (
-        <span
-          className="w-1.5 h-5 rounded-sm"
-          style={{ backgroundColor: leftAccentColor }}
-        />
-      )}
-      {title}
-      {rightAccentColor && (
-        <span
-          className="w-1.5 h-5 rounded-sm"
-          style={{ backgroundColor: rightAccentColor }}
-        />
-      )}
-    </h2>
-    {subtitle && (
-      <p className="text-xs text-gray-400 mt-1 max-w-xl">{subtitle}</p>
+export const SectionHeader = ({ id, eyebrow, title, subtitle }) => (
+  <header className="mb-10 w-full">
+    {eyebrow && (
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3">{eyebrow}</p>
     )}
-  </div>
+    <h2 id={id} className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
+      {title}
+    </h2>
+    {subtitle && <p className="mt-3 max-w-2xl text-gray-400 leading-relaxed">{subtitle}</p>}
+  </header>
 );

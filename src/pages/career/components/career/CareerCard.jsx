@@ -1,47 +1,42 @@
-import { TimelineDot } from "../ui/TimelineDot";
 import { CareerCardHeader } from "./CareerCardHeader";
 import { CareerMilestones } from "./CareerMilestones";
 import { CareerCardFooter } from "./CareerCardFooter";
 
-export const CareerCard = ({ job, onSelectTech, onSelectCert }) => (
-  <div className="relative group">
-    <TimelineDot color={job.accentColor} />
+export const CareerCard = ({ job, index, total, onSelectTech, onSelectCert }) => (
+  <article className="stack-card relative overflow-hidden rounded-2xl border border-white/10 bg-surface p-6 md:p-8 shadow-[0_-12px_40px_-12px_rgba(0,0,0,0.8)]">
+    <span
+      className="absolute inset-x-0 top-0 h-1"
+      style={{ backgroundColor: job.accentColor }}
+      aria-hidden="true"
+    />
+    <p className="mb-3 font-mono text-[11px] text-gray-500" aria-hidden="true">
+      {String(index + 1).padStart(2, "0")} / {String(total).padStart(2, "0")}
+    </p>
 
-    <div className="bg-[#121826] border border-white/10 rounded-2xl p-6 md:p-7 shadow-xl hover:border-white/20 transition-all duration-300">
-      <CareerCardHeader job={job} />
+    <CareerCardHeader job={job} />
 
-      <p className="text-gray-300 text-xs md:text-sm mt-4 leading-relaxed">
-        {job.summary}
-      </p>
+    <p className="text-gray-300 text-sm mt-4 leading-relaxed">{job.summary}</p>
 
-      {job.highlights && (
-        <ul className="mt-4 space-y-2">
-          {job.highlights.map((item, idx) => (
-            <li
-              key={idx}
-              className="text-xs md:text-sm text-gray-400 flex items-start gap-2.5 leading-relaxed"
-            >
-              <span
-                className="mt-1.5 w-1.5 h-1.5 rounded-full shrink-0"
-                style={{ backgroundColor: job.accentColor }}
-              />
-              <span>{item}</span>
-            </li>
-          ))}
-        </ul>
-      )}
+    {job.highlights && (
+      <ul className="mt-4 space-y-2">
+        {job.highlights.map((item) => (
+          <li key={item} className="text-sm text-gray-400 flex items-start gap-2.5 leading-relaxed">
+            <span
+              className="mt-2 w-1.5 h-1.5 rounded-full shrink-0"
+              style={{ backgroundColor: job.accentColor }}
+            />
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+    )}
 
-      <CareerMilestones
-        milestones={job.milestones}
-        onSelectTech={onSelectTech}
-        onSelectCert={onSelectCert}
-      />
+    <CareerMilestones
+      milestones={job.milestones}
+      onSelectTech={onSelectTech}
+      onSelectCert={onSelectCert}
+    />
 
-      <CareerCardFooter
-        job={job}
-        onSelectTech={onSelectTech}
-        onSelectCert={onSelectCert}
-      />
-    </div>
-  </div>
+    <CareerCardFooter job={job} onSelectTech={onSelectTech} onSelectCert={onSelectCert} />
+  </article>
 );

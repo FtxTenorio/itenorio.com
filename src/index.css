@@ -100,3 +100,28 @@
     animation: none;
   }
 }
+
+/* Career: sticky cards that stack on scroll (driven by useStackedCards) */
+.stack-item {
+  --stack-progress: 0;
+  position: sticky;
+  top: calc(6rem + var(--stack-index, 0) * 0.85rem);
+}
+
+.stack-card {
+  transform-origin: center top;
+  transform: scale(calc(1 - var(--stack-progress) * 0.06));
+  filter: brightness(calc(1 - var(--stack-progress) * 0.55));
+  will-change: transform, filter;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .stack-item {
+    position: relative;
+    top: auto;
+  }
+  .stack-card {
+    transform: none;
+    filter: none;
+  }
+}

@@ -6,13 +6,17 @@ export const CareerMilestones = ({
   onSelectTech,
   onSelectCert,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(true);
+  const [isExpanded, setIsExpanded] = useState(false);
 
   if (!milestones || milestones.length === 0) return null;
+  const years = milestones.map((ms) => Number(ms.year)).filter(Boolean);
+  const range = `${Math.min(...years)} – ${Math.max(...years)}`;
 
   return (
     <div className="mt-5">
       <button
+        type="button"
+        aria-expanded={isExpanded}
         onClick={() => setIsExpanded(!isExpanded)}
         className="text-xs font-semibold text-amber-400 hover:text-amber-300 flex items-center gap-2 mb-3"
       >
@@ -20,9 +24,7 @@ export const CareerMilestones = ({
           className={`fas fa-chevron-${isExpanded ? "down" : "right"} text-[10px]`}
         />
         <span>
-          {isExpanded
-            ? "Hide Yearly Evolution (2021 - 2025)"
-            : "Show Yearly Evolution (2021 - 2025)"}
+          {isExpanded ? "Hide" : "Show"} year by year ({range})
         </span>
       </button>
 

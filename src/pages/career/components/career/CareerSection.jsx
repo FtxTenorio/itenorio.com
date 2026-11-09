@@ -1,24 +1,42 @@
+import { useRef } from "react";
 import { careerTrajectory } from "../../../../data/careerTrajectory";
+import { useStackedCards } from "../../hooks/useStackedCards";
 import { SectionHeader } from "../ui/SectionHeader";
 import { CareerCard } from "./CareerCard";
 
-export const CareerSection = ({ onSelectTech, onSelectCert }) => (
-  <div className="w-full max-w-4xl flex flex-col items-center mb-20">
-    <SectionHeader
-      title="Career, Arsenal & Certification Trajectory"
-      subtitle="How my technical stack and cloud certifications evolved across every company I worked with (click any badge for details)"
-      leftAccentColor="#10b981"
-    />
+// Experience as a stack of sticky cards: scrolling slides each job over the
+// previous one (see useStackedCards).
+export const CareerSection = ({ onSelectTech, onSelectCert }) => {
+  const listRef = useRef(null);
+  useStackedCards(listRef);
 
-    <div className="relative w-full pl-6 md:pl-8 border-l-2 border-white/10 space-y-12">
-      {careerTrajectory.map((job) => (
-        <CareerCard
-          key={job.id}
-          job={job}
-          onSelectTech={onSelectTech}
-          onSelectCert={onSelectCert}
-        />
-      ))}
-    </div>
-  </div>
-);
+  return (
+    <section id="experience" className="w-full max-w-4xl mb-24" aria-labelledby="experience-title">
+      <SectionHeader
+        id="experience-title"
+        eyebrow="Experience"
+        title="Where I've worked"
+        subtitle="Each role with the stack I used and the certifications I earned along the way. Click a technology or certification for details."
+      />
+
+      <ol ref={listRef} className="space-y-8 pb-[10vh]">
+        {careerTrajectory.map((job, index) => (
+          <li
+            key={job.id}
+            data-stack-item
+            className="stack-item"
+            style={{ "--stack-index": index }}
+          >
+            <CareerCard
+              job={job}
+              index={index}
+              total={careerTrajectory.length}
+              onSelectTech={onSelectTech}
+              onSelectCert={onSelectCert}
+            />
+          </li>
+        ))}
+      </ol>
+    </section>
+  );
+};

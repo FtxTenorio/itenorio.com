@@ -5,16 +5,13 @@ import { EducationSection } from "./components/education/EducationSection";
 import { SummarySection } from "./components/summary/SummarySection";
 import { TechModal } from "./components/modals/TechModal";
 import { CertModal } from "./components/modals/CertModal";
-import { Tardis } from "../../components/easter-eggs/Tardis";
-import { TheOneRing } from "../../components/easter-eggs/TheOneRing";
 
-// Paulo's résumé: hero, career timeline, education and skills summary.
-// (Until Nov 2026 this was the home page of itenorio.com.)
+// Paulo's résumé: intro, experience (stacked cards), education and skills.
 const CareerPage = () => {
   const [activeStack, setActiveStack] = useState(null);
   const [activeCert, setActiveCert] = useState(null);
 
-  // Close active modals when pressing ESC
+  // Close the open modal with Esc
   useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
@@ -27,34 +24,14 @@ const CareerPage = () => {
   }, []);
 
   return (
-    <div className="relative">
-      {/* Fan easter eggs — fixed-position, behind the content */}
-      <Tardis />
-      <TheOneRing />
-
-      <div className="px-4 pt-12 pb-24 relative z-20 flex flex-col items-center">
-        <HeroSection />
-        <CareerSection
-          onSelectTech={setActiveStack}
-          onSelectCert={setActiveCert}
-        />
-        <EducationSection />
-        <SummarySection
-          onSelectTech={setActiveStack}
-          onSelectCert={setActiveCert}
-        />
-      </div>
+    <div className="px-4 pt-10 pb-24 flex flex-col items-center">
+      <HeroSection />
+      <CareerSection onSelectTech={setActiveStack} onSelectCert={setActiveCert} />
+      <EducationSection />
+      <SummarySection onSelectTech={setActiveStack} onSelectCert={setActiveCert} />
 
       <TechModal stack={activeStack} onClose={() => setActiveStack(null)} />
       <CertModal cert={activeCert} onClose={() => setActiveCert(null)} />
-
-      <style>{`
-        .glowing-text {
-          text-shadow:
-            0 0 15px rgba(255, 255, 255, 0.3),
-            0 0 30px rgba(255, 255, 255, 0.1);
-        }
-      `}</style>
     </div>
   );
 };
