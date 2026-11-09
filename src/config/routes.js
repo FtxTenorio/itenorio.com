@@ -46,6 +46,18 @@ export const routes = [
       "Privacy policy of the Crunchyroll Navigator browser extension by iTenorio Tech.",
   },
   {
+    path: "/legal/terms",
+    title: "Terms of Service — iTenorio Tech",
+    description:
+      "Terms of service of iTenorio Tech for itenorio.com, its free browser extensions and voluntary support payments.",
+  },
+  {
+    path: "/legal/refund-policy",
+    title: "Refund Policy — iTenorio Tech",
+    description:
+      "Refund policy of iTenorio Tech: voluntary support payments are refunded in full on request within 30 days.",
+  },
+  {
     path: "/websites",
     title: "Websites — iTenorio Tech",
     description:

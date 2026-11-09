@@ -9,3 +9,10 @@ export const NAV_LINKS = [
   { to: "/career", label: "Career", icon: "fas fa-briefcase" },
   { to: "/blog/", label: "Blog", icon: "fas fa-pen-nib", external: true },
 ];
+
+// Legal pages, listed in the footer.
+export const LEGAL_LINKS = [
+  { to: "/legal/terms", label: "Terms of Service" },
+  { to: "/legal/refund-policy", label: "Refund Policy" },
+  { to: "/extensions/crunchy-navigator/privacy-policy/", label: "Privacy Policy" },
+];

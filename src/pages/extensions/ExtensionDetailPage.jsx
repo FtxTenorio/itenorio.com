@@ -187,8 +187,15 @@ export default function ExtensionDetailPage() {
             <SupportNote ext={ext} />
             <p className="text-xs text-gray-500 mt-3 leading-relaxed">
               Support payments are optional and do not unlock any feature —
-              every feature is free for everyone. Questions about a payment?
-              Write to{" "}
+              every feature is free for everyone. Refunds within 30 days, see the{" "}
+              <Link to="/legal/refund-policy" className="text-gray-300 hover:text-white underline">
+                Refund Policy
+              </Link>{" "}
+              and{" "}
+              <Link to="/legal/terms" className="text-gray-300 hover:text-white underline">
+                Terms
+              </Link>
+              . Questions about a payment? Write to{" "}
               <a href="mailto:contact@itenorio.com" className="text-gray-300 hover:text-white underline">
                 contact@itenorio.com
               </a>

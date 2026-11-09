@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { COMPANY, CONTACT_EMAILS } from "../../data/company";
 import { SOCIAL_LINKS } from "../../data/config";
-import { NAV_LINKS } from "../../data/navigation";
+import { LEGAL_LINKS, NAV_LINKS } from "../../data/navigation";
 import { Logo } from "./Logo";
 
 const FOOTER_LINKS = [{ to: "/", label: "Home" }, ...NAV_LINKS];
@@ -59,14 +59,18 @@ export const Footer = () => {
                   )}
                 </li>
               ))}
-              <li>
-                <Link
-                  to="/extensions/crunchy-navigator/privacy-policy/"
-                  className="hover:text-white transition-colors"
-                >
-                  Privacy Policy
-                </Link>
-              </li>
+            </ul>
+            <ColumnTitle>
+              <span className="block mt-8">Legal</span>
+            </ColumnTitle>
+            <ul className="space-y-2.5 text-sm text-gray-400">
+              {LEGAL_LINKS.map((link) => (
+                <li key={link.to}>
+                  <Link to={link.to} className="hover:text-white transition-colors">
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
 

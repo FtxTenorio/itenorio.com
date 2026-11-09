@@ -14,6 +14,8 @@ const ExtensionDetailPage = lazy(
 const CrunchyrollNavigatorPrivacyPage = lazy(
   () => import("./pages/extensions/CrunchyrollNavigatorPrivacyPage"),
 );
+const TermsPage = lazy(() => import("./pages/legal/TermsPage"));
+const RefundPolicyPage = lazy(() => import("./pages/legal/RefundPolicyPage"));
 const WebsitesPage = lazy(() => import("./pages/websites/WebsitesPage"));
 const ShortenerPage = lazy(() => import("./pages/shortener/ShortenerPage"));
 
@@ -32,6 +34,10 @@ export default function App() {
             path="crunchy-navigator/privacy-policy"
             element={<CrunchyrollNavigatorPrivacyPage />}
           />
+        </Route>
+        <Route path="legal">
+          <Route path="terms" element={<TermsPage />} />
+          <Route path="refund-policy" element={<RefundPolicyPage />} />
         </Route>
         <Route path="websites" element={<WebsitesPage />} />
         <Route path="shortener" element={<ShortenerPage />} />
