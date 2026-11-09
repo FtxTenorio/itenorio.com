@@ -1,5 +1,5 @@
 import { Link, useParams } from "react-router-dom";
-import { extensions } from "../../data/extensions";
+import { extensions, formatUsers } from "../../data/extensions";
 import NotFoundPage from "../NotFoundPage";
 import { ExtensionLogo } from "./components/ExtensionLogo";
 import { SupportNote } from "./components/SupportNote";
@@ -97,7 +97,7 @@ export default function ExtensionDetailPage() {
             <div className="flex items-center gap-2 text-sm text-gray-300">
               <i className="fas fa-users text-gray-400" aria-hidden="true" />
               <span>
-                <strong>{ext.users}</strong> {ext.users === 1 ? "user" : "users"}
+                <strong>{formatUsers(ext.users)}</strong> {ext.users === 1 ? "user" : "users"}
               </span>
             </div>
             <div className="flex items-center gap-2 text-sm text-gray-300">

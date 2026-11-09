@@ -2,12 +2,6 @@ import { useState } from "react";
 import { websites } from "../../data/websites";
 import { Carousel } from "../../components/ui/Carousel";
 
-// Helper function to generate real-time website screenshots for free via Microlink API
-const getLiveScreenshot = (url) =>
-  `https://api.microlink.io/?url=${encodeURIComponent(
-    url,
-  )}&screenshot=true&meta=false&embed=screenshot.url&viewport.width=1280&viewport.height=800`;
-
 /** One website per carousel slide: static capture on the left, details on the right. */
 const WebsiteSlide = ({ site, onOpen }) => (
   <article className="grid gap-6 lg:gap-10 lg:grid-cols-[1.15fr_1fr] items-center rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
@@ -288,14 +282,20 @@ export default function Websites() {
                 )}
               </div>
 
-              <div className="grid grid-cols-1 lg:grid-cols-3">
+              {/* The capture (16:10) sets the height; the route list scrolls beside it */}
+              <div className="relative grid grid-cols-1 lg:grid-cols-3">
                 {/* Live Viewport */}
-                <div className="lg:col-span-2 bg-[#0b0f19] aspect-video relative overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10">
+                <div className="lg:col-span-2 bg-[#0b0f19] aspect-[16/10] relative overflow-hidden border-b lg:border-b-0 lg:border-r border-white/10">
                   <img
                     key={selectedRoute}
-                    src={getLiveScreenshot(selectedRoute)}
-                    alt="Live Route Preview"
-                    className="w-full h-full object-cover object-top"
+                    src={
+                      activeSite.routes.find((route) => route.url === selectedRoute)?.capture ??
+                      activeSite.capture
+                    }
+                    alt={`Capture of ${selectedRoute}`}
+                    width="1280"
+                    height="800"
+                    className="absolute inset-0 w-full h-full object-cover object-top"
                   />
                   <a
                     href={selectedRoute}
@@ -309,7 +309,7 @@ export default function Websites() {
                 </div>
 
                 {/* Route Cards List */}
-                <div className="p-6 flex flex-col justify-between bg-[#121826]">
+                <div className="p-6 flex flex-col justify-between bg-[#121826] lg:absolute lg:inset-y-0 lg:right-0 lg:w-1/3 lg:overflow-y-auto">
                   <div>
                     <h3 className="text-xs font-bold uppercase tracking-wider text-gray-400 mb-4 flex items-center gap-2">
                       <i className="fas fa-sitemap text-blue-400"></i>

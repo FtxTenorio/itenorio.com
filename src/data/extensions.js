@@ -20,18 +20,19 @@ export const extensions = [
     color: "#ff6b00",
     // rating / ratingCount / users / size / updated are copied by hand from
     // the Chrome Web Store listing — update them when the listing changes.
+    // `users` is the real count; pages show it rounded down (formatUsers).
     rating: 5.0,
     ratingCount: 1,
-    users: 27,
+    users: 35,
     status: "Published",
     storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
     privacyUrl: "/extensions/crunchy-navigator/privacy-policy/",
     websiteUrl: "https://itenorio.com/extensions/crunchy-navigator",
     category: "Entertainment",
     version: "2.3.0",
-    updated: "Oct 31, 2026",
-    size: "415 KiB",
-    language: "English",
+    updated: "Nov 4, 2026",
+    size: "420 KiB",
+    language: "21 languages",
     overview:
       "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode — without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
     // Real store screenshots (rendered from the extension repo's
@@ -151,3 +152,13 @@ export const extensions = [
     supportEmail: "extensions@itenorio.com",
   },
 ];
+
+/**
+ * User count rounded down, so the site never shows more than the store:
+ * 7 → "7", 35 → "30+", 180 → "100+", 2400 → "2,000+".
+ */
+export function formatUsers(count) {
+  if (count < 10) return String(count);
+  const step = 10 ** Math.floor(Math.log10(count));
+  return `${(Math.floor(count / step) * step).toLocaleString("en-US")}+`;
+}
