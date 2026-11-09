@@ -1,11 +1,12 @@
 import { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 import { SiteLayout } from "./layouts/SiteLayout";
-import CareerPage from "./pages/career/CareerPage";
+import HomePage from "./pages/home/HomePage";
 import NotFoundPage from "./pages/NotFoundPage";
 
 // Heavier, less visited pages are split into their own chunks
 // (the <Suspense> fallback lives in SiteLayout, so the navbar stays visible).
+const CareerPage = lazy(() => import("./pages/career/CareerPage"));
 const ExtensionsPage = lazy(() => import("./pages/extensions/ExtensionsPage"));
 const ExtensionDetailPage = lazy(
   () => import("./pages/extensions/ExtensionDetailPage"),
@@ -22,7 +23,7 @@ export default function App() {
   return (
     <Routes>
       <Route element={<SiteLayout />}>
-        <Route index element={<CareerPage />} />
+        <Route index element={<HomePage />} />
         <Route path="career" element={<CareerPage />} />
         <Route path="extensions">
           <Route index element={<ExtensionsPage />} />
