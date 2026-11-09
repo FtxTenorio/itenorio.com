@@ -1,49 +1,92 @@
 export const extensions = [
   {
     id: "crunchy",
-    name: "Crunchy Navigator",
-    shortDesc: "Advanced filters and better navigation.",
+    // URL: /extensions/crunchy-navigator (the slug predates the rename and is
+    // part of the privacy policy URL used by the Chrome Web Store listing).
+    slug: "crunchy-navigator",
+    name: "Crunchyroll Navigator",
+    tagline: "A better Simulcasts page for Crunchyroll.",
+    shortDesc: "Audio & dub filters, episode list and dub badges.",
     description:
-      "Improve the Crunchyroll experience with advanced filters, better navigation, and faster search. Take your anime browsing experience to the next level with powerful custom filters.",
+      "A free Chrome extension for Crunchyroll that adds dub, rating, genre and length filters, instant search, dub badges and a full episode list to the Simulcasts page — so you can find what to watch in seconds.",
+    platform: "Chrome",
+    price: "Free",
+    supportNote:
+      "Crunchyroll Navigator is free and maintained with voluntary support from its users.",
+    disclaimer:
+      "Crunchyroll Navigator is an independent project by iTenorio Tech. It is not affiliated with, endorsed or sponsored by Crunchyroll. Crunchyroll is a trademark of its respective owner.",
     logo: "https://dy9pxtyo5i8g0.cloudfront.net/itenorio/images/assets/crunchy-navigator-ext.png",
     isImage: true,
     color: "#ff6b00",
+    // rating / ratingCount / users / size / updated are copied by hand from
+    // the Chrome Web Store listing — update them when the listing changes.
     rating: 5.0,
     ratingCount: 1,
     users: 27,
     status: "Published",
     storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
     privacyUrl: "/extensions/crunchy-navigator/privacy-policy/",
-    websiteUrl: "https://itenorio.com",
+    websiteUrl: "https://itenorio.com/extensions/crunchy-navigator",
     category: "Entertainment",
-    version: "2.1.1",
+    version: "2.3.0",
     updated: "Oct 31, 2026",
     size: "415 KiB",
     language: "English",
     overview:
-      "Improve the Crunchyroll experience with advanced filters, better navigation, and faster search. Take your anime browsing experience to the next level with powerful custom filters, refined navigation, and advanced discovery tools.",
+      "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode — without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
+    // Real store screenshots (rendered from the extension repo's
+    // tools/promo-tiles, English). Files live in public/images/crunchyroll-navigator/.
+    screenshots: [
+      {
+        src: "/images/crunchyroll-navigator/dub-filter.webp",
+        label: "Dub filter",
+        alt: "Crunchyroll Navigator filter bar with English selected: only the dubbed shows of the season stay highlighted, each with a DUB badge.",
+      },
+      {
+        src: "/images/crunchyroll-navigator/episode-list.webp",
+        label: "Episode list",
+        alt: "Episode list of Frieren: Beyond Journey's End season 2 opened from the Simulcasts page, showing each episode with its audio language.",
+      },
+      {
+        src: "/images/crunchyroll-navigator/filters.webp",
+        label: "More filters",
+        alt: "Rating, length and age rating filters, plus genres and content warnings that can be included or excluded.",
+      },
+      {
+        src: "/images/crunchyroll-navigator/search.webp",
+        label: "Search",
+        alt: "Typing 'frie' in the search bar highlights Frieren and fades out the other shows of the season.",
+      },
+    ],
     features: [
       {
-        title: "Audio & Dub Filter",
+        title: "Dub filter",
         description:
-          "Quickly sort titles by audio language and dub availability.",
+          "Filter the simulcast season by audio language — English, Japanese, Spanish, Portuguese, German and more — with \"only\", \"at least\" or \"up to\" the languages you pick.",
       },
       {
-        title: "Rating Filter",
-        description: "Browse anime based on user ratings and score tiers.",
-      },
-      {
-        title: "Duration Filter",
-        description: "Easily find short episodes, standard lengths, or movies.",
-      },
-      {
-        title: "Age Rating Filter",
-        description: "Filter content suitable for specific age groups.",
-      },
-      {
-        title: "Filter Customization",
+        title: "Episode list in one click",
         description:
-          "Configure, toggle, and reset your filter preferences instantly.",
+          "Open any show and see its full episode list, with descriptions and the audio languages of each episode.",
+      },
+      {
+        title: "Dub badges",
+        description:
+          "Pick your preferred audio language and every show dubbed in it gets a badge.",
+      },
+      {
+        title: "Rating, age, length and genre filters",
+        description:
+          "Combine rating, age rating and length (short, medium, long) with genres and content warnings you can include or exclude.",
+      },
+      {
+        title: "Instant search",
+        description: "Type a few letters and the season is filtered as you type.",
+      },
+      {
+        title: "21 languages",
+        description:
+          "The interface follows your browser language; episode titles and descriptions come from Crunchyroll in the same language when available.",
       },
     ],
     roadmap: [
@@ -68,7 +111,7 @@ export const extensions = [
       },
     ],
     privacyDescription:
-      "We respect your privacy. Crunchy Navigator operates locally on your device and does not collect or transmit personal data.",
+      "We respect your privacy. Crunchyroll Navigator operates locally on your device and does not collect or transmit personal data.",
     developerType:
       "Non-trader. Consumer rights do not apply to contracts between you and this developer in the EU.",
     supportEmail: "extensions@itenorio.com",

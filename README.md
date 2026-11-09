@@ -5,7 +5,7 @@
 
   <!-- ================= TYPING SVG ================= -->
   <a href="https://itenorio.com">
-    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2600&pause=800&color=38BDF8&center=true&vCenter=true&multiline=false&repeat=true&width=850&height=50&lines=Not+just+a+static+portfolio+%E2%80%94+it+is+a+live+web+ecosystem+%E2%9A%A1;Multi-Page+React+%2B+Vite+Architecture+%F0%9F%9A%80;Home+of+itenorio.com%2Fextensions+and+itenorio.com%2Fshortener+%F0%9F%94%97;Warning%3A+Contains+TheOneRing+component+hidden+in+the+code+%F0%9F%92%8D" alt="Typing SVG" />
+    <img src="https://readme-typing-svg.demolab.com?font=JetBrains+Mono&weight=700&size=20&duration=2600&pause=800&color=38BDF8&center=true&vCenter=true&multiline=false&repeat=true&width=850&height=50&lines=Not+just+a+static+portfolio+%E2%80%94+it+is+a+live+web+ecosystem+%E2%9A%A1;React+Router+%2B+Vite+Architecture+%F0%9F%9A%80;Home+of+itenorio.com%2Fextensions+and+itenorio.com%2Fshortener+%F0%9F%94%97" alt="Typing SVG" />
   </a>
 
   <br/>
@@ -37,17 +37,17 @@
 
 ### ⚡ What is `itenorio.com`?
 
-Instead of shipping a generic single-page resume, **`itenorio.com`** was engineered as a **multi-entry React + Vite application** that serves as my personal software consultancy hub (**iTenorio Tech** 🏴󠁧󠁢󠁥󠁮󠁧󠁿), a live showcase for my published browser extensions, and a functional web client for my serverless utilities.
+**`itenorio.com`** is the website of **iTenorio Tech** (ITENORIO TECH DESENVOLVIMENTO DE SOFTWARE LTDA, CNPJ 68.333.521/0001-02) — a React + Vite single-page app that serves as the company home with **Crunchyroll Navigator** as the featured product, my career page (`/career`), a showcase for browser extensions, and a web client for my serverless utilities.
 
 <table align="center" width="100%">
   <tr>
     <td width="55%" valign="top">
       <h4>🔥 Core Highlights</h4>
       <ul>
-        <li><b>Multi-Page Vite Architecture:</b> Custom <code>vite.config.js</code> splitting independent entry points (<code>/</code>, <code>/extensions</code>, and <code>/shortener</code>) while sharing core UI components and navigation.</li>
-        <li><b>Dynamic Extension Preview Cards:</b> Interactive showcase rendering live metadata, previews, and store links for my browser tools (such as <i>Crunchy Navigator</i>).</li>
+        <li><b>One SPA, static-host friendly:</b> <code>react-router</code> routes in <code>src/App.jsx</code>; a tiny Vite plugin emits one <code>index.html</code> per route (listed in <code>src/config/routes.js</code>) so S3 + CloudFront serve every URL directly.</li>
+        <li><b>Dynamic Extension Preview Cards:</b> Interactive showcase rendering live metadata, previews, and store links for my browser tools (such as <i>Crunchyroll Navigator</i>).</li>
         <li><b>Serverless Link Shortener Client:</b> Dedicated <code>/shortener</code> route integrated with my AWS Serverless backend (Lambda + API Gateway + DynamoDB) to mint short links under <code>link.itenorio.com</code>.</li>
-        <li><b>Interactive UI & Easter Eggs:</b> Custom animations, responsive raw/split Navbar layouts, and the legendary <code>&lt;TheOneRing /&gt;</code> component integrated right into the app 💍.</li>
+        <li><b>SEO-ready static output:</b> every route is pre-rendered to real HTML at build time, with per-page metadata, Open Graph images and schema.org JSON-LD.</li>
       </ul>
     </td>
     <td width="45%" valign="top">
@@ -58,7 +58,7 @@ Instead of shipping a generic single-page resume, **`itenorio.com`** was enginee
         <br/><br/>
       </div>
       <pre lang="diff">
-+ Multi-Page Rollup Bundling (Vite)
++ React Router SPA + per-route static HTML (Vite)
 + Automated CI/CD via GitHub Actions
 + Zero-bloat Fast Refresh & ESLint
 + Interactive 3D/Visual Easter Eggs</pre>
@@ -75,14 +75,14 @@ Instead of shipping a generic single-page resume, **`itenorio.com`** was enginee
 <table align="center" width="100%">
   <tr>
     <td width="33%" align="center" valign="top">
-      <h4>🏠 1. Main Engineering Hub</h4>
+      <h4>🏠 1. Company Home</h4>
       <a href="https://itenorio.com" target="_blank">
         <!-- DICA: Se quiser usar um print local da pasta public, troque o src abaixo por "./public/nome-da-imagem.png" -->
         <img src="https://image.thum.io/get/width/600/crop/400/noanimate/https://itenorio.com" width="100%" alt="itenorio.com preview" />
       </a>
       <p align="left">
         <b>Route:</b> <code><a href="https://itenorio.com">itenorio.com/</a></code><br/>
-        Interactive portfolio, consultancy overview, career timeline, and the integrated <code>TheOneRing</code> visual component.
+        iTenorio Tech company page: featured product (Crunchyroll Navigator), services, founder and contact/legal details. My résumé lives at <code><a href="https://itenorio.com/career">/career</a></code>.
       </p>
     </td>
     <td width="33%" align="center" valign="top">
@@ -118,38 +118,29 @@ Instead of shipping a generic single-page resume, **`itenorio.com`** was enginee
 
 ```mermaid
 flowchart TB
-    subgraph Repo["📦 FtxTenorio/itenorio.com (Vite Multi-Page Build)"]
-        V["⚙️ vite.config.js"]
-        R1["🏠 /index.html (Main Portfolio)"]
-        R2["🧩 /extensions/index.html (Extensions Hub)"]
-        R3["🔗 /shortener/index.html (Shortener UI)"]
-        
-        subgraph Shared["⚛️ Shared React Layer (/src & /public)"]
-            C1["🧭 Custom Split Navbar"]
-            C2["💍 TheOneRing Component"]
-            C3["🃏 Dynamic Extension Preview Cards"]
-        end
-
-        V --> R1 & R2 & R3
-        R1 --> C1 & C2
-        R2 --> C1 & C3
-        R3 --> C1
+    subgraph Repo["📦 FtxTenorio/itenorio.com (Vite + React Router)"]
+        CFG["🗺️ src/config/routes.js (every public URL)"]
+        V["⚙️ scripts/prerender.mjs (renders dist/&lt;route&gt;/index.html + sitemap.xml)"]
+        APP["🧭 src/App.jsx (routes) → layouts/SiteLayout.jsx (navbar + footer)"]
+        P["📄 src/pages/* (home, career, extensions, websites, shortener)"]
+        D["🗃️ src/data/* (company, extensions, career, websites...)"]
+        CFG --> V
+        CFG --> APP --> P --> D
     end
 
     subgraph Cloud["☁️ Production & Serverless Backend"]
         GA["🚀 GitHub Actions (.github/workflows)"]
-        CDN["🌐 Edge Hosting / CDN (itenorio.com)"]
+        CDN["🌐 S3 + CloudFront (itenorio.com)"]
         API["λ AWS API Gateway + Lambda (link.itenorio.com)"]
         DB[("⚡ Amazon DynamoDB")]
     end
 
-    Repo -->|Push to main| GA
-    GA -->|Automated Deploy| CDN
-    R3 -->|POST /shorten| API
+    Repo -->|Push to master| GA
+    GA -->|npm run build → s3 sync dist/| CDN
+    P -->|/shortener → POST /links| API
     API --> DB
 
     style Repo fill:#0f172a,stroke:#38bdf8,stroke-width:2px,color:#fff
-    style Shared fill:#1e1b4b,stroke:#818cf8,stroke-width:2px,color:#fff
     style Cloud fill:#064e3b,stroke:#34d399,stroke-width:2px,color:#fff
 ```
 
@@ -158,17 +149,33 @@ flowchart TB
 ### 📂 Repository Anatomy
 
 ```text
-[itenorio.com/](https://itenorio.com/)
-├── .github/workflows/   # 🚀 Automated CI/CD pipelines & build output workflows
-├── extensions/          # 🧩 Entry point & routing setup for [itenorio.com/extensions](https://itenorio.com/extensions)
-├── public/              # 🎨 Static assets, icons & 3D/visual artifacts (TheOneRing)
-├── shortener/           # 🔗 Entry point & logic for [itenorio.com/shortener](https://itenorio.com/shortener)
-├── src/                 # ⚛️ Core React components, Navbar, TheOneRing & Dynamic Preview Cards
-├── index.html           # 🏠 Main portfolio entry point
-├── vite.config.js       # ⚡ Multi-page Vite bundler & route configuration
-├── eslint.config.js     # 🔍 Code quality & linting rules
-└── package.json         # 📦 Dependencies & build scripts
+itenorio.com/
+├── .github/workflows/        # 🚀 CI/CD: build + sync dist/ to S3, invalidate CloudFront
+├── public/                   # 🎨 Static files copied as-is (favicons, robots.txt)
+├── index.html                # The only HTML template (meta filled in per route at build)
+├── vite.config.js            # Vite + React + Tailwind
+├── scripts/prerender.mjs     # After the build: pre-renders dist/<route>/index.html, 404.html, sitemap.xml
+└── src/
+    ├── main.jsx              # Browser entry: hydrates the pre-rendered HTML
+    ├── entry-server.jsx      # Build-time entry used by scripts/prerender.mjs
+    ├── App.jsx               # All routes (react-router)
+    ├── config/routes.js      # Every public URL + its <title>/description/share image
+    ├── config/structuredData.js # schema.org JSON-LD per route
+    ├── layouts/SiteLayout.jsx# Navbar + footer + page meta + scroll handling
+    ├── components/
+    │   ├── layout/           # Navbar, Footer, Logo
+    │   └── ui/               # Section, PageLoader
+    ├── pages/
+    │   ├── home/             # /            company home (sections/)
+    │   ├── career/           # /career      résumé (components/)
+    │   ├── extensions/       # /extensions, /extensions/:slug, …/crunchy-navigator/privacy-policy
+    │   ├── websites/         # /websites
+    │   ├── shortener/        # /shortener   (talks to link.itenorio.com)
+    │   └── NotFoundPage.jsx
+    └── data/                 # Content: company, extensions, websites, career, tech stack…
 ```
+
+**Adding a page:** create it under `src/pages/<name>/`, add a `<Route>` in `src/App.jsx` and an entry in `src/config/routes.js` (so the build creates `dist/<name>/index.html`).
 
 ---
 
@@ -180,7 +187,7 @@ flowchart TB
 
 ```bash
 # 1. Clone the repository
-git clone [https://github.com/FtxTenorio/itenorio.com.git](https://github.com/FtxTenorio/itenorio.com.git)
+git clone https://github.com/FtxTenorio/itenorio.com.git
 cd itenorio.com
 
 # 2. Install dependencies
@@ -189,26 +196,15 @@ npm install
 # 3. Spin up the Vite development server with HMR
 npm run dev
 
-# 4. Build optimized multi-page bundle for production
+# 4. Build for production (outputs dist/, one pre-rendered index.html per route)
 npm run build
+
+# 5. Serve the production build locally
+npm run preview
 ```
 
 ---
 
-### 🕵️‍♂️ Secret Lore *(Click to expand)*
-
-<details>
-  <summary><b>💍 What is <code>TheOneRing</code> doing in a software engineer's portfolio?</b></summary>
-  <br/>
-  <blockquote>
-    <i>"One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them."</i>
-  </blockquote>
-  <p>
-    Because a personal website shouldn't look like a boring corporate spreadsheet. I built and integrated the <b><code>TheOneRing</code></b> component inside <code>src/</code> & <code>public/</code> to give the main landing page a unique interactive centerpiece. Check it out live at <a href="https://itenorio.com">itenorio.com</a>!
-  </p>
-</details>
-
----
 
 <div align="center">
   <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0284c7,50:1e1b4b,100:090d16&height=120&section=footer&text=Engineered%20by%20Paulo%20Ten%C3%B3rio%20%E2%80%A2%20itenorio.com&fontSize=19&fontColor=38bdf8&fontAlignY=65" width="100%" alt="Footer" />
