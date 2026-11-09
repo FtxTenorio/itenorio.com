@@ -5,7 +5,7 @@ import { SocialLinks } from "./SocialLinks";
 
 const TYPING_LINES = [
   "Not just a static portfolio — it is a live web ecosystem ⚡",
-  "Multi-Page React + Vite Architecture 🚀",
+  "React + Vite, one route per page 🚀",
   "Home of /extensions and /shortener 🔗",
   "Warning: Contains TheOneRing component hidden in the code 💍",
 ];

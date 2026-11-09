@@ -3,20 +3,21 @@ export const websites = [
     id: "itenorio",
     name: "itenorio.com",
     repoName: "FtxTenorio/itenorio.com",
-    shortDesc: "Multi-entry React + Vite engineering hub & serverless suite.",
+    shortDesc: "Company website, product pages & serverless tools (React + Vite).",
     description:
-      "Engineered as a multi-entry React + Vite application serving as my personal software consultancy hub (iTenorio Tech), a live showcase for browser extensions, and a web client for AWS serverless utilities.",
+      "The website of iTenorio Tech: a React + Vite single-page app with react-router, serving the company home, the Crunchyroll Navigator product page, my career page, and a web client for AWS serverless utilities.",
     liveUrl: "https://itenorio.com",
     githubUrl: "https://github.com/FtxTenorio/itenorio.com",
     isPrivate: false,
     color: "#3b82f6",
     secondaryColor: "#6366f1",
     icon: "fa-solid fa-terminal",
-    updatedAt: "September 2026",
-    architectureType: "Multi-Page Vite + AWS Serverless",
+    updatedAt: "November 2026",
+    architectureType: "React Router SPA + per-route static HTML + AWS Serverless",
     stack: [
-      "React 18",
-      "Vite (Multi-Page Rollup)",
+      "React 19",
+      "React Router",
+      "Vite",
       "Tailwind CSS",
       "AWS Lambda",
       "API Gateway",
@@ -31,11 +32,18 @@ export const websites = [
     ],
     routes: [
       {
-        title: "Main Engineering Hub",
+        title: "Company Home",
         path: "/",
         url: "https://itenorio.com",
         icon: "fa-solid fa-house-laptop",
-        desc: "Interactive portfolio, consultancy overview, AWS certifications, career timeline, and the integrated <TheOneRing /> 3D visual component.",
+        desc: "Company overview, featured product (Crunchyroll Navigator), services, founder and contact / legal details.",
+      },
+      {
+        title: "Career",
+        path: "/career",
+        url: "https://itenorio.com/career",
+        icon: "fa-solid fa-briefcase",
+        desc: "Career timeline, AWS certifications, tech stack, education and the integrated <TheOneRing /> visual component.",
       },
       {
         title: "Extensions Hub",
@@ -54,8 +62,8 @@ export const websites = [
     ],
     highlights: [
       {
-        title: "Multi-Page Vite Architecture",
-        desc: "Custom vite.config.js splitting independent entry points (/, /extensions, and /shortener) while sharing core UI state and navigation.",
+        title: "SPA with Static Route Files",
+        desc: "One React app with react-router; a small Vite plugin writes an index.html for every route listed in src/config/routes.js, so S3 + CloudFront serve each URL directly.",
         icon: "fa-solid fa-bolt",
       },
       {
@@ -70,7 +78,7 @@ export const websites = [
       },
       {
         title: "Interactive UI & Easter Eggs",
-        desc: "Custom animations, responsive raw/split Navbar layouts, and the <TheOneRing /> component integrated right into the core app.",
+        desc: "Custom animations and the <TheOneRing /> and TARDIS components hidden on the career page.",
         icon: "fa-solid fa-wand-magic-sparkles",
       },
     ],
@@ -81,34 +89,24 @@ export const websites = [
         isFolder: true,
       },
       {
-        name: "extensions/",
-        comment: "🧩 Entry point & routing setup for itenorio.com/extensions",
-        isFolder: true,
-      },
-      {
         name: "public/",
         comment: "🎨 Static assets, icons & 3D/visual artifacts (TheOneRing)",
         isFolder: true,
       },
       {
-        name: "shortener/",
-        comment: "🔗 Entry point & logic for itenorio.com/shortener",
-        isFolder: true,
-      },
-      {
         name: "src/",
         comment:
-          "⚛️ Core React components, Navbar, TheOneRing & Preview Cards",
+          "⚛️ App, routes, layouts, pages, components & data",
         isFolder: true,
       },
       {
         name: "index.html",
-        comment: "🏠 Main portfolio entry point",
+        comment: "🏠 Single HTML template (meta rewritten per route)",
         isFolder: false,
       },
       {
         name: "vite.config.js",
-        comment: "⚡ Multi-page Vite bundler & route configuration",
+        comment: "⚡ Vite config + per-route HTML / sitemap plugin",
         isFolder: false,
       },
       {
@@ -123,7 +121,7 @@ export const websites = [
       quote:
         '"One Ring to rule them all, One Ring to find them, One Ring to bring them all and in the darkness bind them."',
       answer:
-        "Because a personal website shouldn't look like a boring corporate spreadsheet. I built and integrated the TheOneRing component inside src/ & public/ to give the main landing page a unique interactive centerpiece.",
+        "Because a personal website shouldn't look like a boring corporate spreadsheet. I built and integrated the TheOneRing component inside src/ & public/ to give the career page a unique interactive centerpiece.",
     },
   },
   {
