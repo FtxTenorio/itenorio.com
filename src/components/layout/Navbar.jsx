@@ -32,9 +32,15 @@ export const Navbar = () => {
 
         <div className="hidden md:flex items-center gap-1">
           {NAV_LINKS.map((link) => (
-            <NavLink key={link.to} to={link.to} className={desktopLinkClass}>
-              {link.label}
-            </NavLink>
+            link.external ? (
+              <a key={link.to} href={link.to} className={desktopLinkClass({ isActive: false })}>
+                {link.label}
+              </a>
+            ) : (
+              <NavLink key={link.to} to={link.to} className={desktopLinkClass}>
+                {link.label}
+              </NavLink>
+            )
           ))}
           <Link
             to="/#contact"
@@ -63,10 +69,17 @@ export const Navbar = () => {
         >
           <div className="px-4 py-3 space-y-1">
             {NAV_LINKS.map((link) => (
-              <NavLink key={link.to} to={link.to} className={mobileLinkClass}>
-                <i className={`${link.icon} w-5 text-center text-gray-500`} aria-hidden="true" />
-                {link.label}
-              </NavLink>
+              link.external ? (
+                <a key={link.to} href={link.to} className={mobileLinkClass({ isActive: false })}>
+                  <i className={`${link.icon} w-5 text-center text-gray-500`} aria-hidden="true" />
+                  {link.label}
+                </a>
+              ) : (
+                <NavLink key={link.to} to={link.to} className={mobileLinkClass}>
+                  <i className={`${link.icon} w-5 text-center text-gray-500`} aria-hidden="true" />
+                  {link.label}
+                </NavLink>
+              )
             ))}
             <Link
               to="/#contact"
