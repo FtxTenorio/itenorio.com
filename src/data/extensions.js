@@ -8,7 +8,7 @@ export const extensions = [
     tagline: "A better Simulcasts page for Crunchyroll.",
     shortDesc: "Audio & dub filters, episode list and dub badges.",
     description:
-      "A free Chrome extension for Crunchyroll that adds audio and dub filters, an episode list and dub badges to the Simulcasts page — so you can find what to watch in seconds.",
+      "A free Chrome extension for Crunchyroll that adds dub, rating, genre and length filters, instant search, dub badges and a full episode list to the Simulcasts page — so you can find what to watch in seconds.",
     platform: "Chrome",
     price: "Free",
     supportNote:
@@ -33,39 +33,60 @@ export const extensions = [
     size: "415 KiB",
     language: "English",
     overview:
-      "Crunchyroll Navigator improves the Crunchyroll experience on desktop. On the Simulcasts page it lets you filter the season by audio language and dub availability, shows dub badges right on each title, and adds an episode list so you can jump to what you want without opening every show. It runs entirely in your browser, needs no account and collects no personal data.",
+      "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode — without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
+    // Real store screenshots (rendered from the extension repo's
+    // tools/promo-tiles, English). Files live in public/images/crunchyroll-navigator/.
+    screenshots: [
+      {
+        src: "/images/crunchyroll-navigator/dub-filter.webp",
+        label: "Dub filter",
+        alt: "Crunchyroll Navigator filter bar with English selected: only the dubbed shows of the season stay highlighted, each with a DUB badge.",
+      },
+      {
+        src: "/images/crunchyroll-navigator/episode-list.webp",
+        label: "Episode list",
+        alt: "Episode list of Frieren: Beyond Journey's End season 2 opened from the Simulcasts page, showing each episode with its audio language.",
+      },
+      {
+        src: "/images/crunchyroll-navigator/filters.webp",
+        label: "More filters",
+        alt: "Rating, length and age rating filters, plus genres and content warnings that can be included or excluded.",
+      },
+      {
+        src: "/images/crunchyroll-navigator/search.webp",
+        label: "Search",
+        alt: "Typing 'frie' in the search bar highlights Frieren and fades out the other shows of the season.",
+      },
+    ],
     features: [
       {
-        title: "Episode List",
+        title: "Dub filter",
         description:
-          "See the episodes of a title from the Simulcasts page and jump straight to the one you want.",
+          "Filter the simulcast season by audio language — English, Japanese, Spanish, Portuguese, German and more — with \"only\", \"at least\" or \"up to\" the languages you pick.",
       },
       {
-        title: "Dub Badges",
+        title: "Episode list in one click",
         description:
-          "Badges on every card show which audio languages and dubs are available at a glance.",
+          "Open any show and see its full episode list, with descriptions and the audio languages of each episode.",
       },
       {
-        title: "Audio & Dub Filter",
+        title: "Dub badges",
         description:
-          "Quickly sort titles by audio language and dub availability.",
+          "Pick your preferred audio language and every show dubbed in it gets a badge.",
       },
       {
-        title: "Rating Filter",
-        description: "Browse anime based on user ratings and score tiers.",
-      },
-      {
-        title: "Duration Filter",
-        description: "Easily find short episodes, standard lengths, or movies.",
-      },
-      {
-        title: "Age Rating Filter",
-        description: "Filter content suitable for specific age groups.",
-      },
-      {
-        title: "Filter Customization",
+        title: "Rating, age, length and genre filters",
         description:
-          "Configure, toggle, and reset your filter preferences instantly.",
+          "Combine rating, age rating and length (short, medium, long) with genres and content warnings you can include or exclude.",
+      },
+      {
+        title: "Instant search",
+        description: "Type a few letters and the season is filtered as you type.",
+      },
+      {
+        title: "21 languages",
+        description:
+          "The interface follows your browser language; episode titles and descriptions come from Crunchyroll in the same language when available.",
       },
     ],
     roadmap: [

@@ -3,92 +3,27 @@ import { Section } from "../../../components/ui/Section";
 import { extensions } from "../../../data/extensions";
 import { ExtensionLogo } from "../../extensions/components/ExtensionLogo";
 import { SupportNote } from "../../extensions/components/SupportNote";
+import { ScreenshotGallery } from "../../extensions/components/ScreenshotGallery";
 
 const product = extensions.find((ext) => ext.id === "crunchy");
 
 const HIGHLIGHTS = [
   {
-    icon: "fas fa-filter",
-    title: "Audio & dub filters",
-    text: "Filter the season by audio language and dub availability.",
+    icon: "fas fa-microphone",
+    title: "Dub filter",
+    text: "Show only the shows of the season dubbed in your language.",
   },
   {
     icon: "fas fa-list-ol",
-    title: "Episode list",
-    text: "Browse a show's episodes without leaving the Simulcasts page.",
+    title: "Every episode, without leaving the page",
+    text: "Open any show and see its episodes with the audio languages of each one.",
   },
   {
-    icon: "fas fa-closed-captioning",
-    title: "Dub badges",
-    text: "See which dubs exist right on each title card.",
+    icon: "fas fa-sliders",
+    title: "Filters the site doesn't have",
+    text: "Rating, age rating, length, genres, content warnings and instant search.",
   },
 ];
-
-/** Stylised illustration of the extension UI (not a real screenshot). */
-const ProductIllustration = () => (
-  <div
-    className="rounded-xl border border-white/10 bg-ink shadow-2xl overflow-hidden"
-    role="img"
-    aria-label="Illustration of the Crunchyroll Navigator filter bar and dub badges on a list of shows"
-  >
-    <div className="flex items-center gap-1.5 px-4 py-2.5 bg-surface-raised border-b border-white/10">
-      <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
-      <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
-      <span className="w-2.5 h-2.5 rounded-full bg-white/15" />
-      <span className="ml-3 text-[11px] font-mono text-gray-500 truncate">
-        Simulcasts · Crunchyroll Navigator
-      </span>
-    </div>
-    <div className="p-4 sm:p-5 space-y-4">
-      <div className="flex flex-wrap gap-2">
-        {["Japanese", "English dub", "Español", "Português"].map((chip, i) => (
-          <span
-            key={chip}
-            className={`px-2.5 py-1 rounded-full text-[11px] font-semibold border ${
-              i === 1
-                ? "bg-crunchy/15 border-crunchy/40 text-orange-200"
-                : "bg-white/5 border-white/10 text-gray-400"
-            }`}
-          >
-            {chip}
-          </span>
-        ))}
-      </div>
-      <div className="grid grid-cols-3 gap-3">
-        {[
-          ["EN", "PT"],
-          ["EN"],
-          ["EN", "ES", "PT"],
-        ].map((badges, i) => (
-          <div key={i} className="space-y-2">
-            <div className="aspect-[3/4] rounded-md bg-gradient-to-br from-white/10 to-white/[0.02] border border-white/5 relative">
-              <div className="absolute top-1.5 left-1.5 flex flex-wrap gap-1">
-                {badges.map((b) => (
-                  <span
-                    key={b}
-                    className="px-1.5 py-0.5 rounded bg-crunchy text-[9px] font-bold text-white"
-                  >
-                    {b}
-                  </span>
-                ))}
-              </div>
-            </div>
-            <div className="h-2 rounded bg-white/10 w-4/5" />
-            <div className="h-2 rounded bg-white/5 w-3/5" />
-          </div>
-        ))}
-      </div>
-      <div className="rounded-md border border-white/10 bg-white/[0.03] divide-y divide-white/5">
-        {["Episode 1", "Episode 2", "Episode 3"].map((ep, i) => (
-          <div key={ep} className="flex items-center justify-between px-3 py-2 text-[11px]">
-            <span className="text-gray-300">{ep}</span>
-            <span className="text-gray-500">{i === 2 ? "New" : "Dub · Sub"}</span>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-);
 
 export const FeaturedProductSection = () => {
   if (!product) return null;
@@ -130,8 +65,7 @@ export const FeaturedProductSection = () => {
               ["fas fa-tag", product.price],
               ["fab fa-chrome", product.platform],
               ["fas fa-code-branch", `v${product.version}`],
-              ["fas fa-users", `${product.users} users`],
-              ["fas fa-star", `${product.rating.toFixed(1)} rating`],
+              ["fas fa-language", "21 languages"],
               ["fas fa-user-shield", "No personal data collected"],
             ].map(([icon, label]) => (
               <li
@@ -172,7 +106,7 @@ export const FeaturedProductSection = () => {
           </div>
         </div>
 
-        <ProductIllustration />
+        <ScreenshotGallery screenshots={product.screenshots} accent={product.color} />
       </div>
     </Section>
   );

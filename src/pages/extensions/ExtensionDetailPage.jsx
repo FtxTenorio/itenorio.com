@@ -3,6 +3,7 @@ import { extensions } from "../../data/extensions";
 import NotFoundPage from "../NotFoundPage";
 import { ExtensionLogo } from "./components/ExtensionLogo";
 import { SupportNote } from "./components/SupportNote";
+import { ScreenshotGallery } from "./components/ScreenshotGallery";
 
 function DetailSection({ title, icon, children }) {
   return (
@@ -125,6 +126,10 @@ export default function ExtensionDetailPage() {
           </dl>
         </div>
       </div>
+
+      {ext.screenshots?.length > 0 && (
+        <ScreenshotGallery screenshots={ext.screenshots} accent={ext.color} eager />
+      )}
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
