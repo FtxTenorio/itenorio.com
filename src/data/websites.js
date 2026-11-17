@@ -1,129 +1,10 @@
 export const websites = [
   {
-    id: "itenorio",
-    name: "itenorio.com",
-    repoName: "FtxTenorio/itenorio.com",
-    shortDesc: "Company website, product pages & serverless tools (React + Vite).",
-    description:
-      "The website of iTenorio Tech: a React + Vite single-page app with react-router, serving the company home, the Crunchyroll Navigator product page, my career page, and a web client for AWS serverless utilities.",
-    liveUrl: "https://itenorio.com",
-    capture: "/images/websites/itenorio.webp",
-    githubUrl: "https://github.com/FtxTenorio/itenorio.com",
-    isPrivate: false,
-    color: "#3b82f6",
-    secondaryColor: "#6366f1",
-    icon: "fa-solid fa-terminal",
-    updatedAt: "November 2026",
-    architectureType: "React Router SPA + per-route static HTML + AWS Serverless",
-    stack: [
-      "React 19",
-      "React Router",
-      "Vite",
-      "Tailwind CSS",
-      "AWS Lambda",
-      "API Gateway",
-      "DynamoDB",
-      "CloudFront CDN",
-      "GitHub Actions CI/CD",
-    ],
-    languages: [
-      { name: "JavaScript", percent: 96.9, color: "#f1e05a" },
-      { name: "HTML", percent: 2.8, color: "#e34c26" },
-      { name: "CSS", percent: 0.3, color: "#563d7c" },
-    ],
-    routes: [
-      {
-        title: "Company Home",
-        path: "/",
-        url: "https://itenorio.com",
-        capture: "/images/websites/itenorio/home.webp",
-        icon: "fa-solid fa-house-laptop",
-        desc: "Company overview, featured product (Crunchyroll Navigator), services, founder and contact / legal details.",
-      },
-      {
-        title: "Career",
-        path: "/career",
-        url: "https://itenorio.com/career",
-        capture: "/images/websites/itenorio/career.webp",
-        icon: "fa-solid fa-briefcase",
-        desc: "Experience as stacked cards, education path, tech stack and AWS certifications.",
-      },
-      {
-        title: "Extensions Hub",
-        path: "/extensions",
-        url: "https://itenorio.com/extensions",
-        capture: "/images/websites/itenorio/extensions.webp",
-        icon: "fa-solid fa-puzzle-piece",
-        desc: "Dedicated showcase featuring dynamic extension preview cards, privacy policies, and direct Chrome Web Store integrations.",
-      },
-      {
-        title: "URL Shortener Client",
-        path: "/shortener",
-        url: "https://itenorio.com/shortener",
-        capture: "/images/websites/itenorio/shortener.webp",
-        icon: "fa-solid fa-link",
-        desc: "Sleek frontend interface for minting instant, low-latency short links under link.itenorio.com powered by AWS Lambda & DynamoDB.",
-      },
-    ],
-    highlights: [
-      {
-        title: "SPA with Static Route Files",
-        desc: "One React app with react-router; a small Vite plugin writes an index.html for every route listed in src/config/routes.js, so S3 + CloudFront serve each URL directly.",
-        icon: "fa-solid fa-bolt",
-      },
-      {
-        title: "Serverless Link Shortener Client",
-        desc: "Dedicated route integrated with an AWS Serverless backend (Lambda + API Gateway + DynamoDB) to generate short links.",
-        icon: "fa-brands fa-aws",
-      },
-      {
-        title: "CloudFront Asset Delivery",
-        desc: "Static artifacts, high-res assets, and custom 3D visual elements served globally with low latency via Amazon CloudFront.",
-        icon: "fa-solid fa-cloud-bolt",
-      },
-      {
-        title: "Pre-rendered & SEO-ready",
-        desc: "Every route is rendered to real HTML at build time, with per-page metadata, share images and schema.org data.",
-        icon: "fa-solid fa-magnifying-glass-chart",
-      },
-    ],
-    fileTree: [
-      {
-        name: ".github/workflows/",
-        comment: "🚀 Automated CI/CD pipelines & build output workflows",
-        isFolder: true,
-      },
-      {
-        name: "public/",
-        comment: "🎨 Static assets: favicons, share images, robots.txt",
-        isFolder: true,
-      },
-      {
-        name: "src/",
-        comment:
-          "⚛️ App, routes, layouts, pages, components & data",
-        isFolder: true,
-      },
-      {
-        name: "index.html",
-        comment: "🏠 Single HTML template (meta filled in per route)",
-        isFolder: false,
-      },
-      {
-        name: "vite.config.js",
-        comment: "⚡ Vite config (scripts/prerender.mjs renders each route)",
-        isFolder: false,
-      },
-      {
-        name: "package.json",
-        comment: "📦 Dependencies & build scripts",
-        isFolder: false,
-      },
-    ],
-  },
-  {
     id: "chaledacris",
-    name: "Chalé da Cris",
+    // Shown in English; `originalName` is the real (Brazilian Portuguese)
+    // name, explained next to it (see SiteName in WebsitesPage).
+    name: "Cris's Chalet",
+    originalName: "Chalé da Cris",
     repoName: "FtxTenorio/src-frontend-chale-da-cris-website",
     shortDesc:
       "Next.js 14 coastal pousada platform & Hospedin booking engine.",
@@ -272,5 +153,127 @@ export const websites = [
       answer:
         "Hospitality websites rely heavily on high-resolution photography, which often hurts mobile performance for travelers on 4G. By writing custom Node.js batch scripts (resize.js and refactor.js) to convert and compress assets into WebP before bundling, combined with Next.js 14 Static Site Generation (SSG), AWS S3 cache-control headers, and the Hospedin booking engine, guests can browse fullscreen Swiper.js chalet galleries and book their stay in Fortim with instant load times.",
     },
+  },
+  {
+    id: "itenorio",
+    name: "itenorio.com",
+    repoName: "FtxTenorio/itenorio.com",
+    shortDesc: "Company website, product pages & serverless tools (React + Vite).",
+    description:
+      "The website of iTenorio Tech: a React + Vite single-page app with react-router, serving the company home, the Crunchyroll Navigator product page, my career page, and a web client for AWS serverless utilities.",
+    liveUrl: "https://itenorio.com",
+    capture: "/images/websites/itenorio.webp",
+    githubUrl: "https://github.com/FtxTenorio/itenorio.com",
+    isPrivate: false,
+    color: "#3b82f6",
+    secondaryColor: "#6366f1",
+    icon: "fa-solid fa-terminal",
+    updatedAt: "November 2026",
+    architectureType: "React Router SPA + per-route static HTML + AWS Serverless",
+    stack: [
+      "React 19",
+      "React Router",
+      "Vite",
+      "Tailwind CSS",
+      "AWS Lambda",
+      "API Gateway",
+      "DynamoDB",
+      "CloudFront CDN",
+      "GitHub Actions CI/CD",
+    ],
+    languages: [
+      { name: "JavaScript", percent: 96.9, color: "#f1e05a" },
+      { name: "HTML", percent: 2.8, color: "#e34c26" },
+      { name: "CSS", percent: 0.3, color: "#563d7c" },
+    ],
+    routes: [
+      {
+        title: "Company Home",
+        path: "/",
+        url: "https://itenorio.com",
+        capture: "/images/websites/itenorio/home.webp",
+        icon: "fa-solid fa-house-laptop",
+        desc: "Company overview, featured product (Crunchyroll Navigator), services, founder and contact / legal details.",
+      },
+      {
+        title: "Career",
+        path: "/career",
+        url: "https://itenorio.com/career",
+        capture: "/images/websites/itenorio/career.webp",
+        icon: "fa-solid fa-briefcase",
+        desc: "Experience as stacked cards, education path, tech stack and AWS certifications.",
+      },
+      {
+        title: "Extensions Hub",
+        path: "/extensions",
+        url: "https://itenorio.com/extensions",
+        capture: "/images/websites/itenorio/extensions.webp",
+        icon: "fa-solid fa-puzzle-piece",
+        desc: "Dedicated showcase featuring dynamic extension preview cards, privacy policies, and direct Chrome Web Store integrations.",
+      },
+      {
+        title: "URL Shortener Client",
+        path: "/shortener",
+        url: "https://itenorio.com/shortener",
+        capture: "/images/websites/itenorio/shortener.webp",
+        icon: "fa-solid fa-link",
+        desc: "Sleek frontend interface for minting instant, low-latency short links under link.itenorio.com powered by AWS Lambda & DynamoDB.",
+      },
+    ],
+    highlights: [
+      {
+        title: "SPA with Static Route Files",
+        desc: "One React app with react-router; a small Vite plugin writes an index.html for every route listed in src/config/routes.js, so S3 + CloudFront serve each URL directly.",
+        icon: "fa-solid fa-bolt",
+      },
+      {
+        title: "Serverless Link Shortener Client",
+        desc: "Dedicated route integrated with an AWS Serverless backend (Lambda + API Gateway + DynamoDB) to generate short links.",
+        icon: "fa-brands fa-aws",
+      },
+      {
+        title: "CloudFront Asset Delivery",
+        desc: "Static artifacts, high-res assets, and custom 3D visual elements served globally with low latency via Amazon CloudFront.",
+        icon: "fa-solid fa-cloud-bolt",
+      },
+      {
+        title: "Pre-rendered & SEO-ready",
+        desc: "Every route is rendered to real HTML at build time, with per-page metadata, share images and schema.org data.",
+        icon: "fa-solid fa-magnifying-glass-chart",
+      },
+    ],
+    fileTree: [
+      {
+        name: ".github/workflows/",
+        comment: "🚀 Automated CI/CD pipelines & build output workflows",
+        isFolder: true,
+      },
+      {
+        name: "public/",
+        comment: "🎨 Static assets: favicons, share images, robots.txt",
+        isFolder: true,
+      },
+      {
+        name: "src/",
+        comment:
+          "⚛️ App, routes, layouts, pages, components & data",
+        isFolder: true,
+      },
+      {
+        name: "index.html",
+        comment: "🏠 Single HTML template (meta filled in per route)",
+        isFolder: false,
+      },
+      {
+        name: "vite.config.js",
+        comment: "⚡ Vite config (scripts/prerender.mjs renders each route)",
+        isFolder: false,
+      },
+      {
+        name: "package.json",
+        comment: "📦 Dependencies & build scripts",
+        isFolder: false,
+      },
+    ],
   },
 ];

@@ -127,12 +127,14 @@ export default function ExtensionDetailPage() {
         </div>
       </div>
 
-      {ext.screenshots?.length > 0 && (
-        <ScreenshotGallery screenshots={ext.screenshots} accent={ext.color} eager />
-      )}
-
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         <div className="lg:col-span-2 space-y-8">
+          {/* screenshots sit in the main column, beside the sidebar, so they
+              don't take over the page */}
+          {ext.screenshots?.length > 0 && (
+            <ScreenshotGallery screenshots={ext.screenshots} accent={ext.color} eager />
+          )}
+
           <DetailSection title="Overview">
             <p className="text-gray-300 leading-relaxed">{ext.overview}</p>
           </DetailSection>

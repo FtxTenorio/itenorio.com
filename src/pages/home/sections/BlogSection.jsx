@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { Section } from "../../../components/ui/Section";
 import { SwipeRow } from "../../../components/ui/SwipeRow";
 import { HOME_BG } from "../../../config/theme";
-import { NotebookBackdrop } from "../../../components/ui/ThemedBackdrops";
+import { InkBackdrop } from "../../../components/ui/ThemedBackdrops";
 import { BLOG_RSS_URL, BLOG_URL, fetchLatestPosts } from "../../../data/blog";
 
 const POSTS = 3;
@@ -11,12 +11,21 @@ const formatDate = (date) =>
   date.toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric" });
 
 // The blog is another site (Ghost), so every link is a plain <a>.
-const PostCard = ({ post }) => (
+// The newest post gets a "Latest" tag and a light running around its border.
+const PostCard = ({ post, latest = false }) => (
   <a
     href={post.url}
-    className="group flex flex-col overflow-hidden rounded-xl border border-line bg-surface/60 hover:border-brand/50 transition-colors"
+    className={`group flex flex-col rounded-xl border bg-surface/60 transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-20px_rgba(56,189,248,0.45)] ${
+      latest ? "glow-border border-transparent" : "border-line hover:border-brand/50"
+    }`}
   >
-    <div className="aspect-[16/9] lg:[@media(max-height:900px)]:aspect-[2/1] overflow-hidden bg-white/5">
+    <div className="relative z-[1] aspect-[16/9] lg:[@media(max-height:900px)]:aspect-[2/1] overflow-hidden rounded-t-xl bg-white/5">
+      {latest && (
+        <span className="absolute left-3 top-3 z-10 inline-flex items-center gap-1.5 rounded-full bg-ink/80 px-2.5 py-1 text-[11px] font-semibold text-white backdrop-blur">
+          <span className="h-1.5 w-1.5 animate-pulse rounded-full bg-brand-soft" aria-hidden="true" />
+          Latest
+        </span>
+      )}
       {post.image ? (
         <img
           src={post.image}
@@ -30,7 +39,7 @@ const PostCard = ({ post }) => (
         </div>
       )}
     </div>
-    <div className="flex flex-col flex-grow p-4 sm:p-5">
+    <div className="relative z-[1] flex flex-col flex-grow p-4 sm:p-5">
       <p className="flex items-center gap-2 text-xs text-gray-500 mb-3">
         {post.tag && (
           <span className="px-2 py-0.5 rounded-full bg-brand/10 border border-brand/25 text-brand-soft">
@@ -90,7 +99,7 @@ export const BlogSection = () => {
       title="The Itenorio Perspective."
       intro="Thoughts on technology, software engineering, and everything in between: notes from building the studio's products, opinions and the occasional trip."
       fullScreen
-      backdrop={<NotebookBackdrop />}
+      backdrop={<InkBackdrop />}
       background={HOME_BG.base}
       wave={HOME_BG.alt}
       bubbles={[
@@ -102,7 +111,7 @@ export const BlogSection = () => {
         <SwipeRow label="Latest blog posts" className="mb-5 sm:mb-8 lg:mb-6">
           {status === "loading"
             ? Array.from({ length: POSTS }, (_, index) => <PostSkeleton key={index} />)
-            : posts.map((post) => <PostCard key={post.id} post={post} />)}
+            : posts.map((post, index) => <PostCard key={post.id} post={post} latest={index === 0} />)}
         </SwipeRow>
       )}
 

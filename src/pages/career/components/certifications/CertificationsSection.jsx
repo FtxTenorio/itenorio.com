@@ -1,5 +1,5 @@
 import { useRef } from "react";
-import { certifications } from "../../../../data/certifications";
+import { certifications, studyingFor } from "../../../../data/certifications";
 import { useReveal } from "../../../../hooks/useReveal";
 import { SectionHeader } from "../ui/SectionHeader";
 
@@ -23,8 +23,9 @@ const DIFFICULTY = {
  * Certifications over the years: one column per year (a vertical timeline
  * on phones). When the section scrolls into view the years come in one after
  * the other and each badge is "earned" (flips in with a shine), in the order
- * they were obtained. Ends with the link to verify every badge on Credly,
- * which is also the last node of CareerTrace.
+ * they were obtained. The last column is the next year: the certifications
+ * being studied for now (dashed, "Studying"), apart from the earned ones.
+ * Ends with the link to verify every badge on Credly.
  */
 export const CertificationsSection = ({ onSelectCert }) => {
   const listRef = useRef(null);
@@ -36,14 +37,13 @@ export const CertificationsSection = ({ onSelectCert }) => {
         id="certifications-title"
         eyebrow="Certifications"
         title="Earned along the way"
-        traceStop
-        subtitle="Cloud and infrastructure credentials, year by year. Tap a badge for what it validates."
+        subtitle={`Cloud and infrastructure credentials, year by year, and what I'm studying for in ${studyingFor.year}. Tap a badge for what it validates.`}
       />
 
       <ol
         ref={listRef}
         className="relative grid gap-8 lg:grid-cols-[repeat(var(--years),minmax(0,1fr))] lg:gap-5"
-        style={{ "--years": byYear.length }}
+        style={{ "--years": byYear.length + 1 }}
       >
         <span
           className="reveal-track absolute left-[11px] top-3 bottom-3 w-px bg-gradient-to-b from-amber-400/50 to-amber-400/10 lg:left-3 lg:right-3 lg:top-[11px] lg:bottom-auto lg:h-px lg:w-auto lg:bg-gradient-to-r"
@@ -99,10 +99,52 @@ export const CertificationsSection = ({ onSelectCert }) => {
             </ul>
           </li>
         ))}
+
+        {/* next year: being studied for now */}
+        <li
+          className="relative pl-10 lg:pl-0 lg:pt-10"
+          style={{ "--reveal-delay": `${0.2 + byYear.length * 0.35}s` }}
+        >
+          <span
+            className="reveal-node absolute left-0 top-0 h-6 w-6 rounded-full border border-dashed border-sky-400/70 bg-ink"
+            aria-hidden="true"
+          >
+            <span className="absolute inset-1.5 animate-ping rounded-full bg-sky-400/50" />
+          </span>
+          <p className="reveal-item mb-3 flex items-center gap-3 font-mono text-2xl font-bold text-white lg:text-3xl">
+            {studyingFor.year}
+            <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-400/40 bg-sky-400/10 px-2 py-0.5 font-sans text-[11px] font-semibold uppercase tracking-wide text-sky-300">
+              <i className="fas fa-book-open text-[10px]" aria-hidden="true" />
+              Studying
+            </span>
+          </p>
+          <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
+            {studyingFor.certs.map((cert, certIndex) => (
+              <li
+                key={cert.id}
+                className="reveal-badge"
+                style={{ "--reveal-delay": `${0.45 + byYear.length * 0.35 + certIndex * 0.15}s` }}
+              >
+                <div className="relative flex items-center gap-3 overflow-hidden rounded-xl border border-dashed border-sky-400/35 bg-sky-400/[0.04] p-3">
+                  <span className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl border border-sky-400/25 bg-ink text-xl text-sky-300">
+                    <i className={`fas ${cert.icon}`} aria-hidden="true" />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block text-sm font-semibold leading-snug text-white">{cert.name}</span>
+                    <span className="block text-xs text-gray-400">{cert.issuer}</span>
+                    <span className="mt-1.5 inline-block whitespace-nowrap rounded border border-sky-400/30 bg-sky-400/10 px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide text-sky-300">
+                      {cert.level}
+                    </span>
+                  </span>
+                </div>
+              </li>
+            ))}
+          </ul>
+        </li>
       </ol>
 
       <div className="mt-10 flex flex-col items-start gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <p className="text-sm text-gray-400" data-trace-stop>
+        <p className="text-sm text-gray-400">
           <span className="font-semibold text-white">{certifications.length} credentials</span>, all
           publicly verifiable.
         </p>

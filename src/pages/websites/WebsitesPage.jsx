@@ -2,6 +2,50 @@ import { useState } from "react";
 import { websites } from "../../data/websites";
 import { Carousel } from "../../components/ui/Carousel";
 
+/**
+ * A site's name. When the shown (English) name is a translation, an info
+ * button next to it explains it and gives the original Brazilian Portuguese
+ * name. Opens on tap/click, and on hover with a mouse.
+ */
+const SiteName = ({ site }) => {
+  const [open, setOpen] = useState(false);
+  if (!site.originalName) return site.name;
+  return (
+    <>
+      {site.name}
+      <span
+        className="relative ml-2 inline-flex align-middle"
+        onPointerLeave={(event) => event.pointerType === "mouse" && setOpen(false)}
+      >
+        {/* tap/click toggles; a mouse also opens it on hover */}
+        <button
+          type="button"
+          onClick={() => setOpen((value) => !value)}
+          onPointerEnter={(event) => event.pointerType === "mouse" && setOpen(true)}
+          onBlur={() => setOpen(false)}
+          aria-expanded={open}
+          aria-label={`About the name: originally "${site.originalName}" in Brazilian Portuguese`}
+          className="inline-flex h-7 w-7 items-center justify-center rounded-full border border-white/15 bg-white/5 text-sm text-gray-400 transition-colors hover:text-white"
+        >
+          <i className="fas fa-language" aria-hidden="true" />
+        </button>
+        {open && (
+          <span
+            role="tooltip"
+            className="absolute left-1/2 top-full z-30 mt-2 w-64 -translate-x-1/2 rounded-xl border border-white/10 bg-ink p-3 text-left text-xs font-normal leading-relaxed tracking-normal text-gray-300 shadow-2xl animate-fade-in"
+          >
+            <span className="mb-1 flex items-center gap-1.5 font-semibold text-white">
+              <span aria-hidden="true">🇧🇷</span> {site.originalName}
+            </span>
+            The original name is in Brazilian Portuguese. &ldquo;{site.name}&rdquo; is its English
+            translation.
+          </span>
+        )}
+      </span>
+    </>
+  );
+};
+
 /** One website per carousel slide: static capture on the left, details on the right. */
 const WebsiteSlide = ({ site, onOpen }) => (
   <article className="grid gap-6 lg:gap-10 lg:grid-cols-[1.15fr_1fr] items-center rounded-2xl border border-white/10 bg-surface p-5 sm:p-7">
@@ -46,7 +90,9 @@ const WebsiteSlide = ({ site, onOpen }) => (
           {site.isPrivate ? "Private" : "Public"}
         </span>
       </p>
-      <h2 className="text-2xl font-bold tracking-tight mb-3">{site.name}</h2>
+      <h2 className="text-2xl font-bold tracking-tight mb-3">
+        <SiteName site={site} />
+      </h2>
       <p className="text-gray-300 leading-relaxed mb-5 line-clamp-4">{site.description}</p>
 
       <ul className="flex flex-wrap gap-2 mb-6">
@@ -182,7 +228,7 @@ export default function Websites() {
                       FtxTenorio /
                     </span>
                     <h1 className="text-2xl md:text-3xl font-bold text-white tracking-tight">
-                      {activeSite.name}
+                      <SiteName site={activeSite} />
                     </h1>
                     <span
                       className={`px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wider border ${

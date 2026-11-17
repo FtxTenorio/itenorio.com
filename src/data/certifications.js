@@ -63,5 +63,42 @@ export const certifications = [
   },
 ];
 
+// Next certifications, being studied for now (target year). Shown as the
+// next column of the career certifications timeline, apart from the earned
+// ones above, so they never count as credentials.
+export const studyingFor = {
+  year: 2027,
+  certs: [
+    {
+      id: "aws-sap",
+      name: "AWS Solutions Architect Professional",
+      issuer: "Amazon Web Services",
+      level: "Professional",
+      icon: "fa-sitemap",
+    },
+    {
+      id: "aws-dop",
+      name: "AWS DevOps Engineer Professional",
+      issuer: "Amazon Web Services",
+      level: "Professional",
+      icon: "fa-infinity",
+    },
+    {
+      id: "aws-soa",
+      name: "AWS SysOps Administrator",
+      issuer: "Amazon Web Services",
+      level: "Associate",
+      icon: "fa-server",
+    },
+    {
+      id: "aws-scs",
+      name: "AWS Security Specialty",
+      issuer: "Amazon Web Services",
+      level: "Specialty",
+      icon: "fa-shield-halved",
+    },
+  ],
+};
+
 export const getCertById = (id) =>
   certifications.find((cert) => cert.id === id);

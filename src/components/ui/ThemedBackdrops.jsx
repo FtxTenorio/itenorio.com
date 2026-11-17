@@ -1,4 +1,5 @@
 // Soft drawings behind the home page bands, each about what its band says.
+// (AuroraBackdrop is a div with blurred blobs rather than an SVG.)
 // They are faint on purpose (they must never compete with the text) and fade
 // out towards the side where the content sits. Pure SVG, no images; used via
 // the `backdrop` prop of <Section>.
@@ -15,58 +16,66 @@ const svgProps = {
   "aria-hidden": true,
 };
 
-/** Featured product: the Simulcasts grid of posters, a few lit up by the dub filter. */
-export function PosterGridBackdrop() {
-  const lit = new Set([3, 9, 14, 22, 27, 33]);
-  const cells = [];
-  for (let row = 0; row < 5; row += 1) {
-    for (let col = 0; col < 8; col += 1) {
-      const index = row * 8 + col;
-      cells.push(
-        <g key={index} transform={`translate(${760 + col * 86 - (row % 2) * 20} ${40 + row * 156})`}>
-          <rect
-            width="70"
-            height="104"
-            rx="8"
-            fill={lit.has(index) ? "rgba(255,107,0,0.06)" : "rgba(255,255,255,0.018)"}
-            stroke={lit.has(index) ? "rgba(255,107,0,0.28)" : "rgba(255,255,255,0.045)"}
-            strokeWidth="1.5"
-          />
-          {lit.has(index) && (
-            <rect x="8" y="8" width="26" height="12" rx="3" fill="rgba(255,107,0,0.22)" />
-          )}
-          <rect x="8" y="114" width="54" height="5" rx="2.5" fill="rgba(255,255,255,0.06)" />
-        </g>,
-      );
-    }
-  }
+/**
+ * Featured product: a slow orange/violet aurora (the extension's colors) with
+ * the fox logo as a huge, faint watermark. `logo`: image URL of the logo.
+ */
+export function AuroraBackdrop({ logo }) {
   return (
-    <svg {...svgProps} style={fade("100deg")}>
-      {cells}
-    </svg>
+    <div className="absolute inset-0 overflow-hidden">
+      <span className="aurora-blob absolute -right-[10%] top-[5%] h-[34rem] w-[34rem] rounded-full bg-[#ff6b00] opacity-[0.16] blur-[120px]" />
+      <span
+        className="aurora-blob absolute right-[20%] bottom-[0%] h-[26rem] w-[30rem] rounded-full bg-[#a855f7] opacity-[0.12] blur-[120px]"
+        style={{ animationDelay: "-7s" }}
+      />
+      <span
+        className="aurora-blob absolute -left-[10%] bottom-[10%] h-[22rem] w-[22rem] rounded-full bg-[#f43f5e] opacity-[0.08] blur-[110px]"
+        style={{ animationDelay: "-13s" }}
+      />
+      {logo && (
+        <img
+          src={logo}
+          alt=""
+          className="absolute -right-24 -bottom-24 hidden w-[34rem] rotate-[-12deg] opacity-[0.05] grayscale lg:block"
+          style={{
+            maskImage: "radial-gradient(circle, black 30%, transparent 70%)",
+            WebkitMaskImage: "radial-gradient(circle, black 30%, transparent 70%)",
+          }}
+        />
+      )}
+    </div>
   );
 }
 
-/** Blog: a ruled notebook page with paragraphs and a big quote mark. */
-export function NotebookBackdrop() {
-  const lines = [];
-  for (let i = 0; i < 18; i += 1) {
-    const y = 60 + i * 42;
-    lines.push(<line key={`l${i}`} x1="0" x2="1440" y1={y} y2={y} stroke="rgba(255,255,255,0.035)" />);
-  }
-  // "text" on some lines, as soft bars
-  const bars = [
-    [2, 520], [3, 610], [4, 380], [6, 560], [7, 600], [8, 470], [9, 300],
-    [11, 590], [12, 540], [13, 610], [14, 250],
-  ].map(([line, width]) => (
-    <rect key={`b${line}`} x="880" y={60 + line * 42 - 16} width={width * 0.8} height="7" rx="3.5" fill="rgba(56,189,248,0.07)" />
-  ));
+/** Blog: a pen writing a line of handwriting across the page, over and over. */
+export function InkBackdrop() {
   return (
     <svg {...svgProps} style={fade("110deg")}>
-      {lines}
-      <line x1="840" x2="840" y1="0" y2="820" stroke="rgba(239,68,68,0.10)" strokeWidth="2" />
-      {bars}
-      <text x="1180" y="250" fontSize="260" fontFamily="Georgia, serif" fill="rgba(255,255,255,0.04)">
+      <defs>
+        <linearGradient id="ink-stroke" x1="0" y1="0" x2="1" y2="0">
+          <stop offset="0%" stopColor="#38bdf8" stopOpacity="0" />
+          <stop offset="30%" stopColor="#38bdf8" stopOpacity="0.35" />
+          <stop offset="100%" stopColor="#a78bfa" stopOpacity="0.35" />
+        </linearGradient>
+      </defs>
+      {/* a cursive-ish line of "handwriting", up beside the heading where
+          there is no text (the post cards are translucent) */}
+      <path
+        transform="translate(170 -330)"
+        className="ink-write"
+        pathLength="1"
+        d="M640 520 C 690 430, 730 430, 720 500 C 712 560, 760 560, 790 480 C 815 410, 850 420, 840 490 C 832 550, 880 560, 905 470 C 925 400, 965 420, 955 495 C 948 560, 1010 555, 1030 470 C 1045 410, 1085 410, 1080 480 C 1075 545, 1130 560, 1160 480 C 1185 415, 1225 420, 1215 500 C 1208 565, 1270 560, 1300 470 C 1320 410, 1360 420, 1350 495 C 1345 545, 1390 540, 1440 500"
+        fill="none"
+        stroke="url(#ink-stroke)"
+        strokeWidth="3"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      {/* faint ruled lines under it */}
+      {[250, 300].map((y) => (
+        <line key={y} x1="600" x2="1440" y1={y} y2={y} stroke="rgba(255,255,255,0.04)" />
+      ))}
+      <text x="1250" y="840" fontSize="260" fontFamily="Georgia, serif" fill="rgba(255,255,255,0.045)">
         &ldquo;
       </text>
     </svg>

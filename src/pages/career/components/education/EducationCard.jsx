@@ -31,7 +31,9 @@ export const EducationCard = ({ edu, step, delay = 0 }) => {
   return (
     <li className="relative pl-10 lg:pl-0 lg:pt-10" style={{ "--reveal-delay": `${delay}s` }}>
       {/* node on the track */}
+      {/* data-trace-stop: CareerTrace runs through steps 1 → 2 → 3 */}
       <span
+        data-trace-stop="center"
         className={`reveal-node absolute left-0 top-0 flex h-6 w-6 items-center justify-center rounded-full border bg-ink font-mono text-[10px] font-bold ${
           current ? "border-sky-400/70 text-sky-300" : "border-violet-400/60 text-violet-300"
         }`}
@@ -41,7 +43,9 @@ export const EducationCard = ({ edu, step, delay = 0 }) => {
         {step}
       </span>
 
+      {/* the in-progress course is where CareerTrace ends and lights up */}
       <article
+        data-trace-highlight={current || undefined}
         className={`reveal-item group relative flex h-full flex-col overflow-hidden rounded-2xl border bg-gradient-to-br from-surface p-6 transition-colors ${
           current
             ? "border-sky-400/30 to-[#0f1d33] hover:border-sky-400/50"

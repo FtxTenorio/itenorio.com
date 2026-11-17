@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
 import { HOME_BG } from "../../../config/theme";
-import { PosterGridBackdrop } from "../../../components/ui/ThemedBackdrops";
+import { AuroraBackdrop } from "../../../components/ui/ThemedBackdrops";
 import { extensions } from "../../../data/extensions";
 import { ExtensionLogo } from "../../extensions/components/ExtensionLogo";
 import { SupportNote } from "../../extensions/components/SupportNote";
@@ -35,7 +35,7 @@ export const FeaturedProductSection = () => {
       id="product"
       eyebrow="Featured product"
       fullScreen
-      backdrop={<PosterGridBackdrop />}
+      backdrop={<AuroraBackdrop logo={product.isImage ? product.logo : null} />}
       background={HOME_BG.alt}
       wave={HOME_BG.base}
       waveFlip
@@ -126,7 +126,9 @@ export const FeaturedProductSection = () => {
           </div>
         </div>
 
-        <div className="order-3 lg:order-none min-w-0">
+        {/* from lg up the screenshots float slightly turned towards the
+            text, and straighten under the pointer */}
+        <div className="order-3 lg:order-none min-w-0 transition-transform duration-700 ease-out lg:[transform:perspective(1800px)_rotateY(-9deg)_rotateX(3deg)] lg:hover:[transform:none]">
           <ScreenshotGallery screenshots={product.screenshots} accent={product.color} />
         </div>
       </div>

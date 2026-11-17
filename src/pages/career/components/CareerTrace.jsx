@@ -3,11 +3,17 @@ import { useEffect, useRef, useState } from "react";
 /**
  * The career page drawn as one git branch. A line leaves the terminal's
  * `cd ./experience` caret ([data-trace-start]) and, as the visitor scrolls,
- * draws itself through every part of the page: a node beside each section
- * heading ([data-trace-stop], in page order) and a last one at the end
- * (the Credly link). A glowing HEAD tag rides the tip of the line and each
- * node lights up once it has been passed. Meanwhile the intro text
- * (.career-hero; the terminal stays put) lifts and fades.
+ * draws itself through the page: past each [data-trace-stop] in page order
+ * (the section headings, then the steps 1 → 2 → 3 of the learning path,
+ * sideways on desktop) and it ends on the last one, lighting up the
+ * [data-trace-highlight] card there (the postgraduate degree in progress).
+ * A glowing HEAD tag rides the tip and each node lights up once passed.
+ * Meanwhile the intro text (.career-hero; the terminal stays put) lifts and
+ * fades.
+ *
+ * Scrolling drives it through "triggers": the page height at which the tip
+ * reaches each node. A node level with the previous one (a horizontal run)
+ * gets 160px of scrolling of its own, so the tip travels sideways.
  *
  * Render it inside a `relative` wrapper that holds all the sections; it covers
  * the wrapper and ignores the pointer. On phones the line runs in the left
@@ -17,6 +23,7 @@ export function CareerTrace() {
   const svgRef = useRef(null);
   const pathRef = useRef(null);
   const headRef = useRef(null);
+  const measureRef = useRef(null); // invisible path used to measure lengths
   const [geometry, setGeometry] = useState(null);
   const [reached, setReached] = useState(0);
 
@@ -35,14 +42,18 @@ export function CareerTrace() {
       const first = { x: s.left + s.width / 2 - box.left, y: s.bottom - box.top + 6 };
       const nodes = stops.map((stop) => {
         const r = stop.getBoundingClientRect();
+        // data-trace-stop="center": pass through the element's center (the
+        // learning path steps); otherwise run in the gutter left of it
+        const center = stop.dataset.traceStop === "center";
         return {
-          x: narrow ? 8 : r.left - box.left - 28,
+          x: center ? r.left + r.width / 2 - box.left : narrow ? 8 : r.left - box.left - 28,
           y: r.top - box.top + r.height / 2,
         };
       });
 
       // vertical runs joined by S-curves where the column changes
       let d = `M ${first.x} ${first.y}`;
+      const prefixes = [];
       let from = first;
       nodes.forEach((to) => {
         if (Math.abs(to.x - from.x) < 2) {
@@ -52,9 +63,10 @@ export function CareerTrace() {
           d += ` L ${from.x} ${to.y - span}`;
           d += ` C ${from.x} ${to.y - span * 0.35}, ${to.x} ${to.y - span * 0.65}, ${to.x} ${to.y}`;
         }
+        prefixes.push(d);
         from = to;
       });
-      setGeometry({ d, width: box.width, height: box.height, nodes, startY: first.y, narrow });
+      setGeometry({ d, prefixes, width: box.width, height: box.height, nodes, startY: first.y, narrow });
     };
 
     measure();
@@ -73,41 +85,51 @@ export function CareerTrace() {
   useEffect(() => {
     const path = pathRef.current;
     const head = headRef.current;
+    const measurer = measureRef.current;
     const wrapper = svgRef.current?.parentElement;
-    if (!geometry || !path || !head || !wrapper) return undefined;
+    if (!geometry || !path || !head || !measurer || !wrapper) return undefined;
     const hero = wrapper.querySelector(".career-hero");
+    const highlight = wrapper.querySelector("[data-trace-highlight]");
     const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     const length = path.getTotalLength();
-    const endY = geometry.nodes[geometry.nodes.length - 1].y;
     path.style.strokeDasharray = `${length}`;
 
-    /** Length along the path where it reaches height `y` (the path only goes down). */
-    const lengthAtY = (y) => {
-      let low = 0;
-      let high = length;
-      for (let i = 0; i < 22; i += 1) {
-        const mid = (low + high) / 2;
-        if (path.getPointAtLength(mid).y < y) low = mid;
-        else high = mid;
-      }
-      return high;
-    };
+    // length of the line at each node, and the height that triggers it
+    const lengths = [0];
+    const triggers = [geometry.startY];
+    geometry.prefixes.forEach((prefix, index) => {
+      measurer.setAttribute("d", prefix);
+      lengths.push(measurer.getTotalLength());
+      const y = geometry.nodes[index].y;
+      const previous = triggers[triggers.length - 1];
+      triggers.push(y > previous + 1 ? y : previous + 160);
+    });
+    const last = triggers.length - 1;
 
     let frame = 0;
     const update = () => {
       frame = 0;
       const top = wrapper.getBoundingClientRect().top;
-      // near the bottom of the page the reading line can't reach the last
-      // node, so it slides down to the screen's bottom edge there
-      const atBottom = window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 4;
-      const y = reduced || atBottom ? endY : window.innerHeight * 0.7 - top;
-      const drawn = y <= geometry.startY ? 0 : y >= endY ? length : lengthAtY(y);
+      const y = reduced ? triggers[last] : window.innerHeight * 0.7 - top;
+      let drawn = 0;
+      let passed = 0;
+      if (y >= triggers[last]) {
+        drawn = length;
+        passed = last;
+      } else if (y > triggers[0]) {
+        let i = 0;
+        while (y >= triggers[i + 1]) i += 1;
+        const t = (y - triggers[i]) / (triggers[i + 1] - triggers[i]);
+        drawn = lengths[i] + t * (lengths[i + 1] - lengths[i]);
+        passed = i;
+      }
 
       path.style.strokeDashoffset = `${length - drawn}`;
       const point = path.getPointAtLength(drawn);
       head.setAttribute("transform", `translate(${point.x} ${point.y})`);
       head.style.opacity = drawn > 4 && drawn < length - 1 ? "1" : "0";
-      setReached(geometry.nodes.filter((node) => node.y <= point.y + 1).length);
+      setReached(passed);
+      highlight?.classList.toggle("trace-arrived", drawn >= length - 1);
 
       if (hero && !reduced) {
         const leave = Math.min(1, Math.max(0, window.scrollY / (hero.offsetHeight || 1)));
@@ -124,6 +146,7 @@ export function CareerTrace() {
     return () => {
       cancelAnimationFrame(frame);
       window.removeEventListener("scroll", schedule);
+      highlight?.classList.remove("trace-arrived");
       if (hero) {
         hero.style.transform = "";
         hero.style.opacity = "";
@@ -147,6 +170,7 @@ export function CareerTrace() {
               <stop offset="100%" stopColor="#0078d7" />
             </linearGradient>
           </defs>
+          <path ref={measureRef} fill="none" stroke="none" />
           {/* faint full route, so the way ahead is hinted */}
           <path d={geometry.d} fill="none" stroke="rgba(255,255,255,0.07)" strokeWidth="2" strokeDasharray="4 6" />
           <path

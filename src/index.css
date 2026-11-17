@@ -141,8 +141,11 @@
 
 /* Phones and tablets: the same "one section = one screen" idea, with native
    scroll snapping instead of the wheel lock (touch scrolling stays native).
-   Sections are laid out to fit one screen below the navbar (h-16 / md:h-20);
-   a section that is still taller scrolls freely inside its snap area. */
+   Sections fill the *dynamic* viewport below the navbar (h-16 / md:h-20):
+   with svh they were shorter than the screen once the browser bar hid while
+   scrolling down, so a strip of the previous band stayed in view. Content
+   starts at the top, and every swipe stops at the next band
+   (scroll-snap-stop). A band that is still taller scrolls freely inside. */
 @media (max-width: 1023px) {
   html.section-paging {
     scroll-snap-type: y mandatory;
@@ -150,10 +153,12 @@
   }
   html.section-paging .snap-section {
     min-height: calc(100svh - 4rem);
+    min-height: calc(100dvh - 4rem);
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     scroll-snap-align: start;
+    scroll-snap-stop: always;
   }
   html.section-paging footer {
     scroll-snap-align: end;
@@ -165,6 +170,7 @@
   }
   html.section-paging .snap-section {
     min-height: calc(100svh - 5rem);
+    min-height: calc(100dvh - 5rem);
   }
 }
 
@@ -378,4 +384,101 @@
 [data-reveal="shown"] .reveal-badge .badge-shine {
   animation: badge-shine 1s ease-out both;
   animation-delay: calc(var(--reveal-delay, 0s) + 0.35s);
+}
+
+/* Featured product aurora (AuroraBackdrop): blobs drift slowly. */
+@keyframes aurora-drift {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(-8%, 6%) scale(1.15);
+  }
+}
+.aurora-blob {
+  animation: aurora-drift 20s ease-in-out infinite;
+}
+
+/* Blog backdrop (InkBackdrop): the line writes itself, rests, fades, again. */
+@keyframes ink-write {
+  0% {
+    stroke-dashoffset: 1;
+    opacity: 1;
+  }
+  55% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  85% {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+.ink-write {
+  stroke-dasharray: 1;
+  animation: ink-write 9s ease-in-out infinite;
+}
+
+/* Latest blog post: a light runs around its border. */
+@property --glow-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+@keyframes glow-spin {
+  to {
+    --glow-angle: 360deg;
+  }
+}
+.glow-border {
+  position: relative;
+}
+.glow-border::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  z-index: 0;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from var(--glow-angle), transparent 0deg, #38bdf8 60deg, #a78bfa 120deg, transparent 180deg);
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: glow-spin 4s linear infinite;
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .aurora-blob,
+  .glow-border::before {
+    animation: none;
+  }
+  .ink-write {
+    animation: none;
+    stroke-dasharray: none;
+  }
+}
+
+/* Career: the card CareerTrace ends on lights up when the line arrives. */
+[data-trace-highlight] {
+  transition:
+    box-shadow 0.6s ease,
+    border-color 0.6s ease,
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  /* keep the staggered scroll-in delay (.reveal-item) for opacity/transform */
+  transition-delay: 0s, 0s, var(--reveal-delay, 0s), var(--reveal-delay, 0s);
+}
+[data-trace-highlight].trace-arrived {
+  border-color: rgba(56, 189, 248, 0.7);
+  box-shadow:
+    0 0 0 1px rgba(56, 189, 248, 0.5),
+    0 0 50px -6px rgba(56, 189, 248, 0.55);
 }

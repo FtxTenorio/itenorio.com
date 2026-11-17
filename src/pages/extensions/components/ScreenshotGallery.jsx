@@ -5,8 +5,8 @@ const AUTOPLAY_MS = 6000;
 /**
  * Carousel of an extension's real store screenshots (home featured product
  * and the extension detail page). Slides move sideways and follow the finger
- * while dragging; labelled tabs, swipe, ←/→ keys and (from sm up) arrows
- * change slide.
+ * while dragging; labelled tabs, swipe and ←/→ keys change slide (no
+ * arrows over the image: they covered the screenshots' text).
  * It plays by itself while visible and stops for good once the visitor
  * interacts (and never plays with reduced motion).
  *
@@ -80,9 +80,6 @@ export function ScreenshotGallery({ screenshots, accent = "#ff6b00", eager = fal
     }
   };
 
-  const arrow =
-    // phones swipe instead: arrows over the image there would hide the text
-    "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 hidden sm:inline-flex items-center justify-center rounded-full bg-ink/70 border border-white/15 text-white backdrop-blur hover:bg-ink/90 transition-colors";
 
   return (
     <section
@@ -130,17 +127,9 @@ export function ScreenshotGallery({ screenshots, accent = "#ff6b00", eager = fal
         </div>
 
         {count > 1 && (
-          <>
-            <button type="button" className={`${arrow} left-2`} onClick={() => goTo(active - 1)} aria-label="Previous screenshot">
-              <i className="fas fa-chevron-left text-sm" aria-hidden="true" />
-            </button>
-            <button type="button" className={`${arrow} right-2`} onClick={() => goTo(active + 1)} aria-label="Next screenshot">
-              <i className="fas fa-chevron-right text-sm" aria-hidden="true" />
-            </button>
-            <span className="absolute right-3 top-3 z-10 rounded-full bg-ink/70 px-2 py-0.5 font-mono text-[11px] text-gray-300 backdrop-blur">
-              {active + 1}/{count}
-            </span>
-          </>
+          <span className="absolute right-3 top-3 z-10 rounded-full bg-ink/70 px-2 py-0.5 font-mono text-[11px] text-gray-300 backdrop-blur">
+            {active + 1}/{count}
+          </span>
         )}
       </div>
 
