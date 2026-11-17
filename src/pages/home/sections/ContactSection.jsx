@@ -12,8 +12,9 @@ export const ContactSection = () => {
       title="Let's talk."
       intro="Questions about our products, a project in mind or support with an extension? Email us and a real person will reply."
       fullScreen
-      background={HOME_BG.base}
+      background={HOME_BG.alt}
       wave={HOME_BG.footer}
+      waveFlip
       bubbles={[
         { color: "#0078d7", className: "top-[20%] right-[15%] w-[24rem] h-[24rem]" },
         { color: "#10b981", className: "-bottom-20 left-[10%] w-[20rem] h-[20rem]" },

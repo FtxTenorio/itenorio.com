@@ -30,8 +30,9 @@ export const ServicesSection = () => (
     title="Small team, end-to-end software."
     intro="From the first idea to the store listing and the server behind it, every project is designed, built and maintained in-house."
     fullScreen
-    background={HOME_BG.base}
-    wave={HOME_BG.alt}
+    background={HOME_BG.alt}
+    wave={HOME_BG.base}
+    waveFlip
     bubbles={[
       { color: "#38bdf8", className: "-top-24 left-[20%] w-[26rem] h-[26rem]" },
       { color: "#6366f1", className: "bottom-0 -right-24 w-[22rem] h-[22rem]" },
