@@ -12,8 +12,11 @@ import { useEffect, useRef, useState } from "react";
  * fades.
  *
  * Scrolling drives it through "triggers": the page height at which the tip
- * reaches each node. A node level with the previous one (a horizontal run)
- * gets 160px of scrolling of its own, so the tip travels sideways.
+ * reaches each node. Where the route turns sideways (the learning path steps
+ * on desktop), scrolling alone could rush past before the line got there, so
+ * the page "holds": it settles with the cards in view, scrolling is paused
+ * for a moment while the tip runs 1 → 2 → 3 by itself and lights the card,
+ * then it lets go. Scrolling back above it rearms the hold.
  *
  * Render it inside a `relative` wrapper that holds all the sections; it covers
  * the wrapper and ignores the pointer. On phones the line runs in the left
@@ -106,14 +109,80 @@ export function CareerTrace() {
     });
     const last = triggers.length - 1;
 
+    // the hold: the first node followed by one on the same row (sideways run)
+    const sideways = geometry.nodes.findIndex(
+      (node, index) => index < geometry.nodes.length - 1 && Math.abs(geometry.nodes[index + 1].y - node.y) < 2,
+    );
+    const holdAt = sideways >= 0 && !reduced ? sideways + 1 : -1; // index into lengths/triggers
+    let played = false;
+    let playing = false;
+    let playDrawn = 0;
+    let locked = false;
+    let animation = 0;
+    let unlockTimer = 0;
+
+    const navbarBottom = () => document.querySelector("header.fixed")?.getBoundingClientRect().bottom ?? 80;
+
+    const play = () => {
+      playing = true;
+      locked = true;
+      playDrawn = lengths[holdAt];
+      // settle so the row of steps sits under the navbar and the cards show
+      const rowY = wrapper.getBoundingClientRect().top + geometry.nodes[sideways].y;
+      window.scrollTo({ top: window.scrollY + rowY - navbarBottom() - 56, behavior: "smooth" });
+      const from = lengths[holdAt];
+      const DELAY = 450;
+      const DURATION = 1300;
+      const started = performance.now();
+      const step = (now) => {
+        const t = Math.min(1, Math.max(0, (now - started - DELAY) / DURATION));
+        const eased = t < 0.5 ? 2 * t * t : 1 - (-2 * t + 2) ** 2 / 2;
+        playDrawn = from + eased * (length - from);
+        update();
+        if (t < 1) {
+          animation = requestAnimationFrame(step);
+          return;
+        }
+        playing = false;
+        played = true;
+        unlockTimer = setTimeout(() => {
+          locked = false;
+        }, 300);
+        update();
+      };
+      animation = requestAnimationFrame(step);
+    };
+
+    // while holding, swallow the gestures that would scroll the page
+    const block = (event) => {
+      if (locked && event.cancelable) event.preventDefault();
+    };
+    const blockKeys = (event) => {
+      if (locked && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(event.key)) {
+        event.preventDefault();
+      }
+    };
+
     let frame = 0;
-    const update = () => {
+    function update() {
       frame = 0;
       const top = wrapper.getBoundingClientRect().top;
       const y = reduced ? triggers[last] : window.innerHeight * 0.7 - top;
       let drawn = 0;
       let passed = 0;
-      if (y >= triggers[last]) {
+      if (holdAt >= 0 && y >= triggers[holdAt]) {
+        if (playing) {
+          drawn = playDrawn;
+          passed = lengths.filter((value) => value <= drawn + 0.5).length - 1;
+        } else if (played) {
+          drawn = length;
+          passed = last;
+        } else {
+          drawn = lengths[holdAt];
+          passed = holdAt;
+          play();
+        }
+      } else if (y >= triggers[last]) {
         drawn = length;
         passed = last;
       } else if (y > triggers[0]) {
@@ -123,6 +192,7 @@ export function CareerTrace() {
         drawn = lengths[i] + t * (lengths[i + 1] - lengths[i]);
         passed = i;
       }
+      if (holdAt >= 0 && !playing && y < triggers[holdAt] - 300) played = false; // rearm
 
       path.style.strokeDashoffset = `${length - drawn}`;
       const point = path.getPointAtLength(drawn);
@@ -136,16 +206,24 @@ export function CareerTrace() {
         hero.style.transform = `translateY(${-leave * 60}px) scale(${1 - leave * 0.04})`;
         hero.style.opacity = `${1 - leave * 0.75}`;
       }
-    };
+    }
     const schedule = () => {
       if (!frame) frame = requestAnimationFrame(update);
     };
 
     update();
     window.addEventListener("scroll", schedule, { passive: true });
+    window.addEventListener("wheel", block, { passive: false });
+    window.addEventListener("touchmove", block, { passive: false });
+    window.addEventListener("keydown", blockKeys);
     return () => {
       cancelAnimationFrame(frame);
+      cancelAnimationFrame(animation);
+      clearTimeout(unlockTimer);
       window.removeEventListener("scroll", schedule);
+      window.removeEventListener("wheel", block);
+      window.removeEventListener("touchmove", block);
+      window.removeEventListener("keydown", blockKeys);
       highlight?.classList.remove("trace-arrived");
       if (hero) {
         hero.style.transform = "";
