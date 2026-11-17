@@ -21,12 +21,12 @@ export const ContactSection = () => {
       ]}
     >
       <div className="grid lg:grid-cols-[1.2fr_1fr] gap-6">
-        <ul className="grid sm:grid-cols-2 lg:grid-cols-1 gap-4">
+        <ul className="grid sm:grid-cols-2 lg:grid-cols-1 gap-3 sm:gap-4">
           {CONTACT_EMAILS.map((item) => (
             <li key={item.id}>
               <a
                 href={`mailto:${item.email}`}
-                className="group flex items-center gap-4 rounded-xl border border-line bg-surface/60 p-5 hover:border-brand/50 transition-colors"
+                className="group flex items-center gap-4 rounded-xl border border-line bg-surface/60 p-4 sm:p-5 hover:border-brand/50 transition-colors"
               >
                 <span className="w-10 h-10 shrink-0 rounded-lg bg-white/5 text-gray-300 group-hover:text-brand-soft flex items-center justify-center">
                   <i className={item.icon} aria-hidden="true" />
@@ -42,7 +42,7 @@ export const ContactSection = () => {
           ))}
         </ul>
 
-        <div className="rounded-xl border border-line bg-surface/60 p-6">
+        <div className="hidden sm:block rounded-xl border border-line bg-surface/60 p-6">
           <h3 className="text-sm font-semibold uppercase tracking-wider text-gray-400 mb-5">
             Company details
           </h3>

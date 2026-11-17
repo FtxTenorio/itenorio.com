@@ -1,7 +1,10 @@
-export const SectionHeader = ({ id, eyebrow, title, subtitle }) => (
+// `traceEnd`: marks the eyebrow as the landing point of CareerTrace.
+export const SectionHeader = ({ id, eyebrow, title, subtitle, traceEnd = false }) => (
   <header className="mb-10 w-full">
     {eyebrow && (
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3">{eyebrow}</p>
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3" data-trace-end={traceEnd || undefined}>
+        {eyebrow}
+      </p>
     )}
     <h2 id={id} className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight text-white">
       {title}

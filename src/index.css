@@ -139,6 +139,35 @@
   }
 }
 
+/* Phones and tablets: the same "one section = one screen" idea, with native
+   scroll snapping instead of the wheel lock (touch scrolling stays native).
+   Sections are laid out to fit one screen below the navbar (h-16 / md:h-20);
+   a section that is still taller scrolls freely inside its snap area. */
+@media (max-width: 1023px) {
+  html.section-paging {
+    scroll-snap-type: y mandatory;
+    scroll-padding-top: 4rem;
+  }
+  html.section-paging .snap-section {
+    min-height: calc(100svh - 4rem);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    scroll-snap-align: start;
+  }
+  html.section-paging footer {
+    scroll-snap-align: end;
+  }
+}
+@media (min-width: 768px) and (max-width: 1023px) {
+  html.section-paging {
+    scroll-padding-top: 5rem;
+  }
+  html.section-paging .snap-section {
+    min-height: calc(100svh - 5rem);
+  }
+}
+
 /* Home decorations (SectionDecor.jsx): drifting wave layer, floating bubbles */
 @keyframes wave-drift {
   0%,
@@ -183,6 +212,127 @@
 @utility no-scrollbar {
   scrollbar-width: none;
   &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Screenshot carousel: the active tab fills up while autoplaying. */
+@keyframes carousel-progress {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+.carousel-progress {
+  animation: carousel-progress linear forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .carousel-progress {
+    animation: none;
+    width: 100%;
+  }
+}
+
+/* Career intro (TechBackdrop): pulses of light running along circuit traces. */
+@keyframes circuit-pulse {
+  from {
+    stroke-dashoffset: 106;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.circuit-pulse {
+  stroke-dasharray: 6 100;
+  stroke-dashoffset: 106;
+  animation: circuit-pulse 5s linear infinite;
+  filter: drop-shadow(0 0 4px #38bdf8);
+}
+
+/* Career intro terminal: the git log lines print one after the other. */
+@keyframes terminal-line {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+.terminal-line {
+  opacity: 0;
+  animation: terminal-line 0.35s ease-out forwards;
+}
+@media (prefers-reduced-motion: reduce) {
+  .circuit-pulse {
+    animation: none;
+    stroke-dasharray: none;
+    opacity: 0.25;
+  }
+  .terminal-line {
+    opacity: 1;
+    animation: none;
+  }
+}
+
+/* Scroll-in animations (useReveal): items rise in one after the other
+   (--reveal-delay), tracks draw themselves and nodes pop in. */
+.reveal-item,
+.reveal-chip {
+  transition:
+    opacity 0.7s ease,
+    transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+.reveal-track {
+  transform-origin: top;
+  transition: transform 1.4s cubic-bezier(0.65, 0, 0.35, 1);
+}
+.reveal-node {
+  transition: transform 0.45s cubic-bezier(0.34, 1.56, 0.64, 1);
+  transition-delay: var(--reveal-delay, 0s);
+}
+[data-reveal="pending"] .reveal-item {
+  opacity: 0;
+  transform: translateY(32px) scale(0.97);
+}
+[data-reveal="pending"] .reveal-chip {
+  opacity: 0;
+  transform: translateY(8px);
+}
+[data-reveal="pending"] .reveal-track {
+  transform: scaleY(0);
+}
+[data-reveal="pending"] .reveal-node {
+  transform: scale(0);
+}
+@media (min-width: 1024px) {
+  .reveal-track {
+    transform-origin: left;
+  }
+  [data-reveal="pending"] .reveal-track {
+    transform: scaleX(0);
+  }
+}
+
+/* "In progress" course: the progress bar has a light running over it. */
+@keyframes progress-sheen {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+.progress-sheen {
+  animation: progress-sheen 2.4s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .progress-sheen {
+    animation: none;
     display: none;
   }
 }

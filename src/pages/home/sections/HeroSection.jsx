@@ -11,7 +11,7 @@ const FACTS = [
 
 export const HeroSection = () => (
   <section
-    className="snap-section relative isolate overflow-hidden pb-12 sm:pb-16"
+    className="snap-section relative isolate overflow-hidden pb-8 sm:pb-16"
     style={{ backgroundColor: HOME_BG.base }}
   >
     <GlowBubbles
@@ -38,8 +38,8 @@ export const HeroSection = () => (
       aria-hidden="true"
     />
 
-    <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-16 sm:pt-28 sm:pb-24 lg:py-4">
-      <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs text-gray-300 mb-6">
+    <div className="relative z-10 w-full max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-14 sm:pt-28 sm:pb-24 lg:py-4">
+      <p className="inline-flex items-center gap-2 rounded-full border border-line bg-white/[0.03] px-3 py-1 text-xs text-gray-300 mb-5 sm:mb-6">
         <span className="h-1.5 w-1.5 rounded-full bg-emerald-400" aria-hidden="true" />
         Independent software studio · São Paulo, Brazil
       </p>
@@ -51,13 +51,13 @@ export const HeroSection = () => (
         </span>
       </h1>
 
-      <p className="mt-6 text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl">
+      <p className="mt-4 sm:mt-6 text-base sm:text-lg text-gray-300 leading-relaxed max-w-2xl">
         iTenorio Tech is a small software development company. We build
         browser extensions people use every day, websites for small
         businesses, and the backend systems behind them.
       </p>
 
-      <div className="mt-8 flex flex-col sm:flex-row gap-3">
+      <div className="mt-6 sm:mt-8 flex flex-col sm:flex-row gap-3">
         <a
           href="#product"
           className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-brand hover:bg-[#0a86ee] font-semibold transition-colors"
@@ -73,11 +73,11 @@ export const HeroSection = () => (
         </Link>
       </div>
 
-      <dl className="mt-14 grid grid-cols-1 sm:grid-cols-3 gap-px rounded-xl overflow-hidden border border-line bg-line max-w-3xl">
+      <dl className="mt-8 sm:mt-14 grid grid-cols-3 gap-px rounded-xl overflow-hidden border border-line bg-line max-w-3xl">
         {FACTS.map((fact) => (
-          <div key={fact.label} className="bg-ink px-5 py-4">
-            <dt className="text-xs text-gray-500">{fact.label}</dt>
-            <dd className="text-lg font-semibold text-white">{fact.value}</dd>
+          <div key={fact.label} className="flex flex-col-reverse justify-end bg-ink px-3 py-3 sm:px-5 sm:py-4">
+            <dt className="text-[11px] leading-snug text-gray-500 sm:text-xs">{fact.label}</dt>
+            <dd className="text-base font-semibold text-white sm:text-lg">{fact.value}</dd>
           </div>
         ))}
       </dl>

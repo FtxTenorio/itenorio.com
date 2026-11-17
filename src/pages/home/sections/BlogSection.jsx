@@ -29,7 +29,7 @@ const PostCard = ({ post }) => (
         </div>
       )}
     </div>
-    <div className="flex flex-col flex-grow p-5">
+    <div className="flex flex-col flex-grow p-4 sm:p-5">
       <p className="flex items-center gap-2 text-xs text-gray-500 mb-3">
         {post.tag && (
           <span className="px-2 py-0.5 rounded-full bg-brand/10 border border-brand/25 text-brand-soft">
@@ -41,7 +41,7 @@ const PostCard = ({ post }) => (
       <h3 className="text-lg font-semibold text-white leading-snug mb-2 group-hover:text-brand-soft transition-colors">
         {post.title}
       </h3>
-      <p className="text-sm text-gray-400 leading-relaxed line-clamp-3 lg:[@media(max-height:900px)]:line-clamp-2">
+      <p className="text-sm text-gray-400 leading-relaxed line-clamp-2 sm:line-clamp-3 lg:[@media(max-height:900px)]:line-clamp-2">
         {post.excerpt}
       </p>
       <span className="mt-auto pt-4 inline-flex items-center gap-2 text-sm font-semibold text-brand-soft">
@@ -97,14 +97,14 @@ export const BlogSection = () => {
       ]}
     >
       {(status === "loading" || status === "ready") && (
-        <SwipeRow label="Latest blog posts" className="mb-8 lg:mb-6">
+        <SwipeRow label="Latest blog posts" className="mb-5 sm:mb-8 lg:mb-6">
           {status === "loading"
             ? Array.from({ length: POSTS }, (_, index) => <PostSkeleton key={index} />)
             : posts.map((post) => <PostCard key={post.id} post={post} />)}
         </SwipeRow>
       )}
 
-      <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+      <div className="flex flex-wrap items-center gap-3">
         <a
           href={BLOG_URL}
           className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-brand hover:bg-[#0a86ee] font-semibold transition-colors"

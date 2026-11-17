@@ -37,25 +37,30 @@ export const extensions = [
       "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode, without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
     // Real store screenshots (rendered from the extension repo's
     // tools/promo-tiles, English). Files live in public/images/crunchyroll-navigator/.
+    // `caption`: one line shown under the slide in the screenshot carousel.
     screenshots: [
       {
         src: "/images/crunchyroll-navigator/dub-filter.webp",
         label: "Dub filter",
+        caption: "Show only the shows of the season dubbed in your language.",
         alt: "Crunchyroll Navigator filter bar with English selected: only the dubbed shows of the season stay highlighted, each with a DUB badge.",
       },
       {
         src: "/images/crunchyroll-navigator/episode-list.webp",
         label: "Episode list",
+        caption: "Open any show and see every episode with its audio languages.",
         alt: "Episode list of Frieren: Beyond Journey's End season 2 opened from the Simulcasts page, showing each episode with its audio language.",
       },
       {
         src: "/images/crunchyroll-navigator/filters.webp",
         label: "More filters",
+        caption: "Rating, age rating, length, genres and content warnings.",
         alt: "Rating, length and age rating filters, plus genres and content warnings that can be included or excluded.",
       },
       {
         src: "/images/crunchyroll-navigator/search.webp",
         label: "Search",
+        caption: "Instant search across the shows of the season.",
         alt: "Typing 'frie' in the search bar highlights Frieren and fades out the other shows of the season.",
       },
     ],

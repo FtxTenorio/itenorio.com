@@ -1,5 +1,7 @@
 import { useEffect, useState } from "react";
 import { HeroSection } from "./components/hero/HeroSection";
+import { TechBackdrop } from "./components/hero/TechBackdrop";
+import { CareerTrace } from "./components/CareerTrace";
 import { CareerSection } from "./components/career/CareerSection";
 import { EducationSection } from "./components/education/EducationSection";
 import { SummarySection } from "./components/summary/SummarySection";
@@ -29,28 +31,34 @@ const CareerPage = () => {
 
   return (
     <>
-      <Section
-        className="pt-10 sm:pt-14"
-        background={HOME_BG.base}
-        wave={HOME_BG.alt}
-        bubbles={[
-          { color: "#0078d7", className: "-top-32 left-1/3 w-[36rem] h-[24rem]" },
-          { color: "#8b5cf6", className: "bottom-[5%] -right-32 w-[24rem] h-[24rem]" },
-        ]}
-      >
-        <HeroSection />
-      </Section>
-      <Section
-        background={HOME_BG.alt}
-        wave={HOME_BG.base}
-        waveFlip
-        bubbles={[
-          { color: "#38bdf8", className: "top-[10%] -left-40 w-[28rem] h-[28rem]" },
-          { color: "#0078d7", className: "bottom-[15%] -right-40 w-[30rem] h-[30rem]" },
-        ]}
-      >
-        <CareerSection onSelectTech={setActiveStack} onSelectCert={setActiveCert} />
-      </Section>
+      {/* intro + experience share a wrapper so CareerTrace can draw the line
+          that leads from one to the other */}
+      <div className="relative">
+        <Section
+          className="pt-10 sm:pt-14 lg:min-h-[calc(100svh-5rem)] lg:flex lg:flex-col lg:justify-center"
+          backdrop={<TechBackdrop />}
+          background={HOME_BG.base}
+          wave={HOME_BG.alt}
+          bubbles={[
+            { color: "#0078d7", className: "-top-32 left-1/3 w-[36rem] h-[24rem]" },
+            { color: "#8b5cf6", className: "bottom-[5%] -right-32 w-[24rem] h-[24rem]" },
+          ]}
+        >
+          <HeroSection />
+        </Section>
+        <Section
+          background={HOME_BG.alt}
+          wave={HOME_BG.base}
+          waveFlip
+          bubbles={[
+            { color: "#38bdf8", className: "top-[10%] -left-40 w-[28rem] h-[28rem]" },
+            { color: "#0078d7", className: "bottom-[15%] -right-40 w-[30rem] h-[30rem]" },
+          ]}
+        >
+          <CareerSection onSelectTech={setActiveStack} onSelectCert={setActiveCert} />
+        </Section>
+        <CareerTrace />
+      </div>
       <Section
         background={HOME_BG.base}
         wave={HOME_BG.alt}

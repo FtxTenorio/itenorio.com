@@ -22,11 +22,11 @@ export const FounderSection = () => (
       { color: "#0078d7", className: "bottom-[10%] right-[10%] w-[22rem] h-[22rem]" },
     ]}
   >
-    <div className="grid md:grid-cols-[auto_1fr] gap-8 md:gap-12 items-start">
+    <div className="grid md:grid-cols-[auto_1fr] gap-5 md:gap-12 items-start">
       <img
         src={PROFILE_IMAGE_URL}
         alt="Portrait of Paulo Tenório"
-        className="w-28 h-28 sm:w-36 sm:h-36 rounded-2xl object-cover border border-white/10 bg-white/5"
+        className="w-20 h-20 sm:w-36 sm:h-36 rounded-2xl object-cover border border-white/10 bg-white/5"
         loading="lazy"
       />
 
@@ -34,7 +34,7 @@ export const FounderSection = () => (
         <h2 className="text-2xl sm:text-3xl font-bold tracking-tight mb-4">
           Hi, I&apos;m Paulo Tenório.
         </h2>
-        <p className="text-gray-300 leading-relaxed mb-4">
+        <p className="text-sm sm:text-base text-gray-300 leading-relaxed mb-4">
           I founded iTenorio Tech and I&apos;m its managing partner. I&apos;m a
           backend engineer with {yearsOfExperience()}+ years building scalable APIs, payment
           integrations and cloud infrastructure for companies in Brazil and
@@ -42,7 +42,7 @@ export const FounderSection = () => (
           now it is the studio&apos;s first product.
         </p>
 
-        <ul className="space-y-2 mb-8 text-sm text-gray-400">
+        <ul className="space-y-1.5 sm:space-y-2 mb-6 sm:mb-8 text-sm text-gray-400">
           {BACKGROUND.map((item) => (
             <li key={item} className="flex items-start gap-2">
               <i className="fas fa-check text-brand-soft text-xs mt-1.5" aria-hidden="true" />

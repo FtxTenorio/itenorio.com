@@ -15,6 +15,7 @@ export const CareerSection = ({ onSelectTech, onSelectCert }) => {
       <SectionHeader
         id="experience-title"
         eyebrow="Experience"
+        traceEnd
         title="Where I've worked"
         subtitle="Each role with the stack I used and the certifications I earned along the way. Click a technology or certification for details."
       />

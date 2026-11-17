@@ -42,9 +42,13 @@ export const FeaturedProductSection = () => {
         { color: "#0078d7", className: "bottom-[5%] -left-32 w-[24rem] h-[24rem]" },
       ]}
     >
-      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-10 lg:gap-12 items-center">
-        <div>
-          <div className="flex items-center gap-4 mb-5 lg:mb-4">
+      {/* Phones: name → screenshot carousel (its captions carry the features)
+          → buttons, so the band fits one screen. The left column "dissolves"
+          (contents) below lg and `order` arranges its parts around the
+          carousel; from lg up it is a normal two-column layout. */}
+      <div className="grid lg:grid-cols-[1fr_1.1fr] gap-5 sm:gap-8 lg:gap-12 items-center">
+        <div className="contents lg:block">
+          <div className="order-1 flex items-center gap-4 lg:mb-4">
             <ExtensionLogo ext={product} className="w-14 h-14 sm:w-16 sm:h-16" />
             <div>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold tracking-tight">
@@ -56,9 +60,9 @@ export const FeaturedProductSection = () => {
             </div>
           </div>
 
-          <p className="text-gray-300 leading-relaxed mb-8 lg:mb-5 lg:[@media(max-height:900px)]:hidden">{product.description}</p>
+          <p className="order-2 hidden sm:block text-gray-300 leading-relaxed lg:mt-0 lg:mb-5 lg:[@media(max-height:900px)]:hidden">{product.description}</p>
 
-          <ul className="space-y-4 lg:space-y-3 mb-8 lg:mb-5">
+          <ul className="hidden lg:block space-y-3 mb-5">
             {HIGHLIGHTS.map((item) => (
               <li key={item.title} className="flex gap-4">
                 <span className="w-9 h-9 shrink-0 rounded-lg bg-crunchy/10 border border-crunchy/20 text-crunchy flex items-center justify-center">
@@ -72,7 +76,7 @@ export const FeaturedProductSection = () => {
             ))}
           </ul>
 
-          <ul className="flex flex-wrap gap-2 mb-6 lg:mb-4 text-xs">
+          <ul className="order-4 hidden sm:flex flex-wrap gap-2 lg:mb-4 text-xs">
             {[
               ["fas fa-tag", product.price],
               ["fab fa-chrome", product.platform],
@@ -90,35 +94,39 @@ export const FeaturedProductSection = () => {
             ))}
           </ul>
 
-          <SupportNote ext={product} className="mb-8 lg:mb-5" />
+          <SupportNote ext={product} className="order-5 hidden sm:block lg:mb-5" />
 
-          <div className="flex flex-col sm:flex-row flex-wrap gap-3">
+          <div className="order-6 grid grid-cols-2 sm:flex sm:flex-wrap gap-3">
             <a
               href={product.storeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg bg-crunchy hover:bg-[#ff7d1f] font-semibold transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-lg bg-crunchy hover:bg-[#ff7d1f] font-semibold text-sm sm:text-base transition-colors"
             >
               <i className="fab fa-chrome" aria-hidden="true" />
-              Add to Chrome for free
+              <span className="sm:hidden">Add to Chrome</span>
+              <span className="hidden sm:inline">Add to Chrome for free</span>
             </a>
             <Link
               to={`/extensions/${product.slug}`}
-              className="inline-flex items-center justify-center gap-2 px-5 py-3 rounded-lg border border-white/15 hover:bg-white/5 font-semibold text-gray-200 transition-colors"
+              className="inline-flex items-center justify-center gap-2 px-4 sm:px-5 py-3 rounded-lg border border-white/15 hover:bg-white/5 font-semibold text-sm sm:text-base text-gray-200 transition-colors"
             >
-              Product details
+              <span className="sm:hidden">Details</span>
+              <span className="hidden sm:inline">Product details</span>
               <i className="fas fa-arrow-right text-sm" aria-hidden="true" />
             </Link>
             <Link
               to={product.privacyUrl}
-              className="inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-gray-400 hover:text-white font-medium transition-colors"
+              className="hidden sm:inline-flex items-center justify-center gap-2 px-4 py-3 rounded-lg text-gray-400 hover:text-white font-medium transition-colors"
             >
               Privacy policy
             </Link>
           </div>
         </div>
 
-        <ScreenshotGallery screenshots={product.screenshots} accent={product.color} />
+        <div className="order-3 lg:order-none min-w-0">
+          <ScreenshotGallery screenshots={product.screenshots} accent={product.color} />
+        </div>
       </div>
     </Section>
   );
