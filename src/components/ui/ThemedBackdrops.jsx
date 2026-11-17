@@ -82,14 +82,13 @@ export function InkBackdrop() {
   );
 }
 
-const SHORT_LINKS = ["CRUNCHY", "GITHUB", "LINKEDIN", "CREDLY", "INSTAGRAM", "BLOG", "DOCS", "CV"];
-
 /**
  * One star of short links around (cx, cy) (see LinkBackdrop). `hub`: draw a
  * small link icon in the middle; otherwise the middle is left clear (masked)
  * for the content sitting there.
  */
-function LinkStar({ width, height, cx = width / 2, cy = height / 2, rx, ry, inner, count, pill, font, offset, hub = false, align = "xMidYMid" }) {
+function LinkStar({ labels, width, height, cx = width / 2, cy = height / 2, rx, ry, inner, pill, font, offset, hub = false, align = "xMidYMid" }) {
+  const count = labels.length;
   const clearMiddle = {
     maskImage: "radial-gradient(ellipse at center, transparent 22%, black 55%)",
     WebkitMaskImage: "radial-gradient(ellipse at center, transparent 22%, black 55%)",
@@ -98,19 +97,22 @@ function LinkStar({ width, height, cx = width / 2, cy = height / 2, rx, ry, inne
     <svg
       className="absolute inset-0 h-full w-full"
       viewBox={`0 0 ${width} ${height}`}
-      preserveAspectRatio={`${align} slice`}
+      // "meet": the whole star always fits inside the band (never cut off
+      // under the navbar on short screens)
+      preserveAspectRatio={`${align} meet`}
       aria-hidden="true"
       style={hub ? undefined : clearMiddle}
     >
       <g fill="none" strokeLinecap="round">
-        {SHORT_LINKS.slice(0, count).map((label, index) => {
+        {labels.map((label, index) => {
           const angle = offset + (index / count) * Math.PI * 2;
-          const x = cx + Math.cos(angle) * rx;
+          const w = pill * (0.55 + label.length * 0.09);
+          // keep every pill inside the drawing, however long its code
+          const x = Math.min(width - w / 2 - 4, Math.max(w / 2 + 4, cx + Math.cos(angle) * rx));
           const y = cy + Math.sin(angle) * ry;
           const x0 = cx + Math.cos(angle) * rx * inner;
           const y0 = cy + Math.sin(angle) * ry * inner;
           const ray = `M ${x0.toFixed(1)} ${y0.toFixed(1)} L ${x.toFixed(1)} ${y.toFixed(1)}`;
-          const w = pill * (0.55 + label.length * 0.09);
           return (
             <g key={label}>
               <path d={ray} stroke="rgba(255,107,0,0.14)" strokeWidth="1.5" strokeDasharray="3 7" />
@@ -161,21 +163,26 @@ function LinkStar({ width, height, cx = width / 2, cy = height / 2, rx, ry, inne
 }
 
 /**
- * Shortener: short links shoot out of the form like a star (the form sits in
- * the middle, the rays carry data outwards to /CRUNCHY, /GITHUB...). On
- * phones the form takes the whole width, so a smaller star with its own hub
- * sits in the free room at the bottom of the screen instead.
+ * Shortener: the real short links (`codes`, from the shortener's public
+ * statistics) shoot out of the form like a star: the form sits in the middle
+ * and the rays carry data outwards to each link. On phones the form takes
+ * the whole width, so a smaller star with its own hub sits in the free room
+ * at the bottom of the screen instead (up to 6 links there). Nothing is drawn
+ * until the codes are known.
  */
-export function LinkBackdrop() {
+export function LinkBackdrop({ codes = [] }) {
+  if (!codes.length) return null;
+  const desktop = codes.slice(0, 10);
+  const phone = codes.slice(0, 6);
   return (
-    <>
+    <div className="absolute inset-0 animate-fade-in">
       <div className="absolute inset-0 hidden md:block">
-        <LinkStar width={1440} height={820} rx={560} ry={330} inner={0.52} count={8} pill={110} font={13} offset={-Math.PI / 2 + Math.PI / 8} />
+        <LinkStar labels={desktop} width={1440} height={820} rx={650} ry={300} inner={0.5} pill={100} font={12} offset={-Math.PI / 2 + Math.PI / desktop.length} />
       </div>
       <div className="absolute inset-0 md:hidden">
-        <LinkStar width={390} height={780} cy={680} rx={140} ry={62} inner={0.3} count={6} pill={70} font={9} offset={-Math.PI / 2 + Math.PI / 6} hub align="xMidYMax" />
+        <LinkStar labels={phone} width={390} height={780} cy={680} rx={130} ry={62} inner={0.3} pill={64} font={8.5} offset={-Math.PI / 2 + Math.PI / phone.length} hub align="xMidYMax" />
       </div>
-    </>
+    </div>
   );
 }
 

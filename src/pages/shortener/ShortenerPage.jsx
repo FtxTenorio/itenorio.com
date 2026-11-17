@@ -83,7 +83,10 @@ function CreateLink({ stats, loadingStats }) {
       />
       {/* short links shooting out of the form, star-shaped */}
       <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
-        <LinkBackdrop />
+        {/* the real links of the shortener, most clicked first */}
+        <LinkBackdrop
+          codes={[...(stats?.links ?? [])].sort((a, b) => b.clicks - a.clicks).map((link) => link.shortCode)}
+        />
       </div>
       <SectionWave fill={HOME_BG.alt} />
 
