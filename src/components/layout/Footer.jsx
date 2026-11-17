@@ -35,7 +35,7 @@ export const Footer = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label={link.label}
-                  className="w-9 h-9 inline-flex items-center justify-center rounded-md border border-line text-gray-400 hover:text-white hover:border-white/20 transition-colors"
+                  className="w-11 h-11 md:w-9 md:h-9 inline-flex items-center justify-center rounded-md border border-line text-gray-400 hover:text-white hover:border-white/20 transition-colors"
                 >
                   <i className={link.icon} aria-hidden="true" />
                 </a>
@@ -45,15 +45,15 @@ export const Footer = () => {
 
           <div>
             <ColumnTitle>Site</ColumnTitle>
-            <ul className="space-y-2.5 text-sm text-gray-400">
+            <ul className="space-y-1 md:space-y-2.5 text-sm text-gray-400">
               {FOOTER_LINKS.map((link) => (
                 <li key={link.to}>
                   {link.external ? (
-                    <a href={link.to} className="hover:text-white transition-colors">
+                    <a href={link.to} className="inline-block py-1.5 md:py-0 hover:text-white transition-colors">
                       {link.label}
                     </a>
                   ) : (
-                    <Link to={link.to} className="hover:text-white transition-colors">
+                    <Link to={link.to} className="inline-block py-1.5 md:py-0 hover:text-white transition-colors">
                       {link.label}
                     </Link>
                   )}
@@ -63,10 +63,10 @@ export const Footer = () => {
             <ColumnTitle>
               <span className="block mt-8">Legal</span>
             </ColumnTitle>
-            <ul className="space-y-2.5 text-sm text-gray-400">
+            <ul className="space-y-1 md:space-y-2.5 text-sm text-gray-400">
               {LEGAL_LINKS.map((link) => (
                 <li key={link.to}>
-                  <Link to={link.to} className="hover:text-white transition-colors">
+                  <Link to={link.to} className="inline-block py-1.5 md:py-0 hover:text-white transition-colors">
                     {link.label}
                   </Link>
                 </li>
@@ -81,7 +81,7 @@ export const Footer = () => {
                 <li key={item.id}>
                   <a
                     href={`mailto:${item.email}`}
-                    className="text-gray-300 hover:text-white transition-colors break-all"
+                    className="inline-block py-1 md:py-0 text-gray-300 hover:text-white transition-colors break-all"
                   >
                     {item.email}
                   </a>

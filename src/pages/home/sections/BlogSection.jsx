@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { Section } from "../../../components/ui/Section";
+import { SwipeRow } from "../../../components/ui/SwipeRow";
 import { HOME_BG } from "../../../config/theme";
 import { BLOG_RSS_URL, BLOG_URL, fetchLatestPosts } from "../../../data/blog";
 
@@ -96,11 +97,11 @@ export const BlogSection = () => {
       ]}
     >
       {(status === "loading" || status === "ready") && (
-        <div className="grid gap-4 sm:gap-6 md:grid-cols-3 mb-8 lg:mb-6" aria-busy={status === "loading"}>
+        <SwipeRow label="Latest blog posts" className="mb-8 lg:mb-6">
           {status === "loading"
             ? Array.from({ length: POSTS }, (_, index) => <PostSkeleton key={index} />)
             : posts.map((post) => <PostCard key={post.id} post={post} />)}
-        </div>
+        </SwipeRow>
       )}
 
       <div className="flex flex-col sm:flex-row flex-wrap gap-3">

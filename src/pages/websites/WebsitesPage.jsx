@@ -233,13 +233,17 @@ export default function Websites() {
                     <span>View on GitHub</span>
                   </a>
                 ) : (
-                  <div
-                    className="flex-1 lg:flex-initial inline-flex items-center justify-center gap-2 px-4 py-3 rounded-xl font-semibold text-amber-300/90 bg-amber-500/5 border border-amber-500/20 text-xs cursor-not-allowed"
-                    title="Source code is private to protect client business logic"
-                  >
-                    <i className="fas fa-shield-halved"></i>
-                    <span>Client Private Repository</span>
-                  </div>
+                  // A tap opens the reason (it used to be a hover-only title).
+                  <details className="group flex-1 lg:flex-initial rounded-xl bg-amber-500/5 border border-amber-500/20 text-xs">
+                    <summary className="list-none [&::-webkit-details-marker]:hidden cursor-pointer inline-flex w-full items-center justify-center gap-2 px-4 py-3 font-semibold text-amber-300/90">
+                      <i className="fas fa-shield-halved" aria-hidden="true"></i>
+                      <span>Client Private Repository</span>
+                      <i className="fas fa-circle-info text-amber-300/60 group-open:text-amber-300" aria-hidden="true"></i>
+                    </summary>
+                    <p className="px-4 pb-3 -mt-1 text-center text-amber-100/70 font-normal">
+                      Source code is private to protect client business logic.
+                    </p>
+                  </details>
                 )}
               </div>
             </div>
@@ -269,7 +273,7 @@ export default function Websites() {
                       <button
                         key={route.path}
                         onClick={() => setSelectedRoute(route.url)}
-                        className={`px-3 py-1 rounded-md text-xs font-mono transition-all ${
+                        className={`px-3 py-2 md:py-1 rounded-md text-xs font-mono transition-all ${
                           selectedRoute === route.url
                             ? "bg-blue-500 text-white font-bold shadow"
                             : "bg-[#0b0f19] text-gray-400 hover:text-white border border-white/10"

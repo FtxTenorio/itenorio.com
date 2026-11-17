@@ -1,18 +1,37 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 /**
  * Real store screenshots of an extension, with tabs to switch between them.
  * `screenshots`: [{ src, label, alt }] from src/data/extensions.js.
+ * On a phone the image can also be swiped left/right to change screenshot.
  */
 export function ScreenshotGallery({ screenshots, accent = "#ff6b00", eager = false }) {
   const [active, setActive] = useState(0);
+  const pointer = useRef(null);
   if (!screenshots?.length) return null;
   const current = screenshots[active];
+  const count = screenshots.length;
+
+  const onPointerDown = (event) => {
+    pointer.current = { x: event.clientX, y: event.clientY };
+  };
+  const onPointerUp = (event) => {
+    if (!pointer.current) return;
+    const dx = event.clientX - pointer.current.x;
+    const dy = event.clientY - pointer.current.y;
+    pointer.current = null;
+    if (Math.abs(dx) > 40 && Math.abs(dx) > Math.abs(dy)) {
+      setActive((index) => (index + (dx < 0 ? 1 : -1) + count) % count);
+    }
+  };
 
   return (
     <figure className="w-full">
       <div
-        className="relative overflow-hidden rounded-xl border border-white/10 bg-ink shadow-2xl aspect-[16/10]"
+        className="relative overflow-hidden rounded-xl border border-white/10 bg-ink shadow-2xl aspect-[16/10] touch-pan-y select-none"
+        onPointerDown={onPointerDown}
+        onPointerUp={onPointerUp}
+        onPointerCancel={() => (pointer.current = null)}
         style={{ boxShadow: `0 25px 60px -20px ${accent}40` }}
       >
         {screenshots.map((shot, index) => (
@@ -24,6 +43,7 @@ export function ScreenshotGallery({ screenshots, accent = "#ff6b00", eager = fal
             height="800"
             loading={eager && index === 0 ? "eager" : "lazy"}
             decoding="async"
+            draggable="false"
             className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-500 ${
               index === active ? "opacity-100" : "opacity-0"
             }`}
@@ -45,7 +65,7 @@ export function ScreenshotGallery({ screenshots, accent = "#ff6b00", eager = fal
               role="tab"
               aria-selected={index === active}
               onClick={() => setActive(index)}
-              className={`px-3 py-1.5 rounded-full text-xs font-semibold border transition-colors ${
+              className={`px-3.5 py-2.5 md:px-3 md:py-1.5 rounded-full text-xs font-semibold border transition-colors ${
                 index === active
                   ? "text-white border-transparent"
                   : "text-gray-400 border-white/10 bg-white/5 hover:text-white"

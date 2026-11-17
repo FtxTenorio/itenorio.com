@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
+import { SwipeRow } from "../../../components/ui/SwipeRow";
 import { HOME_BG } from "../../../config/theme";
 
 const SERVICES = [
@@ -38,7 +39,7 @@ export const ServicesSection = () => (
       { color: "#6366f1", className: "bottom-0 -right-24 w-[22rem] h-[22rem]" },
     ]}
   >
-    <div className="grid gap-4 sm:gap-6 md:grid-cols-3">
+    <SwipeRow label="What we do">
       {SERVICES.map((service) => (
         <article
           key={service.title}
@@ -51,13 +52,13 @@ export const ServicesSection = () => (
           <p className="text-sm text-gray-400 leading-relaxed mb-6">{service.text}</p>
           <Link
             to={service.link.to}
-            className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-brand-soft hover:text-white transition-colors"
+            className="mt-auto -my-2 py-2 inline-flex items-center gap-2 text-sm font-semibold text-brand-soft hover:text-white transition-colors"
           >
             {service.link.label}
             <i className="fas fa-arrow-right text-xs" aria-hidden="true" />
           </Link>
         </article>
       ))}
-    </div>
+    </SwipeRow>
   </Section>
 );

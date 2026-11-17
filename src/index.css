@@ -178,3 +178,11 @@
     animation: none;
   }
 }
+
+/* Horizontal swipe rows (SwipeRow): scroll by touch, no visible scrollbar. */
+@utility no-scrollbar {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}

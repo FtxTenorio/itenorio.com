@@ -186,7 +186,7 @@ function TopLinks({ stats, loadingStats }) {
         <i className="fas fa-arrow-trend-up" aria-hidden="true" />
       </h3>
 
-      <ol className="flex flex-1 flex-col gap-4">
+      <ol className="flex flex-1 flex-col gap-1">
         {loadingStats ? (
           Array.from({ length: 5 }).map((_, i) => (
             <li key={i} className="flex h-8 items-center justify-between">
@@ -196,33 +196,41 @@ function TopLinks({ stats, loadingStats }) {
           ))
         ) : stats?.topLinks?.length > 0 ? (
           stats.topLinks.map((link) => (
-            <li key={link.shortCode} className="group flex items-center justify-between">
-              <div className="flex items-center gap-3 overflow-hidden pr-2">
-                <img
-                  src={`https://www.google.com/s2/favicons?domain=${getDomain(link.originalUrl)}&sz=32`}
-                  alt=""
-                  className="h-4 w-4 rounded-sm opacity-80 transition-opacity group-hover:opacity-100"
-                  onError={(e) => {
-                    e.target.style.display = "none";
-                  }}
-                />
-                <a
-                  href={`${API}/${link.shortCode}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 truncate text-sm font-medium text-gray-300 transition-colors hover:text-white"
-                  title={link.originalUrl}
-                >
-                  {link.shortCode}
-                  <i
-                    className="fas fa-external-link-alt text-[10px] text-gray-600 transition-colors group-hover:text-gray-300"
-                    aria-hidden="true"
+            <li key={link.shortCode}>
+              {/* The whole row is the link (a big touch target); the
+                  destination is written out, since phones have no hover title. */}
+              <a
+                href={`${API}/${link.shortCode}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group -mx-2 flex min-h-11 items-center justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-white/5"
+              >
+                <span className="flex min-w-0 items-center gap-3">
+                  <img
+                    src={`https://www.google.com/s2/favicons?domain=${getDomain(link.originalUrl)}&sz=32`}
+                    alt=""
+                    className="h-4 w-4 shrink-0 rounded-sm opacity-80 transition-opacity group-hover:opacity-100"
+                    onError={(e) => {
+                      e.target.style.display = "none";
+                    }}
                   />
-                </a>
-              </div>
-              <span className="shrink-0 rounded bg-white/5 px-2 py-1 font-mono text-xs text-gray-400">
-                {link.clicks}
-              </span>
+                  <span className="min-w-0">
+                    <span className="flex items-center gap-2 text-sm font-medium text-gray-300 transition-colors group-hover:text-white">
+                      <span className="truncate">{link.shortCode}</span>
+                      <i
+                        className="fas fa-external-link-alt text-[10px] text-gray-600 transition-colors group-hover:text-gray-300"
+                        aria-hidden="true"
+                      />
+                    </span>
+                    <span className="block truncate text-xs text-gray-500">
+                      {getDomain(link.originalUrl)}
+                    </span>
+                  </span>
+                </span>
+                <span className="shrink-0 rounded bg-white/5 px-2 py-1 font-mono text-xs text-gray-400">
+                  {link.clicks} <span className="sr-only">clicks</span>
+                </span>
+              </a>
             </li>
           ))
         ) : (
@@ -233,49 +241,81 @@ function TopLinks({ stats, loadingStats }) {
   );
 }
 
+// Bars are buttons: on a phone there is no hover, so a tap selects a day and
+// its number stays visible (above the bar and in the line under the title).
+// Tapping the selected bar again goes back to the total.
 function TrafficChart({ stats, loadingStats }) {
   const days = stats?.charts?.clicksByDay?.slice(-CHART_DAYS) || [];
   const max = days.reduce((m, day) => Math.max(m, day.clicks), 1);
   const total = days.reduce((sum, day) => sum + day.clicks, 0);
+  const [selected, setSelected] = useState(null);
+  const selectedDay = days.find((day) => day.date === selected);
 
   return (
-    <div className="flex flex-col rounded-2xl border border-white/10 bg-surface/80 p-6 backdrop-blur">
+    <div className="flex flex-col rounded-2xl border border-white/10 bg-surface/80 p-5 sm:p-6 backdrop-blur">
       <h3 className="mb-2 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-gray-500">
         Clicks per day
         <i className="fas fa-chart-column" aria-hidden="true" />
       </h3>
-      <p className="mb-8 text-sm text-gray-400">
-        {loadingStats
-          ? "Loading…"
-          : days.length > 0
-            ? `${total} clicks in the last ${days.length} days`
-            : "No traffic yet."}
+      <p className="mb-8 min-h-5 text-sm text-gray-400" aria-live="polite">
+        {loadingStats ? (
+          "Loading…"
+        ) : selectedDay ? (
+          <>
+            <span className="font-semibold text-white">
+              {selectedDay.clicks} {selectedDay.clicks === 1 ? "click" : "clicks"}
+            </span>{" "}
+            on {formatDay(selectedDay.date)}
+          </>
+        ) : days.length > 0 ? (
+          `${total} clicks in the last ${days.length} days · tap a bar for the day`
+        ) : (
+          "No traffic yet."
+        )}
       </p>
 
-      <div className="relative mb-8 flex h-56 w-full items-end justify-around gap-2 border-b border-white/5 pb-2">
+      <div className="relative mb-8 flex h-56 w-full items-end justify-around gap-1 sm:gap-2 border-b border-white/5 pb-2">
         {loadingStats ? (
           <div className="flex h-full w-full items-center justify-center">
             <i className="fas fa-spinner fa-spin text-gray-600" aria-hidden="true" />
           </div>
         ) : (
-          days.map((day) => (
-            <div
-              key={day.date}
-              className="group relative flex h-full min-w-[12px] max-w-[48px] flex-1 flex-col items-center justify-end"
-            >
-              <div className="pointer-events-none absolute -top-8 z-10 whitespace-nowrap rounded border border-white/10 bg-ink px-2 py-1 text-xs text-white opacity-0 transition-opacity group-hover:opacity-100">
-                {day.clicks} · {formatDay(day.date)}
-              </div>
-              <div
-                className="w-full rounded-t-sm bg-crunchy/30 transition-all duration-300 group-hover:bg-crunchy"
-                style={{ height: `${Math.max((day.clicks / max) * 100, 4)}%` }}
+          days.map((day) => {
+            const isSelected = day.date === selected;
+            return (
+              <button
+                key={day.date}
+                type="button"
+                onClick={() => setSelected(isSelected ? null : day.date)}
+                aria-pressed={isSelected}
                 aria-label={`${formatDay(day.date)}: ${day.clicks} clicks`}
-              />
-              <span className="absolute -bottom-6 text-[10px] text-gray-600">
-                {day.date.split("-")[2]}
-              </span>
-            </div>
-          ))
+                className="group relative flex h-full min-w-[14px] max-w-[48px] flex-1 flex-col items-center justify-end rounded-t-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-crunchy"
+              >
+                <span
+                  className={`pointer-events-none absolute z-10 whitespace-nowrap rounded border border-white/10 bg-ink px-1.5 py-0.5 font-mono text-xs text-white transition-opacity ${
+                    isSelected ? "opacity-100" : "opacity-0 group-hover:opacity-100"
+                  }`}
+                  style={{ bottom: `calc(${Math.max((day.clicks / max) * 100, 4)}% + 0.375rem)` }}
+                  aria-hidden="true"
+                >
+                  {day.clicks}
+                </span>
+                <span
+                  className={`block w-full rounded-t-sm transition-all duration-300 ${
+                    isSelected ? "bg-crunchy" : "bg-crunchy/30 group-hover:bg-crunchy/70"
+                  }`}
+                  style={{ height: `${Math.max((day.clicks / max) * 100, 4)}%` }}
+                  aria-hidden="true"
+                />
+                <span
+                  className={`absolute -bottom-6 text-[10px] ${isSelected ? "text-white" : "text-gray-600"}`}
+                  aria-hidden="true"
+                >
+                  {day.date.split("-")[2]}
+                </span>
+              </button>
+            );
+          })
         )}
       </div>
     </div>

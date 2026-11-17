@@ -42,7 +42,7 @@ export function Carousel({
   };
 
   const arrow =
-    "w-10 h-10 shrink-0 inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-30";
+    "w-11 h-11 shrink-0 inline-flex items-center justify-center rounded-full border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:bg-white/10 transition-colors disabled:opacity-30";
 
   const controls = (className) =>
     count > 1 && (
@@ -55,7 +55,7 @@ export function Carousel({
         >
           <i className="fas fa-chevron-left text-sm" aria-hidden="true" />
         </button>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           {items.map((item, i) => (
             <button
               key={getLabel(item)}
@@ -63,11 +63,13 @@ export function Carousel({
               onClick={() => goTo(i)}
               aria-label={`Show ${getLabel(item)}`}
               aria-current={i === index}
-              className={`h-2 rounded-full transition-all ${i === index ? "w-8" : "w-2 bg-white/20 hover:bg-white/40"}`}
-              style={
-                i === index ? { backgroundColor: accent(item) } : undefined
-              }
-            />
+              className="group h-6 px-0.5 flex items-center"
+            >
+              <span
+                className={`block h-2 rounded-full transition-all ${i === index ? "w-8" : "w-2 bg-white/20 group-hover:bg-white/40"}`}
+                style={i === index ? { backgroundColor: accent(item) } : undefined}
+              />
+            </button>
           ))}
         </div>
         <button
