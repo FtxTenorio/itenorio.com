@@ -9,4 +9,11 @@ import tailwindcss from "@tailwindcss/vite";
 // Routes are declared in src/config/routes.js.
 export default defineConfig({
   plugins: [react(), tailwindcss()],
+  // The blog (/blog/) is a separate Ghost site on the same bucket; in dev,
+  // proxy it so the home page can read its RSS feed (src/data/blog.js).
+  server: {
+    proxy: {
+      "/blog": { target: "https://itenorio.com", changeOrigin: true },
+    },
+  },
 });

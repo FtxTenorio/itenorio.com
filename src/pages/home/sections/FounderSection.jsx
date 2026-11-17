@@ -15,9 +15,8 @@ export const FounderSection = () => (
     id="about"
     eyebrow="Who is behind it"
     fullScreen
-    background={HOME_BG.alt}
-    wave={HOME_BG.base}
-    waveFlip
+    background={HOME_BG.base}
+    wave={HOME_BG.alt}
     bubbles={[
       { color: "#8b5cf6", className: "top-[15%] -left-24 w-[26rem] h-[26rem]" },
       { color: "#0078d7", className: "bottom-[10%] right-[10%] w-[22rem] h-[22rem]" },
