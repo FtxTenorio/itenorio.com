@@ -82,51 +82,100 @@ export function InkBackdrop() {
   );
 }
 
+const SHORT_LINKS = ["CRUNCHY", "GITHUB", "LINKEDIN", "CREDLY", "INSTAGRAM", "BLOG", "DOCS", "CV"];
+
 /**
- * Shortener: long URLs on the left run through a funnel and come out as
- * short links on the right; the middle (where the form is) stays clear.
+ * One star of short links around (cx, cy) (see LinkBackdrop). `hub`: draw a
+ * small link icon in the middle; otherwise the middle is left clear (masked)
+ * for the content sitting there.
  */
-export function LinkBackdrop() {
-  const long = [120, 260, 400, 540, 680];
+function LinkStar({ width, height, cx = width / 2, cy = height / 2, rx, ry, inner, count, pill, font, offset, hub = false, align = "xMidYMid" }) {
+  const clearMiddle = {
+    maskImage: "radial-gradient(ellipse at center, transparent 22%, black 55%)",
+    WebkitMaskImage: "radial-gradient(ellipse at center, transparent 22%, black 55%)",
+  };
   return (
     <svg
-      {...svgProps}
-      style={{
-        maskImage: "linear-gradient(90deg, black 0%, black 22%, transparent 40%, transparent 60%, black 78%, black 100%)",
-        WebkitMaskImage:
-          "linear-gradient(90deg, black 0%, black 22%, transparent 40%, transparent 60%, black 78%, black 100%)",
-      }}
+      className="absolute inset-0 h-full w-full"
+      viewBox={`0 0 ${width} ${height}`}
+      preserveAspectRatio={`${align} slice`}
+      aria-hidden="true"
+      style={hub ? undefined : clearMiddle}
     >
       <g fill="none" strokeLinecap="round">
-        {long.map((y, index) => (
-          <g key={y}>
-            {/* a long URL: a wide bar of "path segments" */}
-            <rect x="40" y={y - 14} width={300 + (index % 3) * 40} height="28" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" />
-            {[0, 1, 2, 3, 4].map((segment) => (
-              <rect key={segment} x={62 + segment * 58} y={y - 3} width={36 + ((segment + index) % 3) * 8} height="6" rx="3" fill="rgba(148,163,184,0.12)" />
-            ))}
-            {/* into the funnel */}
-            <path
-              d={`M ${380 + (index % 3) * 40} ${y} C 520 ${y}, 560 410, 720 410`}
-              stroke="rgba(255,107,0,0.16)"
-              strokeWidth="1.5"
-              strokeDasharray="3 7"
-            />
-          </g>
-        ))}
-        {/* out of the funnel: short links */}
-        {long.map((y, index) => (
-          <g key={`s-${y}`}>
-            <path d={`M 720 410 C 880 410, 920 ${y}, 1060 ${y}`} stroke="rgba(56,189,248,0.16)" strokeWidth="1.5" />
-            <path d={`M 720 410 C 880 410, 920 ${y}, 1060 ${y}`} pathLength="100" stroke="#ff6b00" strokeWidth="2" className="flow-dash" style={{ animationDelay: `${index * -0.6}s` }} />
-            <rect x="1060" y={y - 16} width="150" height="32" rx="16" fill="rgba(255,107,0,0.06)" stroke="rgba(255,107,0,0.35)" />
-            <text x="1135" y={y + 5} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="13" fill="rgba(253,186,116,0.55)">
-              /{["CRUNCHY", "GITHUB", "LINKEDIN", "CREDLY", "DOCS"][index]}
-            </text>
-          </g>
-        ))}
+        {SHORT_LINKS.slice(0, count).map((label, index) => {
+          const angle = offset + (index / count) * Math.PI * 2;
+          const x = cx + Math.cos(angle) * rx;
+          const y = cy + Math.sin(angle) * ry;
+          const x0 = cx + Math.cos(angle) * rx * inner;
+          const y0 = cy + Math.sin(angle) * ry * inner;
+          const ray = `M ${x0.toFixed(1)} ${y0.toFixed(1)} L ${x.toFixed(1)} ${y.toFixed(1)}`;
+          const w = pill * (0.55 + label.length * 0.09);
+          return (
+            <g key={label}>
+              <path d={ray} stroke="rgba(255,107,0,0.14)" strokeWidth="1.5" strokeDasharray="3 7" />
+              <path
+                d={ray}
+                pathLength="100"
+                stroke="#ff6b00"
+                strokeWidth="2"
+                className="flow-dash"
+                style={{ animationDelay: `${index * -0.37}s` }}
+              />
+              <rect
+                x={x - w / 2}
+                y={y - pill * 0.22}
+                width={w}
+                height={pill * 0.44}
+                rx={pill * 0.22}
+                fill="rgba(11,15,25,0.85)"
+                stroke="rgba(255,107,0,0.4)"
+              />
+              <text
+                x={x}
+                y={y + font * 0.35}
+                textAnchor="middle"
+                fontFamily="JetBrains Mono, monospace"
+                fontSize={font}
+                fill="rgba(253,186,116,0.7)"
+              >
+                /{label}
+              </text>
+            </g>
+          );
+        })}
       </g>
+      {hub && (
+        <g transform={`translate(${cx} ${cy})`}>
+          <circle r="17" fill="#0b0f19" stroke="rgba(255,107,0,0.55)" strokeWidth="1.5" />
+          <circle r="17" fill="none" stroke="rgba(255,107,0,0.35)" className="signal-wave" />
+          {/* two chain links */}
+          <g fill="none" stroke="rgba(253,186,116,0.85)" strokeWidth="2" strokeLinecap="round" transform="rotate(-45)">
+            <rect x="-9" y="-3.5" width="10" height="7" rx="3.5" />
+            <rect x="-1" y="-3.5" width="10" height="7" rx="3.5" />
+          </g>
+        </g>
+      )}
     </svg>
+  );
+}
+
+/**
+ * Shortener: short links shoot out of the form like a star (the form sits in
+ * the middle, the rays carry data outwards to /CRUNCHY, /GITHUB...). On
+ * phones the form takes the whole width, so a smaller star with its own hub
+ * sits in the free room at the bottom of the screen instead.
+ */
+export function LinkBackdrop() {
+  return (
+    <>
+      <div className="absolute inset-0 hidden md:block">
+        <LinkStar width={1440} height={820} rx={560} ry={330} inner={0.52} count={8} pill={110} font={13} offset={-Math.PI / 2 + Math.PI / 8} />
+      </div>
+      <div className="absolute inset-0 md:hidden">
+        <LinkStar width={390} height={780} cy={680} rx={140} ry={62} inner={0.3} count={6} pill={70} font={9} offset={-Math.PI / 2 + Math.PI / 6} hub align="xMidYMax" />
+      </div>
+    </>
   );
 }
 

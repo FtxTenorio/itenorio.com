@@ -81,8 +81,8 @@ function CreateLink({ stats, loadingStats }) {
           { color: "#0078d7", className: "bottom-[10%] -right-32 w-[26rem] h-[26rem]" },
         ]}
       />
-      {/* long URLs going in on the left, short links coming out on the right */}
-      <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-hidden md:block" aria-hidden="true">
+      {/* short links shooting out of the form, star-shaped */}
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
         <LinkBackdrop />
       </div>
       <SectionWave fill={HOME_BG.alt} />
