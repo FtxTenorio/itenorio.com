@@ -3,13 +3,17 @@ import { useEffect } from "react";
 const LOCK_MS = 750; // ignore further input while the page glides
 const QUIET_MS = 180; // trackpad inertia: wait for the wheel to go quiet
 const THRESHOLD = 30; // px of wheel delta before we move
-const SWIPE = 40; // px of vertical finger travel that counts as a swipe
+const SWIPE = 70; // px of finger travel that is enough to change band...
+const FLICK = 0.3; // ...or a flick this fast (px/ms), even if short
 const SETTLE_MS = 650; // after gliding, check the landing and fix it
 
 const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isLargeScreen = () =>
   window.matchMedia("(min-width: 1024px) and (min-height: 700px)").matches && !reducedMotion();
 const isTouchScreen = () => window.matchMedia("(max-width: 1023px)").matches && !reducedMotion();
+// the wheel pages on large screens and on phone-sized windows (a desktop
+// browser emulating a phone, or a narrow window)
+const wheelPages = () => isLargeScreen() || isTouchScreen();
 
 /**
  * Height of the *large* viewport (browser bar hidden), measured with a probe:
@@ -39,10 +43,11 @@ const navbarBottom = () => {
  * (index.css), and one gesture moves exactly one section, so the reader never
  * stops halfway between two:
  * - large screens: one wheel gesture (or PageDown/Up, arrow keys, Space);
- * - phones and tablets: one vertical swipe. The page is moved by script, not
- *   by CSS scroll snapping, which on phones landed a strip too high (the
- *   browser bar showing/hiding changes the viewport mid-scroll); after the
- *   glide the landing is measured again and corrected.
+ * - phones and tablets: the page follows the finger, and on release it goes
+ *   to the next band if the drag was long or quick enough, or settles back
+ *   otherwise. Moved by script, not CSS scroll snapping (which landed a
+ *   strip too high when the browser bar showed/hid); after the glide the
+ *   landing is measured again and corrected. The wheel pages here too.
  * A section taller than the screen scrolls normally until its edge first.
  * Sections are the elements with .snap-section, then the footer (its top is a
  * stop and, when it's taller than the screen, it scrolls freely), then the
@@ -69,10 +74,13 @@ export function useSectionPaging() {
       );
     };
 
-    /** Glides to the next stop below (direction 1) or above (-1). */
-    const go = (direction) => {
+    /**
+     * Glides to the next stop below (direction 1) or above (-1) of `from`
+     * (default: where the page is now).
+     */
+    const go = (direction, from = window.scrollY) => {
       const list = stops();
-      const y = window.scrollY;
+      const y = from;
       const index =
         direction > 0
           ? list.findIndex((stop) => stop > y + 2)
@@ -110,7 +118,7 @@ export function useSectionPaging() {
     };
 
     const onWheel = (event) => {
-      if (!isLargeScreen() || event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
+      if (!wheelPages() || event.ctrlKey || Math.abs(event.deltaX) > Math.abs(event.deltaY)) {
         return;
       }
       const direction = Math.sign(event.deltaY);
@@ -129,15 +137,15 @@ export function useSectionPaging() {
     };
 
     // Touch: decide on the first moves whether the gesture is ours (vertical,
-    // one finger, not inside a tall section with room); if so, hold the page
-    // still and page once when the finger lifts.
+    // one finger, not inside a tall section with room). If so the page
+    // follows the finger, and on release it pages or settles back.
     const onTouchStart = (event) => {
-      if (!isTouchScreen() || event.touches.length !== 1) {
+      if (!isTouchScreen() || event.touches.length !== 1 || performance.now() < lockedUntil) {
         touch = null;
         return;
       }
       const point = event.touches[0];
-      touch = { x: point.clientX, y: point.clientY, mode: null };
+      touch = { x: point.clientX, y: point.clientY, scroll: window.scrollY, time: performance.now(), mode: null };
     };
 
     const onTouchMove = (event) => {
@@ -150,17 +158,27 @@ export function useSectionPaging() {
         if (Math.abs(dx) > Math.abs(dy)) touch.mode = "native"; // carousels
         else touch.mode = tallSectionHasRoom(dy < 0 ? 1 : -1) ? "native" : "page";
       }
-      if (touch.mode === "page" && event.cancelable) event.preventDefault();
+      if (touch.mode !== "page") return;
+      if (event.cancelable) event.preventDefault();
+      window.scrollTo({ top: touch.scroll - dy, behavior: "instant" });
     };
 
     const onTouchEnd = (event) => {
       if (!touch) return;
-      const { mode, y } = touch;
+      const { mode, y, scroll, time } = touch;
       touch = null;
       if (mode !== "page") return;
       const dy = (event.changedTouches[0]?.clientY ?? y) - y;
-      if (Math.abs(dy) < SWIPE || performance.now() < lockedUntil) return;
-      go(dy < 0 ? 1 : -1);
+      const speed = Math.abs(dy) / Math.max(1, performance.now() - time);
+      const direction = dy < 0 ? 1 : -1;
+      if (Math.abs(dy) >= SWIPE || speed >= FLICK) {
+        // counted from where the drag started, so a long drag still moves
+        // exactly one band; the glide continues from where the finger left it
+        go(direction, scroll);
+      } else {
+        window.scrollTo({ top: scroll, behavior: "smooth" }); // settle back
+        lockedUntil = performance.now() + 300;
+      }
     };
 
     const KEYS = { PageDown: 1, ArrowDown: 1, " ": 1, PageUp: -1, ArrowUp: -1 };

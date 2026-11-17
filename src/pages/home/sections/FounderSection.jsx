@@ -19,6 +19,7 @@ export const FounderSection = () => (
     fullScreen
     backdrop={<TechBackdrop id="founder-dots" />}
     art={<TerminalArt />}
+    artOnDesktop={false}
     background={HOME_BG.base}
     wave={HOME_BG.alt}
     bubbles={[
@@ -26,7 +27,7 @@ export const FounderSection = () => (
       { color: "#0078d7", className: "bottom-[10%] right-[10%] w-[22rem] h-[22rem]" },
     ]}
   >
-    <div className="grid md:grid-cols-[auto_1fr] gap-5 md:gap-12 items-start">
+    <div className="grid md:grid-cols-[auto_1fr] lg:grid-cols-[auto_minmax(0,1fr)_minmax(0,22rem)] gap-5 md:gap-12 lg:gap-10 items-start lg:items-center">
       <img
         src={PROFILE_IMAGE_URL}
         alt="Portrait of Paulo Tenório"
@@ -76,6 +77,11 @@ export const FounderSection = () => (
             </a>
           ))}
         </div>
+      </div>
+
+      {/* from lg up, the terminal fills the room right of the text */}
+      <div className="hidden lg:block" aria-hidden="true">
+        <TerminalArt />
       </div>
     </div>
   </Section>

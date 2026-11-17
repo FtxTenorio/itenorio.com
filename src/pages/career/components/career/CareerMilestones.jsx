@@ -10,7 +10,9 @@ export const CareerMilestones = ({
 
   if (!milestones || milestones.length === 0) return null;
   const years = milestones.map((ms) => Number(ms.year)).filter(Boolean);
-  const range = `${Math.min(...years)} - ${Math.max(...years)}`;
+  const first = Math.min(...years);
+  const lastYear = Math.max(...years);
+  const range = first === lastYear ? `${first}` : `${first} - ${lastYear}`;
 
   return (
     <div className="mt-5">

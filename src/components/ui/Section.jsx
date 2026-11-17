@@ -7,9 +7,10 @@ import { GlowBubbles, SectionWave } from "./SectionDecor";
  * `backdrop`: a drawing placed behind the content, covering the section
  * (`backdropOnPhones={false}`: only from lg up, for drawings made for wide
  * screens).
- * `art`: phones/tablets only (below lg), an illustration that fills whatever
- * room a full-screen band has left under its content, so the band never
- * ends in a big empty space; it shrinks away when there is no room.
+ * `art`: an illustration about the band. Below lg it fills whatever room a
+ * full-screen band has left under its content (it shrinks away when there
+ * is none); from lg up it sits in the empty space right of the heading
+ * (`artOnDesktop={false}` when the band places it itself).
  * `fullScreen`: on large screens the section fills the viewport below the
  * navbar and is a scroll-snap stop (see .snap-section / html.section-paging).
  */
@@ -28,13 +29,16 @@ export const Section = ({
   backdrop,
   backdropOnPhones = true,
   art,
+  artOnDesktop = true,
 }) => (
   <section
     id={id}
     className={`relative isolate ${
       fullScreen
         ? // full-screen bands also fit a phone screen: tighter padding there
-          `snap-section pt-8 sm:py-24 lg:py-4 ${wave ? "pb-16 sm:pb-32" : "pb-8"}`
+          // from lg the content is centered in the screen: same room above and
+          // below (the wave sits in the bottom room) so it doesn't ride high
+          `snap-section pt-8 sm:py-24 lg:pt-16 ${wave ? "pb-16 sm:pb-32 lg:pb-16" : "pb-8 lg:pb-16"}`
         : `py-16 sm:py-24 ${wave ? "pb-24 sm:pb-32" : ""}`
     } ${className}`}
     style={background ? { backgroundColor: background } : undefined}
@@ -55,6 +59,11 @@ export const Section = ({
       }`}
     >
       {(eyebrow || title || intro) && (
+        <div
+          className={
+            art && artOnDesktop ? "lg:grid lg:grid-cols-[minmax(0,42rem)_1fr] lg:items-center lg:gap-10" : ""
+          }
+        >
         <header className={`max-w-2xl ${fullScreen ? "mb-6 sm:mb-10 lg:mb-6" : "mb-10 sm:mb-14"}`}>
           {eyebrow && (
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3">
@@ -76,6 +85,12 @@ export const Section = ({
             </p>
           )}
         </header>
+        {art && artOnDesktop && (
+          <div className="hidden lg:mb-6 lg:flex lg:items-center lg:justify-center" aria-hidden="true">
+            {art}
+          </div>
+        )}
+        </div>
       )}
       {children}
       {art && (

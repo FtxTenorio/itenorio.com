@@ -43,6 +43,7 @@ export const FeaturedProductSection = () => {
       eyebrow="Featured product"
       fullScreen
       backdrop={<AuroraBackdrop logo={product.isImage ? product.logo : null} />}
+      artOnDesktop={false}
       art={
         <ul className="grid w-full grid-cols-3 gap-2 self-start">
           {PHONE_HIGHLIGHTS.map((item) => (
@@ -146,9 +147,7 @@ export const FeaturedProductSection = () => {
           </div>
         </div>
 
-        {/* from lg up the screenshots float slightly turned towards the
-            text, and straighten under the pointer */}
-        <div className="order-3 lg:order-none min-w-0 transition-transform duration-700 ease-out lg:[transform:perspective(1800px)_rotateY(-9deg)_rotateX(3deg)] lg:hover:[transform:none]">
+        <div className="order-3 lg:order-none min-w-0">
           <ScreenshotGallery screenshots={product.screenshots} accent={product.color} />
         </div>
       </div>

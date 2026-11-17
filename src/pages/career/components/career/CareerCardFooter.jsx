@@ -36,7 +36,8 @@ export const CareerCardFooter = ({ job, onSelectTech, onSelectCert }) => (
       </div>
     </div>
 
-    {/* Certifications Earned or Leveraged */}
+    {/* Certifications Earned or Leveraged (left out when there are none) */}
+    {job.certsEarned.length + job.certsApplied.length > 0 && (
     <div>
       <span className="text-[10px] font-bold uppercase tracking-wider text-gray-400 block mb-2">
         Certifications Earned & Applied
@@ -84,5 +85,6 @@ export const CareerCardFooter = ({ job, onSelectTech, onSelectCert }) => (
         })}
       </div>
     </div>
+    )}
   </div>
 );
