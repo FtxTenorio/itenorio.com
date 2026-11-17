@@ -81,3 +81,71 @@ export function InkBackdrop() {
     </svg>
   );
 }
+
+/**
+ * Shortener: long URLs on the left run through a funnel and come out as
+ * short links on the right; the middle (where the form is) stays clear.
+ */
+export function LinkBackdrop() {
+  const long = [120, 260, 400, 540, 680];
+  return (
+    <svg
+      {...svgProps}
+      style={{
+        maskImage: "linear-gradient(90deg, black 0%, black 22%, transparent 40%, transparent 60%, black 78%, black 100%)",
+        WebkitMaskImage:
+          "linear-gradient(90deg, black 0%, black 22%, transparent 40%, transparent 60%, black 78%, black 100%)",
+      }}
+    >
+      <g fill="none" strokeLinecap="round">
+        {long.map((y, index) => (
+          <g key={y}>
+            {/* a long URL: a wide bar of "path segments" */}
+            <rect x="40" y={y - 14} width={300 + (index % 3) * 40} height="28" rx="14" fill="rgba(255,255,255,0.025)" stroke="rgba(255,255,255,0.07)" />
+            {[0, 1, 2, 3, 4].map((segment) => (
+              <rect key={segment} x={62 + segment * 58} y={y - 3} width={36 + ((segment + index) % 3) * 8} height="6" rx="3" fill="rgba(148,163,184,0.12)" />
+            ))}
+            {/* into the funnel */}
+            <path
+              d={`M ${380 + (index % 3) * 40} ${y} C 520 ${y}, 560 410, 720 410`}
+              stroke="rgba(255,107,0,0.16)"
+              strokeWidth="1.5"
+              strokeDasharray="3 7"
+            />
+          </g>
+        ))}
+        {/* out of the funnel: short links */}
+        {long.map((y, index) => (
+          <g key={`s-${y}`}>
+            <path d={`M 720 410 C 880 410, 920 ${y}, 1060 ${y}`} stroke="rgba(56,189,248,0.16)" strokeWidth="1.5" />
+            <path d={`M 720 410 C 880 410, 920 ${y}, 1060 ${y}`} pathLength="100" stroke="#ff6b00" strokeWidth="2" className="flow-dash" style={{ animationDelay: `${index * -0.6}s` }} />
+            <rect x="1060" y={y - 16} width="150" height="32" rx="16" fill="rgba(255,107,0,0.06)" stroke="rgba(255,107,0,0.35)" />
+            <text x="1135" y={y + 5} textAnchor="middle" fontFamily="JetBrains Mono, monospace" fontSize="13" fill="rgba(253,186,116,0.55)">
+              /{["CRUNCHY", "GITHUB", "LINKEDIN", "CREDLY", "DOCS"][index]}
+            </text>
+          </g>
+        ))}
+      </g>
+    </svg>
+  );
+}
+
+/** Shortener statistics: a faint chart grid with a trend line drawing itself. */
+export function ChartBackdrop() {
+  const trend =
+    "M0 640 C 120 600, 200 660, 320 560 S 520 520, 640 470 S 860 520, 980 380 S 1200 300, 1440 220";
+  return (
+    <svg {...svgProps} style={fade("180deg")}>
+      <g stroke="rgba(255,255,255,0.035)">
+        {[160, 280, 400, 520, 640, 760].map((y) => (
+          <line key={y} x1="0" x2="1440" y1={y} y2={y} />
+        ))}
+        {[120, 360, 600, 840, 1080, 1320].map((x) => (
+          <line key={x} x1={x} x2={x} y1="0" y2="820" />
+        ))}
+      </g>
+      <path d={trend} fill="none" stroke="rgba(255,107,0,0.05)" strokeWidth="3" />
+      <path d={trend} fill="none" stroke="rgba(255,107,0,0.16)" strokeWidth="2" pathLength="1" className="ink-write" strokeLinecap="round" />
+    </svg>
+  );
+}

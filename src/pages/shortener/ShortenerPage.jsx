@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { GlowBubbles, SectionWave } from "../../components/ui/SectionDecor";
+import { ChartBackdrop, LinkBackdrop } from "../../components/ui/ThemedBackdrops";
+import { SwipeRow } from "../../components/ui/SwipeRow";
+import { useReveal } from "../../hooks/useReveal";
 import { HOME_BG } from "../../config/theme";
 import { useSectionPaging } from "../../hooks/useSectionPaging";
 
@@ -78,6 +81,10 @@ function CreateLink({ stats, loadingStats }) {
           { color: "#0078d7", className: "bottom-[10%] -right-32 w-[26rem] h-[26rem]" },
         ]}
       />
+      {/* long URLs going in on the left, short links coming out on the right */}
+      <div className="pointer-events-none absolute inset-0 z-0 hidden overflow-hidden md:block" aria-hidden="true">
+        <LinkBackdrop />
+      </div>
       <SectionWave fill={HOME_BG.alt} />
 
       <div className="relative z-10 mx-auto w-full max-w-2xl px-4 sm:px-6 text-center">
@@ -178,65 +185,78 @@ function CreateLink({ stats, loadingStats }) {
   );
 }
 
+/**
+ * The most clicked links, as a row of cards under the chart (a swipe row on
+ * phones): rank, favicon, code, destination, clicks and a bar with each
+ * link's share of the most clicked one (it fills in with the chart).
+ */
 function TopLinks({ stats, loadingStats }) {
+  const links = stats?.topLinks ?? [];
+  const top = links.reduce((m, link) => Math.max(m, link.clicks), 1);
+
   return (
-    <div className="flex flex-col rounded-2xl border border-white/10 bg-surface/80 p-6 backdrop-blur">
-      <h3 className="mb-6 flex items-center justify-between text-xs font-semibold uppercase tracking-wider text-gray-500">
-        Top links
-        <i className="fas fa-arrow-trend-up" aria-hidden="true" />
+    <div className="mt-5">
+      <h3 className="mb-3 flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-gray-500">
+        <i className="fas fa-arrow-trend-up text-crunchy" aria-hidden="true" />
+        Most clicked
       </h3>
 
-      <ol className="flex flex-1 flex-col gap-1">
-        {loadingStats ? (
-          Array.from({ length: 5 }).map((_, i) => (
-            <li key={i} className="flex h-8 items-center justify-between">
-              <Skeleton className="h-4 w-1/2" />
-              <Skeleton className="h-4 w-8" />
-            </li>
-          ))
-        ) : stats?.topLinks?.length > 0 ? (
-          stats.topLinks.map((link) => (
-            <li key={link.shortCode}>
-              {/* The whole row is the link (a big touch target); the
-                  destination is written out, since phones have no hover title. */}
-              <a
-                href={`${API}/${link.shortCode}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="group -mx-2 flex min-h-11 items-center justify-between gap-3 rounded-lg px-2 py-1.5 transition-colors hover:bg-white/5"
-              >
-                <span className="flex min-w-0 items-center gap-3">
+      {loadingStats ? (
+        <SwipeRow label="Most clicked links" gridClassName="md:grid-cols-5">
+          {Array.from({ length: 5 }, (_, i) => (
+            <div key={i} className="h-32 rounded-xl border border-white/10 bg-surface/80 p-4">
+              <Skeleton className="mb-3 h-8 w-8" />
+              <Skeleton className="mb-2 h-4 w-3/4" />
+              <Skeleton className="h-3 w-1/2" />
+            </div>
+          ))}
+        </SwipeRow>
+      ) : links.length > 0 ? (
+        <SwipeRow label="Most clicked links" gridClassName="md:grid-cols-5">
+          {links.map((link, index) => (
+            <a
+              key={link.shortCode}
+              href={`${API}/${link.shortCode}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="reveal-item group relative flex flex-col overflow-hidden rounded-xl border border-white/10 bg-surface/80 p-4 backdrop-blur transition-all duration-300 hover:-translate-y-1 hover:border-crunchy/50"
+              style={{ "--reveal-delay": `${0.5 + index * 0.08}s` }}
+            >
+              <span className="mb-3 flex items-center gap-2">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-ink">
                   <img
                     src={`https://www.google.com/s2/favicons?domain=${getDomain(link.originalUrl)}&sz=32`}
                     alt=""
-                    className="h-4 w-4 shrink-0 rounded-sm opacity-80 transition-opacity group-hover:opacity-100"
+                    className="h-4 w-4 rounded-sm"
                     onError={(e) => {
                       e.target.style.display = "none";
                     }}
                   />
-                  <span className="min-w-0">
-                    <span className="flex items-center gap-2 text-sm font-medium text-gray-300 transition-colors group-hover:text-white">
-                      <span className="truncate">{link.shortCode}</span>
-                      <i
-                        className="fas fa-external-link-alt text-[10px] text-gray-600 transition-colors group-hover:text-gray-300"
-                        aria-hidden="true"
-                      />
-                    </span>
-                    <span className="block truncate text-xs text-gray-500">
-                      {getDomain(link.originalUrl)}
-                    </span>
-                  </span>
                 </span>
-                <span className="shrink-0 rounded bg-white/5 px-2 py-1 font-mono text-xs text-gray-400">
-                  {link.clicks} <span className="sr-only">clicks</span>
+                <span className={`rounded-full px-2 py-0.5 font-mono text-[10px] font-bold ${index === 0 ? "bg-crunchy/20 text-crunchy" : "bg-white/5 text-gray-400"}`}>
+                  #{index + 1}
                 </span>
-              </a>
-            </li>
-          ))
-        ) : (
-          <li className="my-auto text-center text-sm text-gray-600">No data available.</li>
-        )}
-      </ol>
+              </span>
+              <span className="truncate font-mono text-sm font-semibold text-white" title={link.shortCode}>
+                /{link.shortCode}
+              </span>
+              <span className="mb-3 truncate text-xs text-gray-500">{getDomain(link.originalUrl)}</span>
+              <span className="mt-auto flex items-baseline justify-between gap-2">
+                <span className="text-2xl font-bold text-white">{link.clicks}</span>
+                <span className="text-[11px] text-gray-500">clicks</span>
+              </span>
+              <span className="mt-2 block h-1 overflow-hidden rounded-full bg-white/5" aria-hidden="true">
+                <span
+                  className="share-bar block h-full rounded-full bg-gradient-to-r from-crunchy/60 to-crunchy"
+                  style={{ width: `${(link.clicks / top) * 100}%`, animationDelay: `${0.6 + index * 0.08}s` }}
+                />
+              </span>
+            </a>
+          ))}
+        </SwipeRow>
+      ) : (
+        <p className="rounded-xl border border-white/10 bg-surface/80 p-6 text-center text-sm text-gray-500">No data available.</p>
+      )}
     </div>
   );
 }
@@ -257,7 +277,7 @@ function TrafficChart({ stats, loadingStats }) {
         Clicks per day
         <i className="fas fa-chart-column" aria-hidden="true" />
       </h3>
-      <p className="mb-8 min-h-5 text-sm text-gray-400" aria-live="polite">
+      <p className="mb-6 min-h-5 text-sm text-gray-400 lg:mb-4" aria-live="polite">
         {loadingStats ? (
           "Loading…"
         ) : selectedDay ? (
@@ -274,13 +294,13 @@ function TrafficChart({ stats, loadingStats }) {
         )}
       </p>
 
-      <div className="relative mb-8 flex h-56 w-full items-end justify-around gap-1 sm:gap-2 border-b border-white/5 pb-2">
+      <div className="relative mb-7 flex h-44 w-full items-end justify-around gap-1 sm:gap-2 border-b border-white/5 pb-2 lg:h-36">
         {loadingStats ? (
           <div className="flex h-full w-full items-center justify-center">
             <i className="fas fa-spinner fa-spin text-gray-600" aria-hidden="true" />
           </div>
         ) : (
-          days.map((day) => {
+          days.map((day, index) => {
             const isSelected = day.date === selected;
             return (
               <button
@@ -300,11 +320,12 @@ function TrafficChart({ stats, loadingStats }) {
                 >
                   {day.clicks}
                 </span>
+                {/* grows from the floor when the chart comes into view */}
                 <span
-                  className={`block w-full rounded-t-sm transition-all duration-300 ${
-                    isSelected ? "bg-crunchy" : "bg-crunchy/30 group-hover:bg-crunchy/70"
+                  className={`chart-bar block w-full rounded-t-sm bg-gradient-to-t transition-colors duration-300 ${
+                    isSelected ? "from-crunchy to-[#ffa25c]" : "from-crunchy/25 to-crunchy/50 group-hover:from-crunchy/60 group-hover:to-crunchy/80"
                   }`}
-                  style={{ height: `${Math.max((day.clicks / max) * 100, 4)}%` }}
+                  style={{ height: `${Math.max((day.clicks / max) * 100, 4)}%`, animationDelay: `${index * 45}ms` }}
                   aria-hidden="true"
                 />
                 <span
@@ -322,12 +343,15 @@ function TrafficChart({ stats, loadingStats }) {
   );
 }
 
-/** Screen 2: public statistics of every link. */
+/** Screen 2: public statistics: clicks per day, then the most clicked links. */
 function Statistics({ stats, loadingStats }) {
+  const bodyRef = useRef(null);
+  useReveal(bodyRef, { threshold: 0.25 }); // the chart grows in when seen
+
   return (
     <section
       id="statistics"
-      className="snap-section relative isolate scroll-mt-16 py-16 pb-24 sm:py-24 sm:pb-32 md:scroll-mt-20 lg:py-4"
+      className="snap-section relative isolate scroll-mt-16 py-16 pb-24 sm:py-24 sm:pb-32 md:scroll-mt-20 lg:pt-6 lg:pb-20"
       style={{ backgroundColor: HOME_BG.alt }}
       aria-labelledby="statistics-title"
     >
@@ -337,10 +361,13 @@ function Statistics({ stats, loadingStats }) {
           { color: "#ff6b00", className: "-bottom-20 right-[10%] w-[22rem] h-[22rem]" },
         ]}
       />
+      <div className="pointer-events-none absolute inset-0 z-0 overflow-hidden" aria-hidden="true">
+        <ChartBackdrop />
+      </div>
       <SectionWave fill={HOME_BG.footer} flip />
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8">
-        <header className="mb-8 max-w-2xl">
+        <header className="mb-6 max-w-2xl lg:mb-5">
           <p className="mb-3 font-mono text-xs uppercase tracking-[0.2em] text-brand-soft">
             Statistics
           </p>
@@ -348,14 +375,14 @@ function Statistics({ stats, loadingStats }) {
             How the links are doing
           </h2>
           <p className="mt-4 text-gray-400">
-            Public numbers for the links created here: the most clicked ones and
-            the traffic of the last days.
+            Public numbers for the links created here: the traffic of the last
+            days and the most clicked links.
           </p>
         </header>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr_1.6fr]">
-          <TopLinks stats={stats} loadingStats={loadingStats} />
+        <div ref={bodyRef}>
           <TrafficChart stats={stats} loadingStats={loadingStats} />
+          <TopLinks stats={stats} loadingStats={loadingStats} />
         </div>
       </div>
     </section>

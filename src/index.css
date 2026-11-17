@@ -518,3 +518,41 @@
     animation: none;
   }
 }
+
+/* Shortener chart: bars grow from the floor one after the other, and the
+   "most clicked" share bars fill in; held at the start while the chart is
+   still off screen (useReveal: data-reveal="pending"). */
+@keyframes bar-grow {
+  from {
+    transform: scaleY(0);
+  }
+  to {
+    transform: scaleY(1);
+  }
+}
+@keyframes share-fill {
+  from {
+    transform: scaleX(0);
+  }
+  to {
+    transform: scaleX(1);
+  }
+}
+.chart-bar {
+  transform-origin: bottom;
+  animation: bar-grow 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+.share-bar {
+  transform-origin: left;
+  animation: share-fill 0.9s cubic-bezier(0.2, 0.8, 0.2, 1) both;
+}
+[data-reveal="pending"] .chart-bar,
+[data-reveal="pending"] .share-bar {
+  animation-play-state: paused;
+}
+@media (prefers-reduced-motion: reduce) {
+  .chart-bar,
+  .share-bar {
+    animation: none;
+  }
+}
