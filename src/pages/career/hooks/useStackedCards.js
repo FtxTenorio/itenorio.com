@@ -14,8 +14,9 @@ export function useStackedCards(listRef) {
     if (!list) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
     // Phones: the cards are taller than the screen, so instead of sticking
-    // (which hid the card's title under the navbar) they scroll normally and
-    // snap softly with their top just below the navbar (html.career-snap).
+    // (which hid the card's title under the navbar) they scroll normally,
+    // animate in and out with the scroll, and snap softly with their top
+    // just below the navbar (html.career-snap).
     const phone = window.matchMedia("(max-width: 767px)");
     const root = document.documentElement;
 
@@ -26,9 +27,18 @@ export function useStackedCards(listRef) {
       const items = [...list.querySelectorAll("[data-stack-item]")];
       root.classList.toggle("career-snap", phone.matches);
       if (phone.matches) {
+        // No stacking, but the same feel tied to scrolling: a card rises
+        // and lights up as it enters (--enter 0 → 1) and shrinks and dims as
+        // it leaves through the top (--stack-progress 0 → 1). See index.css.
+        const vh = window.innerHeight;
+        const navbar = document.querySelector("header")?.offsetHeight ?? 64;
         items.forEach((item) => {
           item.style.top = "";
-          item.style.setProperty("--stack-progress", "0");
+          const rect = item.getBoundingClientRect();
+          const enter = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.45)));
+          const leave = Math.min(1, Math.max(0, (navbar + vh * 0.45 - rect.bottom) / (vh * 0.45)));
+          item.style.setProperty("--enter", enter.toFixed(3));
+          item.style.setProperty("--stack-progress", leave.toFixed(3));
         });
         return;
       }

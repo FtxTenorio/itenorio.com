@@ -21,20 +21,20 @@ export const extensions = [
     // rating / ratingCount / users / size / updated are copied by hand from
     // the Chrome Web Store listing; update them when the listing changes.
     // `users` is the real count; pages show it rounded down (formatUsers).
-    rating: 5.0,
-    ratingCount: 1,
-    users: 35,
+    rating: 4.0,
+    ratingCount: 3,
+    users: 50,
     status: "Published",
     storeUrl: "https://link.itenorio.com/CRUNCHY_NAVIGATOR",
     privacyUrl: "/extensions/crunchy-navigator/privacy-policy/",
     websiteUrl: "https://itenorio.com/extensions/crunchy-navigator",
     category: "Entertainment",
-    version: "2.3.0",
-    updated: "Nov 4, 2026",
-    size: "420 KiB",
-    language: "21 languages",
+    version: "2.3.2",
+    updated: "Nov 17, 2026",
+    size: "426 KiB",
+    language: "4 languages",
     overview:
-      "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show to see its full episode list with the audio languages of each episode, without leaving the page. The interface speaks 21 languages, it runs entirely in your browser, needs no account of ours and collects no personal data.",
+      "Crunchyroll Navigator replaces the Crunchyroll Simulcasts grid with the filters the site doesn't have. Filter the season by dub language, rating, age rating, length, genres and content warnings, search titles as you type, and open any show in a details window with its full episode list and the audio languages of each episode, without leaving the page. Filters can be configured, toggled and reset in one click. It runs entirely in your browser, needs no account of ours and collects no personal data.",
     // Real store screenshots (rendered from the extension repo's
     // tools/promo-tiles, English). Files live in public/images/crunchyroll-navigator/.
     // `caption`: one line shown under the slide in the screenshot carousel.
@@ -90,9 +90,13 @@ export const extensions = [
         description: "Type a few letters and the season is filtered as you type.",
       },
       {
-        title: "21 languages",
+        title: "Anime details",
         description:
-          "The interface follows your browser language; episode titles and descriptions come from Crunchyroll in the same language when available.",
+          "Open a details window for any show to learn more about it without leaving the page (ESC closes it).",
+      },
+      {
+        title: "Filter customization",
+        description: "Configure, toggle and reset your filter preferences instantly.",
       },
     ],
     roadmap: [
@@ -114,6 +118,15 @@ export const extensions = [
         title: "Release Schedule & Calendar",
         description:
           "Track weekly episode release days, countdowns, and key metadata at a glance.",
+      },
+      {
+        title: "More Discovery Filters",
+        description: "More ways to filter, with additional metadata and content preferences.",
+      },
+      {
+        title: "Improved Anime Details",
+        description:
+          "Richer metadata, better navigation and more information in the details window.",
       },
     ],
     privacyDescription:

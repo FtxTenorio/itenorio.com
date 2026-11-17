@@ -118,13 +118,20 @@ export function ArchitectureBackdrop() {
   );
 }
 
-/** Contact: an envelope sending out signal waves. */
+/** Contact: an envelope sending out signal waves (rings grow out of it and fade). */
 export function SignalBackdrop() {
   return (
     <svg {...svgProps} style={fade("260deg")}>
       <g transform="translate(1130 410)" fill="none">
-        {[90, 160, 240, 330, 430].map((r, index) => (
-          <circle key={r} r={r} stroke={`rgba(56,189,248,${0.12 - index * 0.02})`} strokeWidth="1.5" />
+        {[0, 1, 2, 3].map((index) => (
+          <circle
+            key={index}
+            r="430"
+            stroke="rgba(56,189,248,0.22)"
+            strokeWidth="2"
+            className="signal-wave"
+            style={{ animationDelay: `${index * -1.5}s` }}
+          />
         ))}
         <rect x="-60" y="-40" width="120" height="80" rx="10" fill="rgba(11,15,25,0.6)" stroke="rgba(56,189,248,0.35)" strokeWidth="2" />
         <path d="M-60 -36 L0 8 L60 -36" stroke="rgba(56,189,248,0.35)" strokeWidth="2" />

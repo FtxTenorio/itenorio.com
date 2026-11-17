@@ -83,7 +83,7 @@ export const FeaturedProductSection = () => {
               ["fas fa-tag", product.price],
               ["fab fa-chrome", product.platform],
               ["fas fa-code-branch", `v${product.version}`],
-              ["fas fa-language", "21 languages"],
+              ["fas fa-language", product.language],
               ["fas fa-user-shield", "No personal data collected"],
             ].map(([icon, label]) => (
               <li

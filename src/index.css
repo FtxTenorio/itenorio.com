@@ -139,38 +139,25 @@
   }
 }
 
-/* Phones and tablets: the same "one section = one screen" idea, with native
-   scroll snapping instead of the wheel lock (touch scrolling stays native).
-   Sections fill the *dynamic* viewport below the navbar (h-16 / md:h-20):
-   with svh they were shorter than the screen once the browser bar hid while
-   scrolling down, so a strip of the previous band stayed in view. Content
-   starts at the top, and every swipe stops at the next band
-   (scroll-snap-stop). A band that is still taller scrolls freely inside. */
+/* Phones and tablets: the same "one section = one screen" idea. Moving
+   between bands is done by useSectionPaging (one swipe = one band, landed
+   exactly below the navbar). Bands use the *large* viewport height (browser
+   bar hidden), which doesn't change while scrolling, so the stops don't move;
+   with the bar showing, only the empty bottom of a band is under it.
+   Content starts at the top. */
 @media (max-width: 1023px) {
-  html.section-paging {
-    scroll-snap-type: y mandatory;
-    scroll-padding-top: 4rem;
-  }
   html.section-paging .snap-section {
     min-height: calc(100svh - 4rem);
-    min-height: calc(100dvh - 4rem);
+    min-height: calc(100lvh - 4rem);
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
-    scroll-snap-align: start;
-    scroll-snap-stop: always;
-  }
-  html.section-paging footer {
-    scroll-snap-align: end;
   }
 }
 @media (min-width: 768px) and (max-width: 1023px) {
-  html.section-paging {
-    scroll-padding-top: 5rem;
-  }
   html.section-paging .snap-section {
     min-height: calc(100svh - 5rem);
-    min-height: calc(100dvh - 5rem);
+    min-height: calc(100lvh - 5rem);
   }
 }
 
@@ -358,6 +345,14 @@
     scroll-snap-align: start;
     scroll-margin-top: calc(4rem + 12px);
   }
+  /* cards rise and light up as they enter, shrink and dim as they leave */
+  .stack-card {
+    transform-origin: center top;
+    transform: translateY(calc((1 - var(--enter, 1)) * 48px))
+      scale(calc(0.93 + var(--enter, 1) * 0.07 - var(--stack-progress, 0) * 0.07));
+    opacity: calc(0.3 + var(--enter, 1) * 0.7);
+    filter: brightness(calc(1 - var(--stack-progress, 0) * 0.5));
+  }
 }
 
 /* Career certifications: each badge is "earned" (flips in, then a shine
@@ -481,4 +476,32 @@
   box-shadow:
     0 0 0 1px rgba(56, 189, 248, 0.5),
     0 0 50px -6px rgba(56, 189, 248, 0.55);
+}
+
+/* Contact backdrop (SignalBackdrop): rings leave the envelope and fade out. */
+@keyframes signal-wave {
+  from {
+    transform: scale(0.18);
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  to {
+    transform: scale(1);
+    opacity: 0;
+  }
+}
+.signal-wave {
+  transform-box: fill-box;
+  transform-origin: center;
+  animation: signal-wave 6s cubic-bezier(0.2, 0.6, 0.4, 1) infinite;
+  vector-effect: non-scaling-stroke;
+}
+@media (prefers-reduced-motion: reduce) {
+  .signal-wave {
+    animation: none;
+    transform: scale(0.5);
+    opacity: 0.5;
+  }
 }

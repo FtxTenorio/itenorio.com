@@ -1,22 +1,34 @@
 import { useEffect } from "react";
 
-const NAVBAR = 80; // md:h-20
 const LOCK_MS = 750; // ignore further input while the page glides
 const QUIET_MS = 180; // trackpad inertia: wait for the wheel to go quiet
 const THRESHOLD = 30; // px of wheel delta before we move
+const SWIPE = 40; // px of vertical finger travel that counts as a swipe
+const SETTLE_MS = 650; // after gliding, check the landing and fix it
 
+const reducedMotion = () => window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 const isLargeScreen = () =>
-  window.matchMedia("(min-width: 1024px) and (min-height: 700px)").matches &&
-  !window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  window.matchMedia("(min-width: 1024px) and (min-height: 700px)").matches && !reducedMotion();
+const isTouchScreen = () => window.matchMedia("(max-width: 1023px)").matches && !reducedMotion();
+
+/** Bottom of the fixed navbar, measured (h-16 on phones, h-20 from md). */
+const navbarBottom = () => {
+  const navbar = document.querySelector("header.fixed");
+  return navbar ? Math.round(navbar.getBoundingClientRect().bottom) : 64;
+};
 
 /**
  * Full-screen sections with a "lock" (used by the home page and the
  * shortener). Adds html.section-paging, so .snap-section fills the screen
- * (index.css), and on large screens one wheel gesture (or PageDown/Up, arrow
- * keys, Space) moves exactly one section, so the reader never stops halfway
- * between two. A section taller than the screen scrolls normally until its
- * edge first. Sections are the elements with .snap-section; the footer is the
- * last stop.
+ * (index.css), and one gesture moves exactly one section, so the reader never
+ * stops halfway between two:
+ * - large screens: one wheel gesture (or PageDown/Up, arrow keys, Space);
+ * - phones and tablets: one vertical swipe. The page is moved by script, not
+ *   by CSS scroll snapping, which on phones landed a strip too high (the
+ *   browser bar showing/hiding changes the viewport mid-scroll); after the
+ *   glide the landing is measured again and corrected.
+ * A section taller than the screen scrolls normally until its edge first.
+ * Sections are the elements with .snap-section; the footer is the last stop.
  */
 export function useSectionPaging() {
   useEffect(() => {
@@ -25,11 +37,14 @@ export function useSectionPaging() {
     let lockedUntil = 0;
     let lastWheel = 0;
     let accumulated = 0;
+    let settleTimer = 0;
+    let touch = null;
 
     const stops = () => {
       const maxY = document.documentElement.scrollHeight - window.innerHeight;
+      const offset = navbarBottom();
       const tops = [...document.querySelectorAll(".snap-section")].map((el) =>
-        Math.round(el.getBoundingClientRect().top + window.scrollY - NAVBAR),
+        Math.round(el.getBoundingClientRect().top + window.scrollY - offset),
       );
       return [...new Set([...tops.map((y) => Math.max(0, Math.min(y, maxY))), maxY])].sort(
         (a, b) => a - b,
@@ -40,23 +55,34 @@ export function useSectionPaging() {
     const go = (direction) => {
       const list = stops();
       const y = window.scrollY;
-      const target =
+      const index =
         direction > 0
-          ? list.find((stop) => stop > y + 2)
-          : [...list].reverse().find((stop) => stop < y - 2);
-      if (target === undefined) return;
-      window.scrollTo({ top: target, behavior: "smooth" });
+          ? list.findIndex((stop) => stop > y + 2)
+          : list.findLastIndex((stop) => stop < y - 2);
+      if (index < 0) return;
+      window.scrollTo({ top: list[index], behavior: "smooth" });
       lockedUntil = performance.now() + LOCK_MS;
+
+      // land exactly: the viewport may have changed while gliding
+      clearTimeout(settleTimer);
+      settleTimer = setTimeout(() => {
+        const target = stops()[index];
+        if (target !== undefined && Math.abs(window.scrollY - target) > 1) {
+          window.scrollTo({ top: target, behavior: "instant" });
+        }
+      }, SETTLE_MS);
     };
 
     /** True when a section taller than the screen still has content in `direction`. */
     const tallSectionHasRoom = (direction) => {
       const sections = [...document.querySelectorAll(".snap-section")];
-      const visible = window.innerHeight - NAVBAR;
+      const offset = navbarBottom();
+      const visible = window.innerHeight - offset;
       return sections.some((el) => {
         const rect = el.getBoundingClientRect();
-        if (rect.height <= visible + 4) return false;
-        const top = rect.top - NAVBAR;
+        // a few px over the screen (phone browser bars) don't count as tall
+        if (rect.height <= visible + 24) return false;
+        const top = rect.top - offset;
         const bottom = rect.bottom - window.innerHeight;
         const inside = top < 2 && bottom > -2;
         if (!inside) return false;
@@ -83,6 +109,41 @@ export function useSectionPaging() {
       go(direction);
     };
 
+    // Touch: decide on the first moves whether the gesture is ours (vertical,
+    // one finger, not inside a tall section with room); if so, hold the page
+    // still and page once when the finger lifts.
+    const onTouchStart = (event) => {
+      if (!isTouchScreen() || event.touches.length !== 1) {
+        touch = null;
+        return;
+      }
+      const point = event.touches[0];
+      touch = { x: point.clientX, y: point.clientY, mode: null };
+    };
+
+    const onTouchMove = (event) => {
+      if (!touch || event.touches.length !== 1) return;
+      const point = event.touches[0];
+      const dx = point.clientX - touch.x;
+      const dy = point.clientY - touch.y;
+      if (!touch.mode) {
+        if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+        if (Math.abs(dx) > Math.abs(dy)) touch.mode = "native"; // carousels
+        else touch.mode = tallSectionHasRoom(dy < 0 ? 1 : -1) ? "native" : "page";
+      }
+      if (touch.mode === "page" && event.cancelable) event.preventDefault();
+    };
+
+    const onTouchEnd = (event) => {
+      if (!touch) return;
+      const { mode, y } = touch;
+      touch = null;
+      if (mode !== "page") return;
+      const dy = (event.changedTouches[0]?.clientY ?? y) - y;
+      if (Math.abs(dy) < SWIPE || performance.now() < lockedUntil) return;
+      go(dy < 0 ? 1 : -1);
+    };
+
     const KEYS = { PageDown: 1, ArrowDown: 1, " ": 1, PageUp: -1, ArrowUp: -1 };
 
     const onKeyDown = (event) => {
@@ -102,10 +163,19 @@ export function useSectionPaging() {
 
     window.addEventListener("wheel", onWheel, { passive: false });
     window.addEventListener("keydown", onKeyDown);
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
+    window.addEventListener("touchmove", onTouchMove, { passive: false });
+    window.addEventListener("touchend", onTouchEnd, { passive: true });
+    window.addEventListener("touchcancel", onTouchEnd, { passive: true });
     return () => {
+      clearTimeout(settleTimer);
       root.classList.remove("section-paging");
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
+      window.removeEventListener("touchstart", onTouchStart);
+      window.removeEventListener("touchmove", onTouchMove);
+      window.removeEventListener("touchend", onTouchEnd);
+      window.removeEventListener("touchcancel", onTouchEnd);
     };
   }, []);
 }
