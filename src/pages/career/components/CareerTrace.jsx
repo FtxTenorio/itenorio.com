@@ -14,9 +14,12 @@ import { useEffect, useRef, useState } from "react";
  * Scrolling drives it through "triggers": the page height at which the tip
  * reaches each node. Where the route turns sideways (the learning path steps
  * on desktop), scrolling alone could rush past before the line got there, so
- * the page "holds": it settles with the cards in view, scrolling is paused
- * for a moment while the tip runs 1 → 2 → 3 by itself and lights the card,
- * then it lets go. Scrolling back above it rearms the hold.
+ * the page "holds": it settles with the whole learning path in view (its
+ * title just below the navbar), scrolling is paused for a moment while the
+ * tip runs 1 → 2 → 3 by itself and lights the card, then the next gesture
+ * down glides straight to the certifications heading, so the screen never
+ * rests half on one band and half on the next. Scrolling back above the
+ * learning path rearms the hold.
  *
  * Render it inside a `relative` wrapper that holds all the sections; it covers
  * the wrapper and ignores the pointer. On phones the line runs in the left
@@ -127,9 +130,12 @@ export function CareerTrace() {
       playing = true;
       locked = true;
       playDrawn = lengths[holdAt];
-      // settle so the row of steps sits under the navbar and the cards show
-      const rowY = wrapper.getBoundingClientRect().top + geometry.nodes[sideways].y;
-      window.scrollTo({ top: window.scrollY + rowY - navbarBottom() - 56, behavior: "smooth" });
+      // settle with the learning path's title just below the navbar
+      const section = wrapper.querySelector("#education");
+      if (section) {
+        const sectionTop = section.getBoundingClientRect().top;
+        window.scrollTo({ top: window.scrollY + sectionTop - navbarBottom() - 24, behavior: "smooth" });
+      }
       const from = lengths[holdAt];
       const DELAY = 450;
       const DURATION = 1300;
@@ -147,19 +153,63 @@ export function CareerTrace() {
         played = true;
         unlockTimer = setTimeout(() => {
           locked = false;
+          glideNext = true;
         }, 300);
         update();
       };
       animation = requestAnimationFrame(step);
     };
 
-    // while holding, swallow the gestures that would scroll the page
+    // after the hold, the next gesture down glides to the certifications
+    let glideNext = false;
+    let touchStartY = null;
+    const glideToNext = () => {
+      glideNext = false;
+      const next = wrapper.querySelector("#certifications");
+      if (!next) return;
+      locked = true;
+      const nextTop = next.getBoundingClientRect().top;
+      window.scrollTo({ top: window.scrollY + nextTop - navbarBottom() - 24, behavior: "smooth" });
+      clearTimeout(unlockTimer);
+      unlockTimer = setTimeout(() => {
+        locked = false;
+      }, 750);
+    };
+
+    // while holding (or gliding), swallow the gestures that would scroll
     const block = (event) => {
-      if (locked && event.cancelable) event.preventDefault();
+      if (locked) {
+        if (event.cancelable) event.preventDefault();
+        return;
+      }
+      if (!glideNext) return;
+      const down =
+        event.type === "wheel"
+          ? event.deltaY > 0
+          : touchStartY !== null && event.touches?.[0] && event.touches[0].clientY < touchStartY - 6;
+      const up =
+        event.type === "wheel"
+          ? event.deltaY < 0
+          : touchStartY !== null && event.touches?.[0] && event.touches[0].clientY > touchStartY + 6;
+      if (up) glideNext = false;
+      if (!down) return;
+      if (event.cancelable) event.preventDefault();
+      glideToNext();
+    };
+    const onTouchStart = (event) => {
+      touchStartY = event.touches?.[0]?.clientY ?? null;
     };
     const blockKeys = (event) => {
-      if (locked && ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"].includes(event.key)) {
+      const keys = ["ArrowDown", "ArrowUp", "PageDown", "PageUp", " ", "Home", "End"];
+      if (locked && keys.includes(event.key)) {
         event.preventDefault();
+        return;
+      }
+      if (glideNext && ["ArrowDown", "PageDown", " "].includes(event.key) && !event.shiftKey) {
+        event.preventDefault();
+        glideToNext();
+      } else if (glideNext && keys.includes(event.key)) {
+        glideNext = false;
       }
     };
 
@@ -192,7 +242,10 @@ export function CareerTrace() {
         drawn = lengths[i] + t * (lengths[i + 1] - lengths[i]);
         passed = i;
       }
-      if (holdAt >= 0 && !playing && y < triggers[holdAt] - 300) played = false; // rearm
+      if (holdAt >= 0 && !playing && y < triggers[holdAt] - 300) {
+        played = false; // rearm
+        glideNext = false;
+      }
 
       path.style.strokeDashoffset = `${length - drawn}`;
       const point = path.getPointAtLength(drawn);
@@ -214,6 +267,7 @@ export function CareerTrace() {
     update();
     window.addEventListener("scroll", schedule, { passive: true });
     window.addEventListener("wheel", block, { passive: false });
+    window.addEventListener("touchstart", onTouchStart, { passive: true });
     window.addEventListener("touchmove", block, { passive: false });
     window.addEventListener("keydown", blockKeys);
     return () => {
@@ -222,6 +276,7 @@ export function CareerTrace() {
       clearTimeout(unlockTimer);
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("wheel", block);
+      window.removeEventListener("touchstart", onTouchStart);
       window.removeEventListener("touchmove", block);
       window.removeEventListener("keydown", blockKeys);
       highlight?.classList.remove("trace-arrived");

@@ -3,6 +3,7 @@ import { Section } from "../../../components/ui/Section";
 import { SwipeRow } from "../../../components/ui/SwipeRow";
 import { HOME_BG } from "../../../config/theme";
 import { ArchitectureBackdrop } from "../../../components/ui/ThemedBackdrops";
+import { ArchitectureArt } from "../../../components/ui/BandArt";
 
 const SERVICES = [
   {
@@ -33,6 +34,8 @@ export const ServicesSection = () => (
     intro="From the first idea to the store listing and the server behind it, every project is designed, built and maintained in-house."
     fullScreen
     backdrop={<ArchitectureBackdrop />}
+    backdropOnPhones={false}
+    art={<ArchitectureArt />}
     background={HOME_BG.alt}
     wave={HOME_BG.base}
     waveFlip

@@ -341,7 +341,9 @@
   html.career-snap {
     scroll-snap-type: y proximity;
   }
-  html.career-snap .stack-item {
+  html.career-snap .stack-item,
+  html.career-snap #education,
+  html.career-snap #certifications {
     scroll-snap-align: start;
     scroll-margin-top: calc(4rem + 12px);
   }
@@ -503,5 +505,42 @@
     animation: none;
     transform: scale(0.5);
     opacity: 0.5;
+  }
+}
+
+/* Phone band art (BandArt): packets of data running along the links. */
+@keyframes flow-dash {
+  from {
+    stroke-dashoffset: 110;
+  }
+  to {
+    stroke-dashoffset: 0;
+  }
+}
+.flow-dash {
+  stroke-dasharray: 10 100;
+  stroke-dashoffset: 110;
+  animation: flow-dash 2.7s linear infinite;
+}
+
+/* Home hero on phones: "swipe up" hint. */
+@keyframes swipe-hint {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.5;
+  }
+  50% {
+    transform: translateY(-8px);
+    opacity: 1;
+  }
+}
+.swipe-hint {
+  animation: swipe-hint 1.8s ease-in-out infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .flow-dash,
+  .swipe-hint {
+    animation: none;
   }
 }

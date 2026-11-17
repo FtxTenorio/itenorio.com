@@ -9,6 +9,13 @@ import { ScreenshotGallery } from "../../extensions/components/ScreenshotGallery
 
 const product = extensions.find((ext) => ext.id === "crunchy");
 
+// On phones, under the buttons: the three features at a glance.
+const PHONE_HIGHLIGHTS = [
+  { icon: "fas fa-microphone", label: "Dub filter" },
+  { icon: "fas fa-list-ol", label: "Episode list" },
+  { icon: "fas fa-sliders", label: "Smart filters" },
+];
+
 const HIGHLIGHTS = [
   {
     icon: "fas fa-microphone",
@@ -36,6 +43,19 @@ export const FeaturedProductSection = () => {
       eyebrow="Featured product"
       fullScreen
       backdrop={<AuroraBackdrop logo={product.isImage ? product.logo : null} />}
+      art={
+        <ul className="grid w-full grid-cols-3 gap-2 self-start">
+          {PHONE_HIGHLIGHTS.map((item) => (
+            <li
+              key={item.label}
+              className="flex flex-col items-center gap-2 rounded-xl border border-crunchy/20 bg-crunchy/[0.06] px-2 py-3 text-center text-xs font-medium text-gray-200"
+            >
+              <i className={`${item.icon} text-crunchy`} aria-hidden="true" />
+              {item.label}
+            </li>
+          ))}
+        </ul>
+      }
       background={HOME_BG.alt}
       wave={HOME_BG.base}
       waveFlip

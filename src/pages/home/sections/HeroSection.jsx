@@ -21,6 +21,11 @@ export const HeroSection = () => (
       ]}
     />
     <SectionWave fill={HOME_BG.alt} />
+    {/* phones: one swipe moves one band (useSectionPaging); say so */}
+    <div className="swipe-hint pointer-events-none absolute inset-x-0 bottom-16 z-10 flex flex-col items-center gap-1 text-[11px] font-medium uppercase tracking-[0.2em] text-gray-400 lg:hidden" aria-hidden="true">
+      <i className="fas fa-chevron-up text-brand-soft" />
+      Swipe up
+    </div>
     {/* Subtle grid + glow background */}
     <div
       className="absolute inset-0 pointer-events-none opacity-[0.35]"

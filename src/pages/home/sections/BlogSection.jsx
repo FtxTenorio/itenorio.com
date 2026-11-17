@@ -100,6 +100,7 @@ export const BlogSection = () => {
       intro="Thoughts on technology, software engineering, and everything in between: notes from building the studio's products, opinions and the occasional trip."
       fullScreen
       backdrop={<InkBackdrop />}
+      backdropOnPhones={false}
       background={HOME_BG.base}
       wave={HOME_BG.alt}
       bubbles={[

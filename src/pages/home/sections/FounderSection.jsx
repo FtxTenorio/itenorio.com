@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
 import { HOME_BG } from "../../../config/theme";
 import { TechBackdrop } from "../../../components/ui/TechBackdrop";
+import { TerminalArt } from "../../../components/ui/BandArt";
 import { PROFILE_IMAGE_URL, SOCIAL_LINKS } from "../../../data/config";
 import { yearsOfExperience } from "../../../data/careerTrajectory";
 
@@ -17,6 +18,7 @@ export const FounderSection = () => (
     eyebrow="Who is behind it"
     fullScreen
     backdrop={<TechBackdrop id="founder-dots" />}
+    art={<TerminalArt />}
     background={HOME_BG.base}
     wave={HOME_BG.alt}
     bubbles={[

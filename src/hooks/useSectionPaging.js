@@ -11,6 +11,22 @@ const isLargeScreen = () =>
   window.matchMedia("(min-width: 1024px) and (min-height: 700px)").matches && !reducedMotion();
 const isTouchScreen = () => window.matchMedia("(max-width: 1023px)").matches && !reducedMotion();
 
+/**
+ * Height of the *large* viewport (browser bar hidden), measured with a probe:
+ * on phones the bands are that tall (100lvh), so while the bar shows they are
+ * taller than window.innerHeight without having any more content.
+ */
+let probe = null;
+const largeViewport = () => {
+  if (!probe) {
+    probe = document.createElement("div");
+    probe.style.cssText =
+      "position:fixed;top:0;left:0;width:0;height:100lvh;visibility:hidden;pointer-events:none";
+    document.body.appendChild(probe);
+  }
+  return Math.max(window.innerHeight, probe.offsetHeight || 0);
+};
+
 /** Bottom of the fixed navbar, measured (h-16 on phones, h-20 from md). */
 const navbarBottom = () => {
   const navbar = document.querySelector("header.fixed");
@@ -28,7 +44,9 @@ const navbarBottom = () => {
  *   browser bar showing/hiding changes the viewport mid-scroll); after the
  *   glide the landing is measured again and corrected.
  * A section taller than the screen scrolls normally until its edge first.
- * Sections are the elements with .snap-section; the footer is the last stop.
+ * Sections are the elements with .snap-section, then the footer (its top is a
+ * stop and, when it's taller than the screen, it scrolls freely), then the
+ * very bottom of the page.
  */
 export function useSectionPaging() {
   useEffect(() => {
@@ -43,7 +61,7 @@ export function useSectionPaging() {
     const stops = () => {
       const maxY = document.documentElement.scrollHeight - window.innerHeight;
       const offset = navbarBottom();
-      const tops = [...document.querySelectorAll(".snap-section")].map((el) =>
+      const tops = [...document.querySelectorAll(".snap-section, footer")].map((el) =>
         Math.round(el.getBoundingClientRect().top + window.scrollY - offset),
       );
       return [...new Set([...tops.map((y) => Math.max(0, Math.min(y, maxY))), maxY])].sort(
@@ -75,13 +93,14 @@ export function useSectionPaging() {
 
     /** True when a section taller than the screen still has content in `direction`. */
     const tallSectionHasRoom = (direction) => {
-      const sections = [...document.querySelectorAll(".snap-section")];
+      const sections = [...document.querySelectorAll(".snap-section, footer")];
       const offset = navbarBottom();
-      const visible = window.innerHeight - offset;
+      // "tall" = more than a full screen of content; a band that is only
+      // taller by the phone's browser bar (100lvh) is not tall
+      const full = largeViewport() - offset;
       return sections.some((el) => {
         const rect = el.getBoundingClientRect();
-        // a few px over the screen (phone browser bars) don't count as tall
-        if (rect.height <= visible + 24) return false;
+        if (rect.height <= full + 24) return false;
         const top = rect.top - offset;
         const bottom = rect.bottom - window.innerHeight;
         const inside = top < 2 && bottom > -2;
@@ -169,6 +188,8 @@ export function useSectionPaging() {
     window.addEventListener("touchcancel", onTouchEnd, { passive: true });
     return () => {
       clearTimeout(settleTimer);
+      probe?.remove();
+      probe = null;
       root.classList.remove("section-paging");
       window.removeEventListener("wheel", onWheel);
       window.removeEventListener("keydown", onKeyDown);
