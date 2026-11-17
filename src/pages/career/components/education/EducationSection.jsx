@@ -20,6 +20,7 @@ export const EducationSection = () => {
         id="education-title"
         eyebrow="Education"
         title="Learning path"
+        traceStop
         subtitle="An Information Systems foundation, a specialization in cybersecurity and, now, one in cloud computing projects."
       />
 

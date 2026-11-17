@@ -1,5 +1,8 @@
 import { ASSETS_BASE_URL } from "./config";
 
+// Icons that aren't in our asset bucket come from Devicon (pinned version).
+const DEVICON = "https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/icons";
+
 export const techStack = [
   {
     id: "nodejs",
@@ -72,6 +75,51 @@ export const techStack = [
     icon: `${ASSETS_BASE_URL}/tech-terraform.svg`,
     description:
       "Automated Infrastructure as Code (IaC) provisioning on AWS, maintaining replicable, modular, and secure states declaratively.",
+  },
+  {
+    id: "mongodb",
+    name: "MongoDB",
+    years: 4,
+    startedYear: 2022,
+    icon: `${DEVICON}/mongodb/mongodb-original.svg`,
+    description:
+      "Document modeling and aggregation pipelines for high-volume data, including the delivery metrics monitoring evolved at iFood.",
+  },
+  {
+    id: "redis",
+    name: "Redis",
+    years: 4,
+    startedYear: 2022,
+    icon: `${DEVICON}/redis/redis-original.svg`,
+    description:
+      "In-memory caching, rate limiting and short-lived state for microservices, cutting database load and response times.",
+  },
+  {
+    id: "kubernetes",
+    name: "Kubernetes",
+    years: 2,
+    startedYear: 2024,
+    icon: `${DEVICON}/kubernetes/kubernetes-original.svg`,
+    description:
+      "Deploying and operating containerized services: deployments, services, ingress, config and secrets, autoscaling and rolling updates.",
+  },
+  {
+    id: "prometheus",
+    name: "Prometheus",
+    years: 2,
+    startedYear: 2024,
+    icon: `${DEVICON}/prometheus/prometheus-original.svg`,
+    description:
+      "Metrics collection and alerting for services in production: instrumenting APIs, writing PromQL queries and alert rules.",
+  },
+  {
+    id: "grafana",
+    name: "Grafana",
+    years: 2,
+    startedYear: 2024,
+    icon: `${DEVICON}/grafana/grafana-original.svg`,
+    description:
+      "Observability dashboards on top of Prometheus and other sources, giving teams a live view of latency, errors and throughput.",
   },
 ];
 

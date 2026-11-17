@@ -13,12 +13,25 @@ export function useStackedCards(listRef) {
     const list = listRef.current;
     if (!list) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
+    // Phones: the cards are taller than the screen, so instead of sticking
+    // (which hid the card's title under the navbar) they scroll normally and
+    // snap softly with their top just below the navbar (html.career-snap).
+    const phone = window.matchMedia("(max-width: 767px)");
+    const root = document.documentElement;
 
     let frame = 0;
 
     const update = () => {
       frame = 0;
       const items = [...list.querySelectorAll("[data-stack-item]")];
+      root.classList.toggle("career-snap", phone.matches);
+      if (phone.matches) {
+        items.forEach((item) => {
+          item.style.top = "";
+          item.style.setProperty("--stack-progress", "0");
+        });
+        return;
+      }
       const navbar = document.querySelector("header")?.offsetHeight ?? 64;
       items.forEach((item, index) => {
         // Cards that fit stick under the navbar, slightly offset so the stack
@@ -57,6 +70,7 @@ export function useStackedCards(listRef) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       resizeObserver.disconnect();
+      root.classList.remove("career-snap");
     };
   }, [listRef]);
 }

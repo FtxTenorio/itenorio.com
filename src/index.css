@@ -336,3 +336,46 @@
     display: none;
   }
 }
+
+/* Career on phones (useStackedCards): no sticky stack; each job card snaps
+   softly (proximity) with its top just below the navbar, so it "holds" a
+   moment at the top before the next one comes. */
+@media (max-width: 767px) {
+  .stack-item {
+    position: relative;
+    top: auto;
+  }
+  html.career-snap {
+    scroll-snap-type: y proximity;
+  }
+  html.career-snap .stack-item {
+    scroll-snap-align: start;
+    scroll-margin-top: calc(4rem + 12px);
+  }
+}
+
+/* Career certifications: each badge is "earned" (flips in, then a shine
+   sweeps across it) in the order it was obtained (useReveal). */
+.reveal-badge {
+  transition:
+    opacity 0.6s ease,
+    transform 0.7s cubic-bezier(0.34, 1.4, 0.64, 1);
+  transition-delay: var(--reveal-delay, 0s);
+  transform-origin: left center;
+}
+[data-reveal="pending"] .reveal-badge {
+  opacity: 0;
+  transform: perspective(600px) rotateY(-70deg) scale(0.9);
+}
+@keyframes badge-shine {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(400%);
+  }
+}
+[data-reveal="shown"] .reveal-badge .badge-shine {
+  animation: badge-shine 1s ease-out both;
+  animation-delay: calc(var(--reveal-delay, 0s) + 0.35s);
+}

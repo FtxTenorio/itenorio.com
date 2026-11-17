@@ -4,15 +4,16 @@ import { TechBackdrop } from "../../components/ui/TechBackdrop";
 import { CareerTrace } from "./components/CareerTrace";
 import { CareerSection } from "./components/career/CareerSection";
 import { EducationSection } from "./components/education/EducationSection";
-import { SummarySection } from "./components/summary/SummarySection";
+import { CertificationsSection } from "./components/certifications/CertificationsSection";
 import { TechModal } from "./components/modals/TechModal";
 import { CertModal } from "./components/modals/CertModal";
 import { Section } from "../../components/ui/Section";
 import { HOME_BG } from "../../config/theme";
 
-// Paulo's résumé: intro, experience (stacked cards), education and skills.
-// Each part is a band in the home page's style: alternating background,
-// bubbles of light and a wave flowing into the next band.
+// Paulo's résumé: intro, experience (stacked cards), education and
+// certifications over the years. Each part is a band in the home page's
+// style: alternating background, bubbles of light and a wave flowing into the
+// next band. CareerTrace draws one git-branch line through all of them.
 const CareerPage = () => {
   const [activeStack, setActiveStack] = useState(null);
   const [activeCert, setActiveCert] = useState(null);
@@ -31,8 +32,8 @@ const CareerPage = () => {
 
   return (
     <>
-      {/* intro + experience share a wrapper so CareerTrace can draw the line
-          that leads from one to the other */}
+      {/* every band shares a wrapper so CareerTrace can draw its line
+          through all of them */}
       <div className="relative">
         <Section
           className="pt-10 sm:pt-14 lg:min-h-[calc(100svh-5rem)] lg:flex lg:flex-col lg:justify-center"
@@ -57,26 +58,26 @@ const CareerPage = () => {
         >
           <CareerSection onSelectTech={setActiveStack} onSelectCert={setActiveCert} />
         </Section>
+        <Section
+          background={HOME_BG.base}
+          wave={HOME_BG.alt}
+          bubbles={[{ color: "#8b5cf6", className: "top-[20%] right-[10%] w-[24rem] h-[24rem]" }]}
+        >
+          <EducationSection />
+        </Section>
+        <Section
+          background={HOME_BG.alt}
+          wave={HOME_BG.footer}
+          waveFlip
+          bubbles={[
+            { color: "#f59e0b", className: "-bottom-20 left-[10%] w-[22rem] h-[22rem]" },
+            { color: "#0078d7", className: "top-[10%] right-[5%] w-[24rem] h-[24rem]" },
+          ]}
+        >
+          <CertificationsSection onSelectCert={setActiveCert} />
+        </Section>
         <CareerTrace />
       </div>
-      <Section
-        background={HOME_BG.base}
-        wave={HOME_BG.alt}
-        bubbles={[{ color: "#8b5cf6", className: "top-[20%] right-[10%] w-[24rem] h-[24rem]" }]}
-      >
-        <EducationSection />
-      </Section>
-      <Section
-        background={HOME_BG.alt}
-        wave={HOME_BG.footer}
-        waveFlip
-        bubbles={[
-          { color: "#10b981", className: "-bottom-20 left-[10%] w-[22rem] h-[22rem]" },
-          { color: "#0078d7", className: "top-[10%] right-[5%] w-[24rem] h-[24rem]" },
-        ]}
-      >
-        <SummarySection onSelectTech={setActiveStack} onSelectCert={setActiveCert} />
-      </Section>
 
       <TechModal stack={activeStack} onClose={() => setActiveStack(null)} />
       <CertModal cert={activeCert} onClose={() => setActiveCert(null)} />

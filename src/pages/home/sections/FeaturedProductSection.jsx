@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Section } from "../../../components/ui/Section";
 import { HOME_BG } from "../../../config/theme";
+import { PosterGridBackdrop } from "../../../components/ui/ThemedBackdrops";
 import { extensions } from "../../../data/extensions";
 import { ExtensionLogo } from "../../extensions/components/ExtensionLogo";
 import { SupportNote } from "../../extensions/components/SupportNote";
@@ -34,6 +35,7 @@ export const FeaturedProductSection = () => {
       id="product"
       eyebrow="Featured product"
       fullScreen
+      backdrop={<PosterGridBackdrop />}
       background={HOME_BG.alt}
       wave={HOME_BG.base}
       waveFlip

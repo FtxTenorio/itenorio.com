@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 import { Section } from "../../../components/ui/Section";
 import { SwipeRow } from "../../../components/ui/SwipeRow";
 import { HOME_BG } from "../../../config/theme";
+import { NotebookBackdrop } from "../../../components/ui/ThemedBackdrops";
 import { BLOG_RSS_URL, BLOG_URL, fetchLatestPosts } from "../../../data/blog";
 
 const POSTS = 3;
@@ -89,6 +90,7 @@ export const BlogSection = () => {
       title="The Itenorio Perspective."
       intro="Thoughts on technology, software engineering, and everything in between: notes from building the studio's products, opinions and the occasional trip."
       fullScreen
+      backdrop={<NotebookBackdrop />}
       background={HOME_BG.base}
       wave={HOME_BG.alt}
       bubbles={[

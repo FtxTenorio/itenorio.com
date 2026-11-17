@@ -1,5 +1,6 @@
 import { Section } from "../../../components/ui/Section";
 import { HOME_BG } from "../../../config/theme";
+import { SignalBackdrop } from "../../../components/ui/ThemedBackdrops";
 import { COMPANY, CONTACT_EMAILS } from "../../../data/company";
 
 export const ContactSection = () => {
@@ -12,6 +13,7 @@ export const ContactSection = () => {
       title="Let's talk."
       intro="Questions about our products, a project in mind or support with an extension? Email us and a real person will reply."
       fullScreen
+      backdrop={<SignalBackdrop />}
       background={HOME_BG.alt}
       wave={HOME_BG.footer}
       waveFlip

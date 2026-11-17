@@ -1,8 +1,8 @@
-// `traceEnd`: marks the eyebrow as the landing point of CareerTrace.
-export const SectionHeader = ({ id, eyebrow, title, subtitle, traceEnd = false }) => (
+// `traceStop`: the eyebrow is one of the nodes CareerTrace passes through.
+export const SectionHeader = ({ id, eyebrow, title, subtitle, traceStop = false }) => (
   <header className="mb-10 w-full">
     {eyebrow && (
-      <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3" data-trace-end={traceEnd || undefined}>
+      <p className="font-mono text-xs uppercase tracking-[0.2em] text-brand-soft mb-3" data-trace-stop={traceStop || undefined}>
         {eyebrow}
       </p>
     )}
