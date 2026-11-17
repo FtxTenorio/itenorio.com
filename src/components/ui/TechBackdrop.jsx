@@ -1,4 +1,5 @@
-// Drawn "tech" background for the career intro: circuit-board traces (grid
+// Drawn "tech" background (career intro on /career and the home page's
+// "who is behind it" band): circuit-board traces (grid
 // steps with 45° bends, ending in solder pads) over a faint dot grid, with
 // small pulses of light running along some of them. The traces come from a
 // seeded random walk, so the server-rendered HTML and the browser draw the
@@ -59,7 +60,7 @@ function buildTraces() {
 
 const TRACES = buildTraces();
 
-export const TechBackdrop = () => (
+export const TechBackdrop = ({ id = "tech-dots" }) => (
   <svg
     className="absolute inset-0 h-full w-full"
     viewBox={`0 0 ${W} ${H}`}
@@ -71,11 +72,11 @@ export const TechBackdrop = () => (
     }}
   >
     <defs>
-      <pattern id="career-dots" width={STEP} height={STEP} patternUnits="userSpaceOnUse">
+      <pattern id={id} width={STEP} height={STEP} patternUnits="userSpaceOnUse">
         <circle cx="1" cy="1" r="1" fill="rgba(255,255,255,0.07)" />
       </pattern>
     </defs>
-    <rect width={W} height={H} fill="url(#career-dots)" />
+    <rect width={W} height={H} fill={`url(#${id})`} />
 
     <g fill="none" strokeLinecap="round" strokeLinejoin="round">
       {TRACES.map((trace) => (

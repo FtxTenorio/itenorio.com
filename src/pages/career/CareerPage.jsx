@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { HeroSection } from "./components/hero/HeroSection";
-import { TechBackdrop } from "./components/hero/TechBackdrop";
+import { TechBackdrop } from "../../components/ui/TechBackdrop";
 import { CareerTrace } from "./components/CareerTrace";
 import { CareerSection } from "./components/career/CareerSection";
 import { EducationSection } from "./components/education/EducationSection";

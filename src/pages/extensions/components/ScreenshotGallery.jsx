@@ -5,7 +5,8 @@ const AUTOPLAY_MS = 6000;
 /**
  * Carousel of an extension's real store screenshots (home featured product
  * and the extension detail page). Slides move sideways and follow the finger
- * while dragging; arrows, labelled tabs, ←/→ keys and swipe change slide.
+ * while dragging; labelled tabs, swipe, ←/→ keys and (from sm up) arrows
+ * change slide.
  * It plays by itself while visible and stops for good once the visitor
  * interacts (and never plays with reduced motion).
  *
@@ -80,7 +81,8 @@ export function ScreenshotGallery({ screenshots, accent = "#ff6b00", eager = fal
   };
 
   const arrow =
-    "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 inline-flex items-center justify-center rounded-full bg-ink/70 border border-white/15 text-white backdrop-blur hover:bg-ink/90 transition-colors";
+    // phones swipe instead: arrows over the image there would hide the text
+    "absolute top-1/2 -translate-y-1/2 z-10 w-11 h-11 hidden sm:inline-flex items-center justify-center rounded-full bg-ink/70 border border-white/15 text-white backdrop-blur hover:bg-ink/90 transition-colors";
 
   return (
     <section
