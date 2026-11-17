@@ -13,41 +13,20 @@ export function useStackedCards(listRef) {
     const list = listRef.current;
     if (!list) return undefined;
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return undefined;
-    // Phones: the cards are taller than the screen, so instead of sticking
-    // (which hid the card's title under the navbar) they scroll normally,
-    // animate in and out with the scroll, and snap softly with their top
-    // just below the navbar (html.career-snap).
-    const phone = window.matchMedia("(max-width: 767px)");
-    const root = document.documentElement;
-
     let frame = 0;
 
     const update = () => {
       frame = 0;
       const items = [...list.querySelectorAll("[data-stack-item]")];
-      root.classList.toggle("career-snap", phone.matches);
-      if (phone.matches) {
-        // No stacking, but the same feel tied to scrolling: a card rises
-        // and lights up as it enters (--enter 0 → 1) and shrinks and dims as
-        // it leaves through the top (--stack-progress 0 → 1). See index.css.
-        const vh = window.innerHeight;
-        const navbar = document.querySelector("header")?.offsetHeight ?? 64;
-        items.forEach((item) => {
-          item.style.top = "";
-          const rect = item.getBoundingClientRect();
-          const enter = Math.min(1, Math.max(0, (vh - rect.top) / (vh * 0.45)));
-          const leave = Math.min(1, Math.max(0, (navbar + vh * 0.45 - rect.bottom) / (vh * 0.45)));
-          item.style.setProperty("--enter", enter.toFixed(3));
-          item.style.setProperty("--stack-progress", leave.toFixed(3));
-        });
-        return;
-      }
-      const navbar = document.querySelector("header")?.offsetHeight ?? 64;
+      const navbar = document.querySelector("header.fixed")?.getBoundingClientRect().bottom ?? 64;
+      // a tighter peek of the stack on phones, where there is less room
+      const step = window.innerWidth < 768 ? 8 : 14;
       items.forEach((item, index) => {
         // Cards that fit stick under the navbar, slightly offset so the stack
-        // shows. Taller cards (phones) scroll to their end first and then
-        // stick by their bottom edge, so all of their content can be read.
-        const baseTop = navbar + 16 + index * 14;
+        // shows (on phones they fit because their details start folded, see
+        // CareerCard). A taller card (details opened) scrolls to its end first
+        // and then sticks by its bottom edge, so all of it can be read.
+        const baseTop = navbar + 12 + index * step;
         const fitTop = window.innerHeight - item.offsetHeight - 16;
         item.style.top = `${Math.min(baseTop, fitTop)}px`;
 
@@ -80,7 +59,6 @@ export function useStackedCards(listRef) {
       window.removeEventListener("scroll", schedule);
       window.removeEventListener("resize", schedule);
       resizeObserver.disconnect();
-      root.classList.remove("career-snap");
     };
   }, [listRef]);
 }

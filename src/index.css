@@ -330,32 +330,6 @@
   }
 }
 
-/* Career on phones (useStackedCards): no sticky stack; each job card snaps
-   softly (proximity) with its top just below the navbar, so it "holds" a
-   moment at the top before the next one comes. */
-@media (max-width: 767px) {
-  .stack-item {
-    position: relative;
-    top: auto;
-  }
-  html.career-snap {
-    scroll-snap-type: y proximity;
-  }
-  html.career-snap .stack-item,
-  html.career-snap #education,
-  html.career-snap #certifications {
-    scroll-snap-align: start;
-    scroll-margin-top: calc(4rem + 12px);
-  }
-  /* cards rise and light up as they enter, shrink and dim as they leave */
-  .stack-card {
-    transform-origin: center top;
-    transform: translateY(calc((1 - var(--enter, 1)) * 48px))
-      scale(calc(0.93 + var(--enter, 1) * 0.07 - var(--stack-progress, 0) * 0.07));
-    opacity: calc(0.3 + var(--enter, 1) * 0.7);
-    filter: brightness(calc(1 - var(--stack-progress, 0) * 0.5));
-  }
-}
 
 /* Career certifications: each badge is "earned" (flips in, then a shine
    sweeps across it) in the order it was obtained (useReveal). */
