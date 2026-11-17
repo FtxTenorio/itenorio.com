@@ -24,6 +24,20 @@ const toPath = (url) => url.replace(/^https?:\/\/(www\.)?itenorio\.com/, "");
 
 const text = (item, tag) => item.getElementsByTagName(tag)[0]?.textContent?.trim() ?? "";
 
+/**
+ * Plain-text excerpt. Posts without a custom excerpt get the start of their
+ * HTML as <description> ("<p>Morning to anyone&apos;s…"), cut mid-sentence:
+ * drop the tags, decode the entities and end the cut text with "…".
+ */
+const toExcerpt = (html) => {
+  const doc = new DOMParser().parseFromString(html, "text/html");
+  doc.querySelectorAll("p, br, li, h1, h2, h3, h4, blockquote").forEach((el) => el.append(" "));
+  const plain = (doc.body.textContent ?? "").replace(/\s+/g, " ").trim();
+  if (!plain || plain === html.trim() || /[.!?…]["')\]]?$/.test(plain)) return plain;
+  // Ghost may cut inside a word ("(it'"): drop the last, possibly partial, word.
+  return `${plain.replace(/\s+\S*$/, "").replace(/[\s,;:–([-]+$/, "")}…`;
+};
+
 /** Parses the Ghost RSS feed into plain post objects. */
 export const parseBlogFeed = (xml) => {
   const doc = new DOMParser().parseFromString(xml, "application/xml");
@@ -34,7 +48,7 @@ export const parseBlogFeed = (xml) => {
     return {
       id: text(item, "guid") || text(item, "link"),
       title: text(item, "title"),
-      excerpt: text(item, "description"),
+      excerpt: toExcerpt(text(item, "description")),
       url: toPath(text(item, "link")),
       tag: text(item, "category") || null,
       author: text(item, "dc:creator") || null,
