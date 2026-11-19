@@ -7,7 +7,8 @@
 //
 //   PLAYWRIGHT_CORE=/path/to/playwright-core CHROME=/path/to/chrome \
 //     node scripts/og/render-og.mjs            # share images
-//     node scripts/og/render-og.mjs --linkedin # + LinkedIn banner (in ./out)
+//     node scripts/og/render-og.mjs --linkedin # + LinkedIn profile banner and
+//                                              #   company logo/cover (in ./out)
 //
 // Each image is wired to its page by `image` in src/config/routes.js.
 
@@ -225,6 +226,28 @@ const linkedin = () => {
   </div></div>`;
 };
 
+// ---------- the iTenorio Tech LinkedIn company page ----------
+// Logo 400×400 (shown down to ~40px, so only the ">iT|" mark, big) and cover
+// 1128×191 (the logo overlaps its bottom left on desktop, so the text sits
+// from the middle to the right).
+const companyLogo = () => `<div class="card" style="width:400px;height:400px;display:flex;align-items:center;justify-content:center;
+  background:radial-gradient(circle at 50% 42%, #10264a 0%, #0b0f19 72%)">
+  <span style="display:inline-flex;align-items:center;border:7px solid rgba(56,189,248,0.6);background:rgba(0,120,215,0.2);
+    border-radius:34px;padding:34px 30px 34px 26px;font:700 132px/1 'JetBrains Mono',monospace;letter-spacing:-6px;
+    box-shadow:0 0 60px rgba(56,189,248,0.35), inset 0 0 30px rgba(56,189,248,0.12)">
+    <span style="color:rgba(56,189,248,0.5);font-size:0.62em;margin-right:12px">&gt;</span><span style="color:#38bdf8">iT</span><span style="width:12px;height:0.95em;background:#38bdf8;margin-left:14px"></span>
+  </span></div>`;
+
+const companyCover = () => `<div class="card" style="width:1128px;height:191px">
+  <div class="grid-bg" style="background-size:32px 32px;mask-image:linear-gradient(90deg,#000 0%,transparent 55%)"></div>
+  <div class="glow" style="width:520px;height:300px;right:-120px;top:-170px;background:rgba(0,120,215,0.35)"></div>
+  <div style="position:absolute;right:56px;top:0;bottom:0;display:flex;flex-direction:column;justify-content:center;align-items:flex-end;text-align:right">
+    <h1 style="font-size:40px;letter-spacing:-1.2px">Focused software, <span class="accent">built with care.</span></h1>
+    <p class="mono" style="margin-top:12px;font-size:15px;color:#9ca3af;letter-spacing:0.5px">
+      Browser extensions <span class="blue">·</span> Websites <span class="blue">·</span> Backend &amp; cloud on AWS
+      <span style="margin-left:18px;color:#38bdf8;font-weight:600">itenorio.com</span></p>
+  </div></div>`;
+
 async function main() {
   let codes = ["CRUNCHY_NAVIGATOR", "LINKEDIN", "GITHUB", "CREDLY"];
   try {
@@ -254,13 +277,17 @@ async function main() {
       { waitUntil: "networkidle" },
     );
     await page.evaluate(() => document.fonts.ready);
-    await page.locator(".card").screenshot({ path: file, type: "jpeg", quality: 90 });
+    await page
+      .locator(".card")
+      .screenshot(file.endsWith(".png") ? { path: file } : { path: file, type: "jpeg", quality: 90 });
     console.log("wrote", file.replace(`${root}/`, ""));
   };
   for (const [name, html] of Object.entries(images)) await shoot(html, `${OUT}/${name}.jpg`);
   if (withLinkedin) {
     mkdirSync(LINKEDIN_OUT, { recursive: true });
     await shoot(linkedin(), `${LINKEDIN_OUT}/linkedin-banner.jpg`);
+    await shoot(companyLogo(), `${LINKEDIN_OUT}/itenorio-tech-logo.png`);
+    await shoot(companyCover(), `${LINKEDIN_OUT}/itenorio-tech-cover.jpg`);
   }
   await browser.close();
 }
