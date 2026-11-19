@@ -6,7 +6,8 @@
 //      `index.html` per route (dist/career/index.html, ...) plus sitemap.xml.
 //      The site is hosted on S3 + CloudFront, which only serves files that
 //      exist, so every client-side route needs its own HTML file.
-//      Optional `image: { src, alt }` sets the page's share image (1200×630).
+//      Optional `image: { src, alt }` sets the page's share image (1200×630);
+//      the images in public/images/og are made by scripts/og/render-og.mjs.
 //   2. src/App.jsx / SiteLayout: at runtime, to set <title> and the meta
 //      description when navigating between pages.
 //
@@ -24,12 +25,20 @@ export const routes = [
   },
   {
     path: "/career",
+    image: {
+      src: "/images/og/career.jpg",
+      alt: "Paulo Tenório: backend & cloud career, roles as a git log and AWS certifications",
+    },
     title: "Career | Paulo Tenório",
     description:
       "Career, experience, tech stack, certifications and education of Paulo Tenório, Senior Backend Engineer & Cloud Architect and founder of iTenorio Tech.",
   },
   {
     path: "/extensions",
+    image: {
+      src: "/images/og/extensions.jpg",
+      alt: "Browser extensions by iTenorio Tech, including Crunchyroll Navigator",
+    },
     title: "Browser Extensions | iTenorio Tech",
     description:
       "Browser extensions built and maintained by iTenorio Tech, including Crunchyroll Navigator, a free Chrome extension for Crunchyroll.",
@@ -46,36 +55,60 @@ export const routes = [
   },
   {
     path: "/extensions/crunchy-navigator/privacy-policy",
+    image: {
+      src: "/images/crunchyroll-navigator/og.jpg",
+      alt: "Crunchyroll Navigator: show only dubbed anime in your language",
+    },
     title: "Privacy Policy | Crunchyroll Navigator",
     description:
       "Privacy policy of the Crunchyroll Navigator browser extension by iTenorio Tech.",
   },
   {
     path: "/legal/terms",
+    image: {
+      src: "/images/og/legal.jpg",
+      alt: "iTenorio Tech legal: terms, privacy and refunds",
+    },
     title: "Terms of Service | iTenorio Tech",
     description:
       "Terms of service of iTenorio Tech for its websites, browser extensions, tools, apps and services.",
   },
   {
     path: "/legal/refund-policy",
+    image: {
+      src: "/images/og/legal.jpg",
+      alt: "iTenorio Tech legal: terms, privacy and refunds",
+    },
     title: "Refund Policy | iTenorio Tech",
     description:
       "Refund policy of iTenorio Tech: full refund within 7 days, mistaken charges fixed, recurring payments cancellable at any time.",
   },
   {
     path: "/legal/privacy",
+    image: {
+      src: "/images/og/legal.jpg",
+      alt: "iTenorio Tech legal: terms, privacy and refunds",
+    },
     title: "Privacy Policy | iTenorio Tech",
     description:
       "How iTenorio Tech handles personal data (LGPD): what we collect, why, who we share it with and your rights.",
   },
   {
     path: "/websites",
+    image: {
+      src: "/images/og/websites.jpg",
+      alt: "Websites and platforms built by iTenorio Tech, such as Cris's Chalet",
+    },
     title: "Websites | iTenorio Tech",
     description:
       "Websites and web platforms designed and built by iTenorio Tech.",
   },
   {
     path: "/shortener",
+    image: {
+      src: "/images/og/shortener.jpg",
+      alt: "iTenorio Tech link shortener: short links under link.itenorio.com with click stats",
+    },
     title: "Link Shortener | iTenorio Tech",
     description:
       "Create short links under link.itenorio.com with the iTenorio Tech serverless URL shortener.",

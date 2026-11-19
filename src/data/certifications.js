@@ -1,4 +1,4 @@
-import { ASSETS_BASE_URL } from "./config";
+import { ASSETS_BASE_URL } from "./config.js";
 
 // Oldest first (issue dates from Credly); names are the official ones.
 export const certifications = [
