@@ -47,7 +47,7 @@ export const MilestoneItem = ({ milestone, onSelectTech, onSelectCert }) => (
               alt={cert.name}
               className="w-4 h-4 object-contain"
             />
-            <span>Earned: {cert.name}</span>
+            <span>Earned: {cert.shortName ?? cert.name}</span>
           </button>
         );
       })}

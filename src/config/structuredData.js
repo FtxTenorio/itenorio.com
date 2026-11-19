@@ -74,7 +74,8 @@ const person = {
   hasCredential: educationList.map((edu) => ({
     "@type": "EducationalOccupationalCredential",
     name: edu.degree,
-    credentialCategory: "degree",
+    // a lato sensu specialisation is a postgraduate certificate, not a degree
+    credentialCategory: edu.id.startsWith("bsc-") ? "degree" : "certificate",
   })),
 };
 

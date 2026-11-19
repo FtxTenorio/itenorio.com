@@ -9,7 +9,7 @@ import { yearsOfExperience } from "../../../data/careerTrajectory";
 const BACKGROUND = [
   "Senior Backend Engineer & Cloud Architect",
   "Previously at iFood, Anota AI and Compass.uol",
-  "BSc Information Systems · MBA Cybersecurity",
+  "BSc Information Systems · Postgrad Information Security",
 ];
 
 export const FounderSection = () => (

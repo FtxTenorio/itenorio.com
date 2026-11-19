@@ -3,8 +3,8 @@
 export const educationList = [
   {
     id: "pg-cloud-computing-projects",
-    degree: "Postgraduate Degree, Cloud Computing Projects",
-    levelBadge: "Postgraduate",
+    degree: "Postgraduate Specialisation, Cloud Computing Projects",
+    levelBadge: "Lato sensu",
     institution: "Uniamérica",
     period: "Nov 2026 - May 2027",
     duration: "7 mos",
@@ -22,22 +22,25 @@ export const educationList = [
     ],
   },
   {
-    id: "mba-cybersecurity",
-    degree: "Postgraduate Degree (MBA), Cybersecurity & Information Assurance",
-    levelBadge: "Postgraduate · MBA",
+    id: "mba-information-security",
+    degree: "Postgraduate Specialisation, Information Security",
+    // the course's Brazilian title; a lato sensu specialisation, not a
+    // UK/US-style MBA (a master's degree)
+    officialName: "MBA em Segurança da Informação",
+    levelBadge: "Lato sensu · 360h",
     institution: "Uniamérica",
     period: "Apr 2026 - Aug 2026",
     duration: "5 mos",
     icon: "fa-shield-alt",
     accentColor: "#a855f7",
     summary:
-      "Specialized postgraduate program focused on securing modern cloud architectures, mitigating application risks, and establishing governance standards.",
+      "360-hour lato sensu specialisation, 100% online and recognised by Brazil's Ministry of Education (MEC), on cybersecurity, cloud and IoT security, threat management and governance.",
     focusTopics: [
       "Network Defense",
+      "Cyber Threat Management",
       "Cloud Security",
-      "Risk Management",
-      "Incident Response",
-      "Data Protection",
+      "IoT Security",
+      "Governance & Risk",
     ],
   },
   {

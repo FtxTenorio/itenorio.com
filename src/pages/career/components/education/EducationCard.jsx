@@ -70,6 +70,11 @@ export const EducationCard = ({ edu, step, delay = 0 }) => {
           )}
         </div>
         <h3 className="mt-2 text-lg font-bold leading-snug text-white">{edu.degree}</h3>
+        {edu.officialName && (
+          <p className="mt-0.5 text-xs italic text-gray-500" lang="pt-BR">
+            Course title: {edu.officialName}
+          </p>
+        )}
         <p className="mt-1 text-sm text-gray-400">
           <span className="font-semibold" style={{ color: edu.accentColor }}>
             {edu.institution}

@@ -31,13 +31,13 @@ export const careerTrajectory = [
       "grafana",
     ],
     certsEarned: [],
-    certsApplied: ["aws-saa", "terraform-assoc", "aws-assoc"],
+    certsApplied: ["aws-saa", "terraform-assoc", "aws-dva"],
   },
   {
     id: "ifood",
     role: "Mid-level Software Analyst",
     company: "iFood",
-    badgeNote: "Acquired Anota AI",
+    badgeNote: "Acquired Anota AI · same team",
     employmentType: "Full-time",
     period: "Apr 2026 - Sep 2026",
     duration: "6 mos",
@@ -45,7 +45,7 @@ export const careerTrajectory = [
     isCurrent: false,
     accentColor: "#ef4444",
     summary:
-      "Focused on day-to-day API integrations, endpoint security risk mitigation, and cross-platform delivery monitoring following iFood's acquisition of Anota AI.",
+      "Same team and role as at Anota AI, moved to iFood by its acquisition of Anota AI (one continuous year, Nov 2025 - Sep 2026). Focused on day-to-day API integrations, endpoint security risk mitigation, and cross-platform delivery monitoring.",
     highlights: [
       "Maintained and developed RESTful API integrations connecting order management services across iFood, Anota AI, and partner platforms.",
       "Identified and mitigated security risks across existing API endpoints, hardening request validation and preventing unauthorized data exposure.",
@@ -65,13 +65,14 @@ export const careerTrajectory = [
       "prometheus",
       "grafana",
     ],
-    certsEarned: ["aws-saa"],
-    certsApplied: ["terraform-assoc", "aws-assoc"],
+    certsEarned: [],
+    certsApplied: ["aws-saa", "terraform-assoc", "aws-dva"],
   },
   {
     id: "anota-ai",
     role: "Mid-level Software Analyst",
     company: "Anota AI",
+    badgeNote: "Acquired by iFood · same team",
     employmentType: "Full-time",
     period: "Nov 2025 - Apr 2026",
     duration: "6 mos",
@@ -79,7 +80,7 @@ export const careerTrajectory = [
     isCurrent: false,
     accentColor: "#3b82f6",
     summary:
-      "Worked on core backend maintenance, external delivery API integrations, and observability for automated restaurant order flows.",
+      "Worked on core backend maintenance, external delivery API integrations, and observability for automated restaurant order flows. When iFood acquired Anota AI in April 2026, the team and I moved to iFood: one continuous year in the same role, split across two employers.",
     highlights: [
       "Built and maintained standard backend integrations with external delivery and restaurant management APIs using Node.js and TypeScript.",
       "Implemented a monitoring solution backed by MongoDB to aggregate and measure average delivery traffic across Anota AI, iFood, and other integrations.",
@@ -98,8 +99,8 @@ export const careerTrajectory = [
       "prometheus",
       "grafana",
     ],
-    certsEarned: ["terraform-assoc"],
-    certsApplied: ["aws-assoc", "aws-ai"],
+    certsEarned: [],
+    certsApplied: ["aws-saa", "terraform-assoc", "aws-dva"],
   },
   // Compass.uol, one card per level (same company color), newest first:
   // the promotions read as leveling up. `level` / `promotedFrom` feed the
@@ -126,7 +127,7 @@ export const careerTrajectory = [
         details:
           "Developed an internal AI agents system featuring document upload with vector similarity search, image generation integrations, and custom autonomous tools to accelerate decision-making.",
         unlocked: [],
-        certs: ["aws-ai"],
+        certs: ["aws-saa", "terraform-assoc"],
       },
       {
         year: "2024",
@@ -134,7 +135,7 @@ export const careerTrajectory = [
         details:
           "Automated a massive AEM (CMS/DAM) migration, cutting estimated effort from 6 months to 1 month and executing with 2 engineers instead of 10, with 100% validated data and zero rework. Adopted Terraform for declarative IaC.",
         unlocked: ["terraform", "kubernetes", "prometheus", "grafana"],
-        certs: [],
+        certs: ["aws-dva", "aws-ai"],
       },
     ],
     unlockedStack: ["terraform", "kubernetes", "prometheus", "grafana"],
@@ -151,8 +152,8 @@ export const careerTrajectory = [
       "postgresql",
       "python",
     ],
-    certsEarned: ["aws-ai"],
-    certsApplied: ["aws-assoc"],
+    certsEarned: ["aws-dva", "aws-ai", "aws-saa", "terraform-assoc"],
+    certsApplied: ["aws-clf"],
   },
   {
     id: "compass-uol-junior",
@@ -176,7 +177,7 @@ export const careerTrajectory = [
         details:
           "Engineered Vivo app's password recovery backend using state machines and encryption. Monitored critical APIs with Datadog, Sentry, and Octane, reducing production errors by over 30%. Introduced Python for automation and data pipelines.",
         unlocked: ["python"],
-        certs: ["aws-assoc"],
+        certs: ["aws-clf"],
       },
       {
         year: "2022",
@@ -184,7 +185,7 @@ export const careerTrajectory = [
         details:
           "Built and maintained REST microservices in Node.js, TypeScript, and NestJS integrated with PostgreSQL, MySQL, MongoDB, and Redis, deployed on AWS (Lambda, ECS, SQS, S3, CloudWatch) with Docker.",
         unlocked: ["typescript", "nestjs", "aws", "docker", "postgresql", "mongodb", "redis"],
-        certs: ["aws-clf"],
+        certs: [],
       },
     ],
     unlockedStack: ["typescript", "nestjs", "aws", "docker", "postgresql", "mongodb", "redis", "python"],
@@ -199,7 +200,7 @@ export const careerTrajectory = [
       "redis",
       "python",
     ],
-    certsEarned: ["aws-clf", "aws-assoc"],
+    certsEarned: ["aws-clf"],
     certsApplied: [],
   },
   {

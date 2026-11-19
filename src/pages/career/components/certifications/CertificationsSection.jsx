@@ -13,10 +13,10 @@ const byYear = Object.entries(
   }, {}),
 ).sort(([a], [b]) => Number(a) - Number(b));
 
-const DIFFICULTY = {
-  easy: { label: "Foundational", className: "text-emerald-300 border-emerald-400/30 bg-emerald-400/10" },
-  medium: { label: "Associate", className: "text-amber-300 border-amber-400/30 bg-amber-400/10" },
-  hard: { label: "Advanced", className: "text-rose-300 border-rose-400/30 bg-rose-400/10" },
+// the issuer's own tier names (AWS: Foundational, Associate, Professional, Specialty)
+const LEVEL_STYLE = {
+  Foundational: "text-emerald-300 border-emerald-400/30 bg-emerald-400/10",
+  Associate: "text-amber-300 border-amber-400/30 bg-amber-400/10",
 };
 
 /**
@@ -64,17 +64,17 @@ export const CertificationsSection = ({ onSelectCert }) => {
             <p className="reveal-item mb-3 font-mono text-2xl font-bold text-white lg:text-3xl">{year}</p>
             <ul className="grid gap-3 sm:grid-cols-2 lg:grid-cols-1">
               {certs.map((cert, certIndex) => {
-                const level = DIFFICULTY[cert.difficulty];
+                const levelStyle = LEVEL_STYLE[cert.level] ?? LEVEL_STYLE.Associate;
                 return (
                   <li
                     key={cert.id}
-                    className="reveal-badge"
+                    className="reveal-badge relative"
                     style={{ "--reveal-delay": `${0.45 + yearIndex * 0.35 + certIndex * 0.15}s` }}
                   >
                     <button
                       type="button"
                       onClick={() => onSelectCert(cert)}
-                      className="group relative flex w-full items-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-surface/80 p-3 text-left transition-colors hover:border-amber-400/50"
+                      className="group relative flex w-full items-center gap-3 overflow-hidden rounded-xl border border-white/10 bg-surface/80 p-3 pr-10 text-left transition-colors hover:border-amber-400/50"
                     >
                       <span className="badge-shine pointer-events-none absolute inset-y-0 -left-1/2 w-1/2 bg-gradient-to-r from-transparent via-white/15 to-transparent" aria-hidden="true" />
                       <img
@@ -86,13 +86,24 @@ export const CertificationsSection = ({ onSelectCert }) => {
                       <span className="min-w-0">
                         <span className="block text-sm font-semibold leading-snug text-white">{cert.name}</span>
                         <span className="block text-xs text-gray-400">{cert.issuer}</span>
-                        {level && (
-                          <span className={`mt-1.5 inline-block rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${level.className}`}>
-                            {level.label}
+                        <span className="mt-1.5 flex flex-wrap items-center gap-2">
+                          <span className={`inline-block rounded border px-1.5 py-0.5 text-[10px] font-semibold uppercase tracking-wide ${levelStyle}`}>
+                            {cert.level}
                           </span>
-                        )}
+                          <span className="font-mono text-[10px] text-gray-500">{cert.issuedOn}</span>
+                        </span>
                       </span>
                     </button>
+                    <a
+                      href={cert.credlyUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="absolute right-2 top-2 flex h-7 w-7 items-center justify-center rounded-md text-gray-500 transition-colors hover:bg-white/5 hover:text-amber-300"
+                      aria-label={`Verify ${cert.name} on Credly`}
+                      title="Verify on Credly"
+                    >
+                      <i className="fas fa-external-link-alt text-[11px]" aria-hidden="true" />
+                    </a>
                   </li>
                 );
               })}

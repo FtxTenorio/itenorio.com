@@ -57,7 +57,7 @@ export const CareerCardFooter = ({ job, onSelectTech, onSelectCert }) => (
                 alt={cert.name}
                 className="w-4 h-4 object-contain"
               />
-              <span>{cert.name}</span>
+              <span>{cert.shortName ?? cert.name}</span>
               <span className="text-[9px] bg-[#ffc000]/20 text-yellow-300 px-1 rounded uppercase font-bold">
                 Earned
               </span>
@@ -79,7 +79,7 @@ export const CareerCardFooter = ({ job, onSelectTech, onSelectCert }) => (
                 alt={cert.name}
                 className="w-4 h-4 object-contain"
               />
-              <span>{cert.name}</span>
+              <span>{cert.shortName ?? cert.name}</span>
             </button>
           );
         })}
