@@ -43,7 +43,7 @@ const PrivacyContent = () => {
             </div>
             <div className="text-left md:text-right text-sm text-gray-500">
               <p>
-                <strong>Last Updated:</strong> October 2026
+                <strong>Last Updated:</strong> November 2026
               </p>
               <p>iTenorio Tech</p>
             </div>
@@ -61,10 +61,13 @@ const PrivacyContent = () => {
               <p className="text-gray-300 text-sm md:text-base leading-relaxed">
                 Our core principle is simple:{" "}
                 <strong className="text-white">
-                  we do not collect, store, or transmit your personal data.
+                  we do not collect, store, or receive your personal data.
                 </strong>{" "}
-                Everything the extension does happens locally on your own
-                device.
+                The extension runs in your browser and talks only to
+                Crunchyroll. Your preferences are saved in Chrome&apos;s own
+                sync storage: if you have Chrome sync turned on, Chrome copies
+                them to your Google account, just like your bookmarks. Nothing
+                is ever sent to us.
               </p>
             </div>
           </div>
@@ -88,8 +91,11 @@ const PrivacyContent = () => {
                       Zero Personal Data
                     </h4>
                     <p className="text-sm text-gray-400 leading-relaxed">
-                      We never ask for, collect, or have access to your name,
-                      email, passwords, or Crunchyroll account details.
+                      We never ask for or collect your name, email, password,
+                      or Crunchyroll account details. To load show and episode
+                      data, the extension uses the Crunchyroll session already
+                      open in your browser, and only to talk to Crunchyroll
+                      itself. Session tokens never leave your browser.
                     </p>
                   </div>
                 </div>
@@ -115,11 +121,32 @@ const PrivacyContent = () => {
                   </div>
                   <div>
                     <h4 className="font-bold text-gray-200 mb-1">
-                      100% Local Execution
+                      Runs in Your Browser
                     </h4>
                     <p className="text-sm text-gray-400 leading-relaxed">
-                      Reading page content (like anime titles and descriptions)
-                      happens strictly inside your browser to power the filters.
+                      Reading the page (like anime titles and descriptions) and
+                      loading data from Crunchyroll to power the filters happen
+                      inside your browser. We run no server that receives your
+                      data.
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex gap-4 items-start">
+                  <div className="mt-1">
+                    <i className="fas fa-sync-alt text-emerald-400 text-lg"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-gray-200 mb-1">
+                      Synced by Chrome, Not by Us
+                    </h4>
+                    <p className="text-sm text-gray-400 leading-relaxed">
+                      Since version 2.6, your preferences are kept in
+                      Chrome&apos;s sync storage. With Chrome sync on, Chrome
+                      copies them to your Google account and to your other
+                      computers, under Google&apos;s own privacy policy. With
+                      sync off, they stay on this device. In both cases, we
+                      never receive them.
                     </p>
                   </div>
                 </div>
@@ -137,41 +164,10 @@ const PrivacyContent = () => {
               </h3>
 
               <p className="text-sm text-gray-300 mb-6 relative z-10">
-                To function properly, the extension requires these browser
-                permissions:
+                The extension requests only these two browser permissions:
               </p>
 
               <div className="space-y-4 flex-grow relative z-10">
-                {/* ActiveTab */}
-                <div className="flex gap-4 items-start">
-                  <div className="w-10 h-10 rounded-lg bg-[#ff6b00]/10 border border-[#ff6b00]/20 flex items-center justify-center shrink-0">
-                    <i className="fas fa-mouse-pointer text-[#ff6b00]"></i>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-200 mb-1">ActiveTab</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">
-                      Grants temporary access to the currently active tab only
-                      when you interact with the extension, ensuring minimal and
-                      secure access.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Tabs */}
-                <div className="flex gap-4 items-start">
-                  <div className="w-10 h-10 rounded-lg bg-[#ff6b00]/10 border border-[#ff6b00]/20 flex items-center justify-center shrink-0">
-                    <i className="fas fa-window-restore text-[#ff6b00]"></i>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-200 mb-1">Tabs</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">
-                      Allows the extension to read the current URL to ensure it
-                      only injects scripts and activates filters on Crunchyroll
-                      pages.
-                    </p>
-                  </div>
-                </div>
-
                 {/* Host */}
                 <div className="flex gap-4 items-start">
                   <div className="w-10 h-10 rounded-lg bg-[#ff6b00]/10 border border-[#ff6b00]/20 flex items-center justify-center shrink-0">
@@ -182,23 +178,11 @@ const PrivacyContent = () => {
                       Host (crunchyroll.com)
                     </h4>
                     <p className="text-xs text-gray-400 leading-relaxed">
-                      Required to access the page structure (DOM) so the
-                      extension can read the anime list and inject the filter
-                      interface.
-                    </p>
-                  </div>
-                </div>
-
-                {/* Scripting */}
-                <div className="flex gap-4 items-start">
-                  <div className="w-10 h-10 rounded-lg bg-[#ff6b00]/10 border border-[#ff6b00]/20 flex items-center justify-center shrink-0">
-                    <i className="fas fa-code text-[#ff6b00]"></i>
-                  </div>
-                  <div>
-                    <h4 className="font-bold text-gray-200 mb-1">Scripting</h4>
-                    <p className="text-xs text-gray-400 leading-relaxed">
-                      Executes the logic that hides, shows, or reorganizes anime
-                      cards based on the filters you select.
+                      Lets the extension run on Crunchyroll pages only. It reads
+                      the anime list, adds the filter interface, loads show and
+                      episode data from Crunchyroll, and lets the popup see
+                      whether the open tab is a Crunchyroll page. It gives the
+                      extension no access to any other site.
                     </p>
                   </div>
                 </div>
@@ -211,13 +195,66 @@ const PrivacyContent = () => {
                   <div>
                     <h4 className="font-bold text-gray-200 mb-1">Storage</h4>
                     <p className="text-xs text-gray-400 leading-relaxed">
-                      Saves your custom filter preferences locally in your
-                      browser so you don't have to reconfigure them every time.
+                      Saves your preferences in Chrome&apos;s sync storage:
+                      interface language, preferred dub, toggles and your list
+                      of followed shows. Caches stay on this device only. See
+                      &quot;What the Extension Saves&quot; below.
                     </p>
                   </div>
                 </div>
               </div>
+
+              <p className="text-xs text-gray-500 mt-6 relative z-10">
+                The extension does not request the ActiveTab, Tabs or Scripting
+                permissions.
+              </p>
             </div>
+          </div>
+
+          {/* What is saved, and where */}
+          <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8">
+            <h3 className="text-xl font-bold text-white flex items-center gap-3 border-b border-white/10 pb-4 mb-6">
+              <i className="fas fa-database text-blue-400"></i>
+              What the Extension Saves
+            </h3>
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm text-gray-400 leading-relaxed">
+              <div>
+                <h4 className="font-bold text-gray-200 mb-1">
+                  Preferences (Chrome sync storage)
+                </h4>
+                <p>
+                  Interface language, preferred dub language, grouping and
+                  layout toggles, and the shows you follow. With Chrome sync
+                  on, Chrome copies these to your Google account. With it off,
+                  they stay on this device.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-200 mb-1">
+                  Caches (this device only)
+                </h4>
+                <p>
+                  Cover images, so pages load faster, and the filters you last
+                  selected. Also saved here: a copy of the request Crunchyroll&apos;s website uses
+                  to renew its session, which tells Crunchyroll which client is
+                  asking and holds no tokens, passwords or cookies.
+                </p>
+              </div>
+              <div>
+                <h4 className="font-bold text-gray-200 mb-1">
+                  Session (the open tab only)
+                </h4>
+                <p>
+                  The Crunchyroll access token is kept in the tab&apos;s
+                  session storage, used only for requests to Crunchyroll, and
+                  cleared when you close the tab.
+                </p>
+              </div>
+            </div>
+            <p className="text-xs text-gray-500 mt-6">
+              None of this is ever sent to iTenorio Tech or to any third
+              party.
+            </p>
           </div>
 
           {/* Standard Legal Text / Footer */}

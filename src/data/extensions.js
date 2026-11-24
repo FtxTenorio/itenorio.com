@@ -130,7 +130,7 @@ export const extensions = [
       },
     ],
     privacyDescription:
-      "We respect your privacy. Crunchyroll Navigator operates locally on your device and does not collect or transmit personal data.",
+      "We respect your privacy. Crunchyroll Navigator runs in your browser, talks only to Crunchyroll and never sends us any data. Your preferences are kept in Chrome's sync storage, so with Chrome sync on, Chrome copies them to your Google account.",
     developerType:
       "Non-trader. Consumer rights do not apply to contracts between you and this developer in the EU.",
     supportEmail: "extensions@itenorio.com",
